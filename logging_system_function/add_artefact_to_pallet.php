@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Artefact</title>
+    <title>Add Artefact to Pallet</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Add Artefact</h1>
-    <form id="artefactForm" action="process_artefact.php" method="POST" onsubmit="return validateArtefactForm()">
+    <h1>Add Artefact to Pallet</h1>
+    <form id="artefactForm" action="process_artefact_to_pallet.php" method="POST" onsubmit="return validateArtefactForm()">
+        <input type="hidden" id="pallet_id" name="pallet_id" value="<?php echo $_GET['pallet_id']; ?>">
+
         <label for="earthquake_id">Earthquake:</label>
         <select id="earthquake_id" name="earthquake_id" required>
             <?php
@@ -48,12 +50,12 @@
     <div id="artefactsTable">
         <?php
         include 'connection.php';
-        $sql = "SELECT * FROM artefacts";
+        $sql = "SELECT * FROM artefacts WHERE pallet_id = " . $_GET['pallet_id'];
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
             echo "<table>";
-            echo "<tr><th>ID</th><th>Earthquake ID</th><th>Type</th><th>Timestamp</th><th>Shelving Location</th><th>Pallet ID</th></tr>";
+            echo "<tr><th>ID</th><th>Earthquake ID</th><th>Type</th><th>Timestamp</th><th>Shelving Location</th></tr>";
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>";
                 echo "<td>" . $row["id"] . "</td>";
@@ -61,7 +63,6 @@
                 echo "<td>" . $row["type"] . "</td>";
                 echo "<td>" . $row["time_stamp"] . "</td>";
                 echo "<td>" . $row["shelving_loc"] . "</td>";
-                echo "<td>" . $row["pallet_id"] . "</td>";
                 echo "</tr>";
             }
             echo "</table>";

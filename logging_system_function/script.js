@@ -65,3 +65,29 @@ function validateArtefactForm() {
     // If validation passes, submit the form
     return true;
 }
+
+function validatePalletForm() {
+    const pallet_size = document.getElementById('pallet_size').value;
+
+    if (pallet_size === "") {
+        alert("Pallet size must be filled out correctly.");
+        return false;
+    }
+
+    // If validation passes, submit the form
+    return true;
+}
+
+function validateArtefactForm() {
+    const earthquake_id = document.getElementById('earthquake_id').value;
+    const type = document.getElementById('type').value;
+    const shelving_loc = document.getElementById('shelving_loc').value;
+
+    if (earthquake_id === "" || type === "" || shelving_loc === "") {
+        alert("All fields must be filled out correctly.");
+        return false;
+    }
+
+    // If validation passes, submit the form
+    return true
+}
