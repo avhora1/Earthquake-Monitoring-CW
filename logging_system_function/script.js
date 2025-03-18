@@ -91,3 +91,28 @@ function validateArtefactForm() {
     // If validation passes, submit the form
     return true
 }
+
+function validateAddToShopForm() {
+    const artifact_id = document.getElementById('artifact_id').value;
+    const price = parseFloat(document.getElementById('price').value);
+
+    if (artifact_id === "" || isNaN(price) || price <= 0) {
+        alert("All fields must be filled out correctly.");
+        return false;
+    }
+
+    // If validation passes, submit the form
+    return true;
+}
+
+function validateRemoveFromShopForm() {
+    const artifact_id = document.getElementById('artifact_id').value;
+
+    if (artifact_id === "") {
+        alert("Please select an artefact ID.");
+        return false;
+    }
+
+    // If validation passes, submit the form
+    return true;
+}
