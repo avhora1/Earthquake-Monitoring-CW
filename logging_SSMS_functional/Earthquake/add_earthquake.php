@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Earthquake</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <h1>Add Earthquake</h1>
@@ -38,7 +38,7 @@
         <label for="observatory_id">Observatory:</label>
         <select id="observatory_id" name="observatory_id" required>
             <?php
-            include 'connection.php';
+            include '../connection.php';
             $sql = "SELECT id, name FROM observatories";
             $result = sqlsrv_query($conn, $sql);
             while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
@@ -51,12 +51,12 @@
         <input type="submit" value="Submit">
     </form>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 
     <h2>Earthquakes List</h2>
     <div id="earthquakesTable">
         <?php
-        include 'connection.php';
+        include '../connection.php';
 
         // Want to view entire earthquake table so I can see if entries have been added correctly
         $sql = "SELECT * FROM earthquakes";
@@ -106,6 +106,6 @@
         ?>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

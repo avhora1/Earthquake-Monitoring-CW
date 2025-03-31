@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <h1>Shop</h1>
     <h2>Available Artifacts</h2>
     <div id="shopTable">
         <?php
-        include 'connection.php';
+        include '../connection.php';
         $sql = "SELECT s.id, s.artifact_id, a.type, s.price FROM stock_list s JOIN artefacts a ON s.artifact_id = a.id WHERE s.availability = 'Yes'";
         $result = sqlsrv_query($conn, $sql);
 
@@ -40,6 +40,6 @@
         ?>
     </div>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 </body>
 </html>

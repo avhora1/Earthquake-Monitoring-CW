@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remove from Shop</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <h1>Remove Artefact from Shop</h1>
@@ -12,7 +12,7 @@
         <label for="artifact_id">Stock ID:</label>
         <select id="artifact_id" name="artifact_id" required>
             <?php
-            include 'connection.php';
+            include '../connection.php';
             // Gets the stock id so you can select the artefact that you'd like to remove. 
             $sql = "SELECT id FROM stock_list WHERE availability = 'Yes'";
             $stmt = sqlsrv_query($conn, $sql);
@@ -30,12 +30,12 @@
         <input type="submit" value="Submit">
     </form>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 
     <h2>Artifacts in Shop</h2>
     <div id="shopTable">
         <?php
-        include 'connection.php';
+        include '../connection.php';
         $sql = "SELECT s.id, s.artifact_id, a.type, s.price FROM stock_list s JOIN artefacts a ON s.artifact_id = a.id WHERE s.availability = 'Yes'";
         $stmt = sqlsrv_query($conn, $sql);
         if ($stmt === false) {
@@ -62,6 +62,6 @@
         ?>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

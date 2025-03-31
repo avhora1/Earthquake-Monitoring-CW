@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Artefact</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Add Artefact to Pallet</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <h1>Add Artefact</h1>
-    <form id="artefactForm" action="process_artefact.php" method="POST" onsubmit="return validateArtefactForm()">
+    <h1>Add Artefact to Pallet</h1>
+    <form id="artefactForm" action="process_artefact_to_pallet.php" method="POST" onsubmit="return validateArtefactForm()">
+        <input type="hidden" id="pallet_id" name="pallet_id" value="<?php echo $_GET['pallet_id']; ?>">
+
         <label for="earthquake_id">Earthquake:</label>
         <select id="earthquake_id" name="earthquake_id" required>
         <?php
-            include 'connection.php';
+            include '../connection.php';
 
             $sql = "SELECT id, country, date FROM earthquakes";
             $result = sqlsrv_query($conn, $sql);
@@ -23,17 +25,18 @@
             if (sqlsrv_has_rows($result)) {
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
                     if ($row["date"] instanceof DateTime) {
-                        $formattedDate = $row["date"]->format('Y-m-d'); // Format the datetime to only include the date 
+                        $formattedDate = $row["date"]->format('Y-m-d'); // Format the date
                     } else {
                         $formattedDate = $row["date"]; // Fallback in case it's not a DateTime object
                     }
+
                     echo "<option value='" . $row['id'] . "'>" . $row['country'] . " - " . $formattedDate . "</option>";
                 }
             } else {
                 echo "<option value=''>No earthquakes found</option>";
             }
 
-            sqlsrv_close($conn); 
+            sqlsrv_close($conn); // Close connection
         ?>
         </select><br><br>
 
@@ -57,12 +60,12 @@
         <input type="submit" value="Submit">
     </form>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 
     <h2>Artefacts List</h2>
     <div id="artefactsTable">
         <?php
-        include 'connection.php';
+        include '../connection.php';
         $sql = "SELECT * FROM artefacts";
         $result = sqlsrv_query($conn, $sql);
 
@@ -100,6 +103,6 @@
         ?>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-include 'connection.php';
+include '../connection.php';
 
 $sql = "SELECT * FROM observatories";
 $result = sqlsrv_query($conn, $sql);

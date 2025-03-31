@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add to Shop</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <h1>Add Artefact to Shop</h1>
@@ -12,7 +12,7 @@
         <label for="artifact_id">Artefact ID:</label>
         <select id="artifact_id" name="artifact_id" required>
             <?php
-            include 'connection.php';
+            include '../connection.php';
             $sql = "SELECT id FROM artefacts WHERE required = 'Yes'";
             $result = sqlsrv_query($conn, $sql);
 
@@ -37,12 +37,12 @@
         <input type="submit" value="Submit">
     </form>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 
     <h2>Artefacts List</h2>
     <div id="artefactsTable">
     <?php
-        include 'connection.php';
+        include '../connection.php';
         $sql = "SELECT * FROM artefacts";
         $result = sqlsrv_query($conn, $sql);
 
@@ -80,6 +80,6 @@
         ?>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

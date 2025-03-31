@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Pallet</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <h1>Add Pallet</h1>
@@ -18,12 +18,12 @@
         <input type="submit" value="Submit">
     </form>
 
-    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+    <button onclick="window.location.href='../index.html'">Back to Main Page</button>
 
     <h2>Pallets List</h2>
     <div id="palletsTable">
         <?php
-        include 'connection.php';
+        include '../connection.php';
         $sql = "SELECT * FROM pallets";
         $result = sqlsrv_query($conn, $sql);
 
@@ -50,6 +50,6 @@
         ?>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
