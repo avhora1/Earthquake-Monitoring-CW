@@ -2,7 +2,7 @@
 $serverName = "UK-DIET-SQL-T1"; //serverName\instanceName
 
 //Database name = Enter username (UID) and password (PWD) for your group
-$connectionInfo = array( "Database"=>"Group6_DB", "UID"=>"UserGroup6", "PWD"=>"8L9GtfJA8L9GtfJA");
+$connectionInfo = array( "Database"=>"Group6_DB", "UID"=>"UserGroup6", "PWD"=>"UpqrxGOkJdQ64MFC");
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
 
 if( $conn ) {
