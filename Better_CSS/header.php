@@ -16,24 +16,24 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <!-- Home Link -->
-        <li><a href="../../Better_CSS/index.php" class="nav-link px-2 text-secondary">Home</a></li>
+        <li><a href="/index.php" class="nav-link px-2 text-secondary">Home</a></li>
 
         <!-- Dropdown for Observatory -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="observatoryDropdown" role="button">Observatory</a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../../Better_CSS/Observatories/add_observatory.php">Add Observatory</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Observatories/view_observatories.php">View Observatories</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Observatories/manage_observatories.php">Manage Observatories</a></li>
+            <li><a class="dropdown-item" href="/Observatories/add_observatory.php">Add Observatory</a></li>
+            <li><a class="dropdown-item" href="/Observatories/view_observatories.php">View Observatories</a></li>
+            <li><a class="dropdown-item" href="/Observatories/manage_observatories.php">Manage Observatories</a></li>
           </ul>
         </li>
         <!-- Earthquake drop down -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="earthquakeDropdown" role="button">Earthquake</a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../../Better_CSS/Earthquake/add_earthquake.php">Add Earthquake</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Earthquake/view_earthquakes.php">View Earthquakes</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
+            <li><a class="dropdown-item" href="/Earthquake/add_earthquake.php">Add Earthquake</a></li>
+            <li><a class="dropdown-item" href="/Earthquake/view_earthquakes.php">View Earthquakes</a></li>
+            <li><a class="dropdown-item" href="/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
           </ul>
         </li>
 
@@ -41,18 +41,18 @@
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="artefactDropdown" role="button">Artefact</a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../../Better_CSS/Artefact/add_artefact.php">Add Artefact</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Artefact/view_artefacts.php">View Artefacts</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Artefact/manage_artefacts.php">Manage Artefacts</a></li>
+            <li><a class="dropdown-item" href="/Artefact/add_artefact.php">Add Artefact</a></li>
+            <li><a class="dropdown-item" href="/Artefact/view_artefacts.php">View Artefacts</a></li>
+            <li><a class="dropdown-item" href="/Artefact/manage_artefacts.php">Manage Artefacts</a></li>
           </ul>
         </li>
         <!-- Pallet dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="palletDropdown" role="button">Pallet</a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../../Better_CSS/Pallet/add_pallet.php">Add Pallet</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Pallet/view_pallets.php">View Pallets</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Artefact/manage_pallets.php">Manage Pallets</a></li>
+            <li><a class="dropdown-item" href="/Pallet/add_pallet.php">Add Pallet</a></li>
+            <li><a class="dropdown-item" href="/Pallet/view_pallets.php">View Pallets</a></li>
+            <li><a class="dropdown-item" href="/Artefact/manage_pallets.php">Manage Pallets</a></li>
           </ul>
         </li>
 
@@ -60,9 +60,9 @@
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="ShopDropdown" role="button">Shop</a>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../../Better_CSS/Shop/shop.php">View shop</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Shop/add_to_shop.php">Add to shop</a></li>
-            <li><a class="dropdown-item" href="../../Better_CSS/Shop/remove_from_shop.php">Remove from shop</a></li>
+            <li><a class="dropdown-item" href="/Shop/shop.php">View shop</a></li>
+            <li><a class="dropdown-item" href="/Shop/add_to_shop.php">Add to shop</a></li>
+            <li><a class="dropdown-item" href="/Shop/remove_from_shop.php">Remove from shop</a></li>
           </ul>
         </li>
       </ul>
@@ -72,7 +72,7 @@
       </form>
       
       <div class="text-end">
-        <button onclick="window.location.href='../../Better_CSS/Sign-in/sign-in.html'" type="button" class="btn btn-outline-light me-2">Login</button>
+        <button onclick="window.location.href='/Sign-in/sign-in.html'" type="button" class="btn btn-outline-light me-2">Login</button>
         <button type="button" class="btn btn-warning">Sign-up</button>
       </div>
     </div>
