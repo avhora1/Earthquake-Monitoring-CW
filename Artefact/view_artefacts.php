@@ -7,21 +7,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa; /* Light grey background */
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #212529;
-        }
-        .table-container {
-            margin-top: 50px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        body { background-color: #f8f9fa; }
+        h1 { text-align: center; margin-top: 20px; font-weight: bold; color: #212529; }
+        .table-container { margin-top: 30px; max-width: 98%; margin-left: auto; margin-right: auto; }
+        .modal { color: #000; }
     </style>
 </head>
 <body>

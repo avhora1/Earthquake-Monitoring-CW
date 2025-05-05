@@ -7,21 +7,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa; /* Light grey background */
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #212529;
-        }
-        .table-container {
-            margin-top: 50px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        body { background-color: #f8f9fa; }
+        h1 { text-align: center; margin-top: 20px; font-weight: bold; color: #212529; }
+        .table-container { margin-top: 30px; max-width: 98%; margin-left: auto; margin-right: auto; }
+        .modal { color: #000; }
     </style>
 </head>
 <body>
@@ -42,15 +31,15 @@
             echo "<table class='table table-dark table-striped table-bordered table-hover'>";
             echo "<thead class='thead-dark'>";
             echo "<tr>
-                    <th scope='col'>ID</th>
-                    <th scope='col'>Country</th>
-                    <th scope='col'>Magnitude</th>
-                    <th scope='col'>Type</th>
-                    <th scope='col'>Date</th>
-                    <th scope='col'>Time</th>
-                    <th scope='col'>Latitude</th>
-                    <th scope='col'>Longitude</th>
-                    <th scope='col'>Observatory</th>
+                    <th>ID</th>
+                    <th>Country</th>
+                    <th>Magnitude</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Observatory</th>
                   </tr>";
             echo "</thead>";
             echo "<tbody>";
