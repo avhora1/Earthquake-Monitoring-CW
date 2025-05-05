@@ -23,6 +23,6 @@ if ($stmt === false) {
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
 
-echo "<script>alert('Artefact deleted successfully.'); window.location.href='manage_artefacts.php';</script>";
+header("Location: manage_artefacts.php?deleted=1");
 exit;
 ?>

@@ -44,7 +44,7 @@ if ($stmt === false) {
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
 
-// Success!
-echo "<script>alert('Artefact updated successfully.'); window.location.href='manage_artefacts.php';</script>";
+// Success in process_edit_artefact.php
+header("Location: manage_artefacts.php?updated=1");
 exit;
 ?>

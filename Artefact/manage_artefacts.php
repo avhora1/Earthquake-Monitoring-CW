@@ -15,6 +15,54 @@
 </head>
 <body>
 <?php include '../header.php'; ?>
+
+<!-- Toast for when you update your artefact-->
+<?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+  <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Artefact updated successfully!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<script>
+  // Automatically dismiss after 3 seconds, or user can close manually
+  setTimeout(function() {
+    var toastEl = document.getElementById('updateToast');
+    if (toastEl) {
+      var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+      toast.hide();
+    }
+  }, 3000);
+</script>
+<?php endif; ?>
+
+<!-- Toast for when you delete an artefact as confirmation-->
+<?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+  <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Artefact deleted successfully!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<script>
+  // Automatically dismiss after 3 seconds, or user can close manually
+  setTimeout(function() {
+    var toastEl = document.getElementById('updateToast');
+    if (toastEl) {
+      var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+      toast.hide();
+    }
+  }, 3000);
+</script>
+<?php endif; ?>
 <div class="table-container container">
     <h1>Manage Artefacts</h1>
     <?php
@@ -86,13 +134,41 @@
                     class='btn btn-warning btn-sm mb-1' data-bs-toggle='modal' data-bs-target='#editModal$id'>
                     Edit
                   </button>
-                  <form action='process_delete_artefact.php' method='POST' style='display:inline;' 
-                    onsubmit=\"return confirm('Are you sure you want to delete artefact $id?');\">
-                    <input type='hidden' name='id' value='".htmlspecialchars($id)."'>
-                    <button type='submit' class='btn btn-danger btn-sm mb-1'>Delete</button>
-                  </form>
+                  <form id='deleteForm$id' action='process_delete_artefact.php' method='POST' style='display:inline;'>
+                        <input type='hidden' name='id' value='".htmlspecialchars($id)."'>
+                        <button type='button'
+                            class='btn btn-danger btn-sm mb-1'
+                            data-bs-toggle='modal'
+                            data-bs-target='#confirmDeleteModal$id'>
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>";
+            ?>
+
+            <!-- Confirm Delete Modal -->
+            <div class="modal fade" id="confirmDeleteModal<?php echo $id; ?>" tabindex="-1" aria-labelledby="confirmDeleteLabel<?php echo $id; ?>" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmDeleteLabel<?php echo $id; ?>">Confirm Deletion</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete artefact <b>#<?php echo htmlspecialchars($id); ?></b>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger"
+                        onclick="document.getElementById('deleteForm<?php echo $id; ?>').submit();">
+                        Yes, Delete
+                    </button>
+                </div>
+                </div>
+            </div>
+            </div>
+            <?php
 
             // ----- EDIT MODAL -----
             ?>
