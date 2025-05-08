@@ -1,4 +1,4 @@
-# Setting Up WAMP to Use Absolute File Paths (No More Relative Paths!)
+# Setting Up WAMP to Use Absolute File Paths (Required for correct functionality of website)
 
 To ensure your website runs correctly in WAMP, you’ll need to configure Apache to use a **Virtual Host** pointing directly to your project folder. This means all file paths will be absolute, so you don't have to worry about 'relative' linking in your website files. Follow the steps below:
 
@@ -46,4 +46,4 @@ Find your WAMP installation directory (the default path is shown below):
     http://view-localhost/
     ```
 
-You should now see your website!
+You should now see the website!
