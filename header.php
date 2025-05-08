@@ -52,7 +52,7 @@
           <ul class="dropdown-menu dropdown-menu-dark">
             <li><a class="dropdown-item" href="/Pallet/add_pallet.php">Add Pallet</a></li>
             <li><a class="dropdown-item" href="/Pallet/view_pallets.php">View Pallets</a></li>
-            <li><a class="dropdown-item" href="/Artefact/manage_pallets.php">Manage Pallets</a></li>
+            <li><a class="dropdown-item" href="/Pallet/manage_pallets.php">Manage Pallets</a></li>
           </ul>
         </li>
 

@@ -166,3 +166,11 @@ function validateObservatoryEdit(form) {
     }
     return true;
 }
+
+function validateEditPallet(form) {
+    if (!form.pallet_size.value) {
+        alert("Please select pallet size.");
+        return false;
+    }
+    return true;
+}
