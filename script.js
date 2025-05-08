@@ -151,3 +151,18 @@ function validateRemoveFromShopForm() {
     // If validation passes, submit the form
     return true;
 }
+
+function validateObservatoryEdit(form) {
+    if (!form.name.value.trim()) { alert("Name is required."); return false; }
+    if (!form.est_date.value) { alert("Establishment date is required."); return false; }
+    if (form.latitude.value === "" || isNaN(form.latitude.value)) { alert("Latitude is required."); return false; }
+    if (form.longitude.value === "" || isNaN(form.longitude.value)) { alert("Longitude is required."); return false; }
+    // Optionally check bounds
+    if (form.latitude.value < -90 || form.latitude.value > 90) {
+        alert("Latitude must be between -90 and 90."); return false;
+    }
+    if (form.longitude.value < -180 || form.longitude.value > 180) {
+        alert("Longitude must be between -180 and 180."); return false;
+    }
+    return true;
+}
