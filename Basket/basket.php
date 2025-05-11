@@ -11,8 +11,6 @@ include '../connection.php';
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="checkout.css" rel="stylesheet">
 
-
-
 </head>
 <body class="bg-body-tertiary">
   <?php include '../header.php';
@@ -23,29 +21,31 @@ include '../connection.php';
       <div class="py-5 text-center">
         <h1 class="h2">Checkout</h1>
       </div>
+      <?php if (isset($_GET['removed']) && $_GET['removed'] == 1): ?>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+  <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Artefact removed from basket successfully!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+<script>
+  // Automatically dismiss after 3 seconds, or user can close manually
+  setTimeout(function() {
+    var toastEl = document.getElementById('updateToast');
+    if (toastEl) {
+      var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+      toast.hide();
+    }
+  }, 3000);
+</script>
+<?php endif; ?>
       <?php if (empty($basket)): ?>
         <div class="alert alert-dark text-center w-50 mx-auto">Your basket is empty.</div>
         <div class="text-center"><a href="../Shop/shop.php" class="btn btn-primary">Return to Shop</a></div>
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
-        <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="d-flex">
-            <div class="toast-body">
-              Artefact removed from basket successfully!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-        </div>
-      </div>
-      <script>
-        // Automatically dismiss after 3 seconds, or user can close manually
-        setTimeout(function() {
-          var toastEl = document.getElementById('updateToast');
-          if (toastEl) {
-            var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
-            toast.hide();
-          }
-        }, 3000);
-      </script>
     </main>
   </div>
   <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
@@ -186,28 +186,6 @@ include '../connection.php';
 <script defer src="../assets/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"></script>
 
 <script defer src="checkout.js"></script>
-<?php if (isset($_GET['removed']) && $_GET['removed'] == 1): ?>
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
-  <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        Artefact removed from basket successfully!
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-  </div>
-</div>
-<script>
-  // Automatically dismiss after 3 seconds, or user can close manually
-  setTimeout(function() {
-    var toastEl = document.getElementById('updateToast');
-    if (toastEl) {
-      var toast = bootstrap.Toast.getOrCreateInstance(toastEl);
-      toast.hide();
-    }
-  }, 3000);
-</script>
-<?php endif; ?>
 </body>
 
 </html>
