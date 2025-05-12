@@ -66,7 +66,7 @@
                                 <h5 class="card-title">Artefact #<?php echo $artifact_id; ?></h5>
                                 <p class="card-text"><strong>Type:</strong> <?php echo $type; ?></p>
                                 <p class="card-text"><strong>Price:</strong> €<?php echo $price; ?></p>
-                                <a href="#" class="btn btn-warning">Add to Cart</a>
+                                <a href="../Basket/add_to_basket.php?id=<?= $row['id']?>" class="btn btn-primary">Add to Basket</a>
                             </div>
                         </div>
                     </div>

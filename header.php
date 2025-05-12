@@ -55,7 +55,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
           </ul>
         </li>
       </ul>
-
+      
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
       </form>
@@ -75,6 +75,20 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
       </div>
 
       <!-- Basket icon functionality -->
+      <?php
+    $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0;
+    ?>
+    <a href="/Basket/basket.php"
+      class="text-decoration-none text-light ms-3 position-relative"
+      style="font-size:1.7rem;">
+      <i class="bi bi-bag-check"></i>
+      <?php if ($basket_count > 0) : ?>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary fs-6"
+              style="z-index:1;">
+          <?= $basket_count ?>
+          <span class="visually-hidden">basket items</span>
+        </span>
+      <?php endif; ?>
       </a>
     </div>
   </div>
