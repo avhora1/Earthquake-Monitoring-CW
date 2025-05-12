@@ -1,6 +1,5 @@
 <?php
-include '../header.php';
-
+session_start();
 $login_error = '';
 $username = $_POST['username'] ?? '';
 
@@ -55,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="sign-in.css" rel="stylesheet">
   </head>
   <body>
+    <?php include "../header.php"?>
     <div class="d-flex align-items-center py-4 bg-body-tertiary" style="min-height:calc(100vh - 64px);">
       <main class="form-signin w-100 m-auto">
         <form action="" method="post" autocomplete="off">

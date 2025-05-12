@@ -1,8 +1,9 @@
 <?php
 // Start session safely if none active
 if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
+  session_start();
 }
+
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <header class="p-3 text-bg-dark" style="z-index:1030;">
@@ -55,7 +56,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
           </ul>
         </li>
       </ul>
-      
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
       </form>
