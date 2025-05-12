@@ -38,9 +38,9 @@
 
     <!-- Main content -->
     <main class="container mt-5">
-      <h1>Welcome to My Observatory Dashboard</h1>
-      <p>This is your main content area.</p>
-    </main>
+    <h1>Welcome<?= isset($_SESSION['account_name']) ? ', ' . htmlspecialchars($_SESSION['account_name']) : '' ?>!</h1>
+  <p>This is your main content area.</p>
+</main>
 
     <!-- Include Bootstrap JS -->
     <script src="assets/dist/js/bootstrap.bundle.min.js" defer></script>
