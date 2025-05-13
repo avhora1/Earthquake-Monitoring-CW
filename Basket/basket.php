@@ -1,6 +1,8 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
   <head>

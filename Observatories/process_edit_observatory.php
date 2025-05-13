@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;

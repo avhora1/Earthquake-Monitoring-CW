@@ -1,5 +1,5 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 $login_error = '';
 $username = $_POST['username'] ?? '';
 

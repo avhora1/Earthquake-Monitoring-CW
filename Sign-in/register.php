@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../header.php';
 $registration_error = "";
 $registration_success = "";

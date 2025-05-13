@@ -1,5 +1,6 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+
 if (!isset($_SESSION['account_loggedin'])) {
     header('Location: index.php');
     exit;

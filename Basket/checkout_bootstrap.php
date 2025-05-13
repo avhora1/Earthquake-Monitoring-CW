@@ -1,6 +1,7 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+
 $basket = isset($_SESSION['basket']) ? $_SESSION['basket'] : [];
 ?>
 <!doctype html>
