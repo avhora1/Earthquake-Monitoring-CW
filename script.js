@@ -64,25 +64,25 @@ function validateEditEarthquake(form) {
     const observatory_id = form.observatory_id.value;
 
     if (
-      country === "" ||
-      isNaN(magnitude) ||
-      type === "" ||
-      date === "" ||
-      time === "" ||
-      isNaN(latitude) ||
-      isNaN(longitude) ||
-      observatory_id === ""
+        country === "" ||
+        isNaN(magnitude) ||
+        type === "" ||
+        date === "" ||
+        time === "" ||
+        isNaN(latitude) ||
+        isNaN(longitude) ||
+        observatory_id === ""
     ) {
-      alert("All fields must be filled out correctly.");
-      return false;
+        alert("All fields must be filled out correctly.");
+        return false;
     }
     if (latitude < -90 || latitude > 90) {
-      alert("Latitude must be between -90 and 90.");
-      return false;
+        alert("Latitude must be between -90 and 90.");
+        return false;
     }
     if (longitude < -180 || longitude > 180) {
-      alert("Longitude must be between -180 and 180.");
-      return false;
+        alert("Longitude must be between -180 and 180.");
+        return false;
     }
     return true;
 }
