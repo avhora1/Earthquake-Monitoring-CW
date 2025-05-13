@@ -1,5 +1,9 @@
 <?php
 include '../connection.php';
+if (!isset($_SESSION['account_access'])) {
+    header('Location: ../index.php');
+    exit;
+}
 
 // Fetch and sanitize POST data
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;

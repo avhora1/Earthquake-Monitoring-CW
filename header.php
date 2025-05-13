@@ -1,24 +1,20 @@
-<header class="p-3 text-bg-dark">
-  <style>
-    /* Dropdown menu appears automatically on hover */
-    .nav-item.dropdown:hover .dropdown-menu {
-      display: block; /* Show dropdown on hover */
-      margin-top: 0; /* Align dropdown menu directly below the link */
-    }
+<?php
+// Start session safely if none active
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
 
-    /* Add hover effect for all nav links */
-    .nav-link:hover {
-      color: #ffc107; /* Yellow color for hover effect */
-    }
+?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<header class="p-3 text-bg-dark" style="z-index:1030;">
+  <style>
+    .nav-item.dropdown:hover .dropdown-menu { display: block; margin-top: 0; }
+    .nav-link:hover { color: #ffc107; }
   </style>
-  
-  <div class="container">
+  <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <!-- Home Link -->
         <li><a href="/index.php" class="nav-link px-2 text-secondary">Home</a></li>
-
-        <!-- Dropdown for Observatory -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="observatoryDropdown" role="button">Observatory</a>
           <ul class="dropdown-menu dropdown-menu-dark">
@@ -27,7 +23,6 @@
             <li><a class="dropdown-item" href="/Observatories/manage_observatories.php">Manage Observatories</a></li>
           </ul>
         </li>
-        <!-- Earthquake drop down -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="earthquakeDropdown" role="button">Earthquake</a>
           <ul class="dropdown-menu dropdown-menu-dark">
@@ -36,8 +31,6 @@
             <li><a class="dropdown-item" href="/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
           </ul>
         </li>
-
-        <!-- Artefact dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="artefactDropdown" role="button">Artefact</a>
           <ul class="dropdown-menu dropdown-menu-dark">
@@ -46,7 +39,6 @@
             <li><a class="dropdown-item" href="/Artefact/manage_artefacts.php">Manage Artefacts</a></li>
           </ul>
         </li>
-        <!-- Pallet dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="palletDropdown" role="button">Pallet</a>
           <ul class="dropdown-menu dropdown-menu-dark">
@@ -55,8 +47,6 @@
             <li><a class="dropdown-item" href="/Pallet/manage_pallets.php">Manage Pallets</a></li>
           </ul>
         </li>
-
-        <!-- Shop dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link px-2 text-white dropdown-toggle" id="ShopDropdown" role="button">Shop</a>
           <ul class="dropdown-menu dropdown-menu-dark">
@@ -66,15 +56,40 @@
           </ul>
         </li>
       </ul>
-      
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
         <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
       </form>
-      
+
+      <!-- Login/Logout/Register Buttons -->
       <div class="text-end">
-        <button onclick="window.location.href='/Sign-in/sign-in.html'" type="button" class="btn btn-outline-light me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+        <?php if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']): ?>
+          <span class="me-2 text-warning">
+            <i class="bi bi-person-circle"></i>
+            <?= htmlspecialchars($_SESSION['account_name']) ?>
+          </span>
+          <a href="/Sign-in/logout.php" class="btn btn-warning">Logout</a>
+        <?php else: ?>
+          <a href="/Sign-in/signin.php" class="btn btn-outline-light me-2">Sign-in</a>
+          <a href="/Sign-in/register.php" class="btn btn-warning">Sign-up</a>
+        <?php endif; ?>
       </div>
+
+      <!-- Basket icon functionality -->
+      <?php
+    $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0;
+    ?>
+    <a href="/Basket/basket.php"
+      class="text-decoration-none text-light ms-3 position-relative"
+      style="font-size:1.7rem;">
+      <i class="bi bi-bag-check"></i>
+      <?php if ($basket_count > 0) : ?>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary fs-6"
+              style="z-index:1;">
+          <?= $basket_count ?>
+          <span class="visually-hidden">basket items</span>
+        </span>
+      <?php endif; ?>
+      </a>
     </div>
   </div>
 </header>

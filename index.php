@@ -47,6 +47,7 @@
     <!-- Include the header -->
     <?php include 'header.php'; ?>
 
+<<<<<<< HEAD
 <!-- Main Hero Container -->
     <div>Main Hero</div>
     <div class="container my-5">
@@ -103,6 +104,13 @@
 
       </div>
     </div>
+=======
+    <!-- Main content -->
+    <main class="container mt-5">
+    <h1>Welcome<?= isset($_SESSION['account_name']) ? ', ' . htmlspecialchars($_SESSION['account_name']) : '' ?>!</h1>
+  <p>This is your main content area.</p>
+</main>
+>>>>>>> main
 
     <!-- Include Bootstrap JS -->
     <script src="assets/dist/js/bootstrap.bundle.min.js" defer></script>
