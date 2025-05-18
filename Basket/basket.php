@@ -93,7 +93,7 @@ include '../connection.php';
   </div>
   <div class="col-md-7 col-lg-8">
     <h4 class="mb-3">Customer information</h4>
-    <form class="needs-validation" novalidate>
+    <form class="needs-validation" novalidate method="POST" action="checkout.php">
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="firstName" class="form-label">First name</label>
@@ -121,7 +121,7 @@ include '../connection.php';
 
         <div class="col-12">
           <label for="address" class="form-label">Phone number</label>
-          <input type="text" class="form-control" id="phoneNumber" placeholder="01234 567890" required>
+          <input type="text" class="form-control" id="phoneNumber" placeholder="07XXX XXXXXX" required>
           <div class="invalid-feedback">
             Please enter your phone number.
           </div>
@@ -143,10 +143,11 @@ include '../connection.php';
 
         <div class="col-md-6">
           <label for="cc-number" class="form-label">Credit card number</label>
-          <input type="text" class="form-control" id="cc-number" placeholder="" required>
-          <div class="invalid-feedback">
-            Card number is required
+          <div class="d-flex align-items-center">
+            <input type="text" class="form-control me-2" id="cc-number" placeholder="" required maxlength="19" autocomplete="cc-number">
+            <span id="card-logo"></span>
           </div>
+          <div class="invalid-feedback">Card number is required</div>
         </div>
 
         <div class="col-md-3">
