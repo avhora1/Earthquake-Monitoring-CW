@@ -10,6 +10,7 @@ include '../connection.php';
     <!-- Load Bootstrap CSS -->
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="checkout.css" rel="stylesheet">
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <body class="bg-body-tertiary">
@@ -48,7 +49,6 @@ include '../connection.php';
         <div class="text-center"><a href="../Shop/shop.php" class="btn btn-primary">Return to Shop</a></div>
     </main>
   </div>
-  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../script.js"></script>
 </body>
 
