@@ -21,6 +21,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
             <li><a class="dropdown-item" href="/Observatories/add_observatory.php">Add Observatory</a></li>
             <li><a class="dropdown-item" href="/Observatories/view_observatories.php">View Observatories</a></li>
             <li><a class="dropdown-item" href="/Observatories/manage_observatories.php">Manage Observatories</a></li>
+            <!--Filtering OBSERVATORIES-->
+            <li><a class="dropdown-item" href="/Observatories/filter_observatories.php">Filter Observatories</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -29,6 +31,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
             <li><a class="dropdown-item" href="/Earthquake/add_earthquake.php">Add Earthquake</a></li>
             <li><a class="dropdown-item" href="/Earthquake/view_earthquakes.php">View Earthquakes</a></li>
             <li><a class="dropdown-item" href="/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
+            <!--Filtering EARTHQUAKES-->
+            <li><a class="dropdown-item" href="/Earthquake/filter_earthquakes.php">Filter Earthquakes</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
