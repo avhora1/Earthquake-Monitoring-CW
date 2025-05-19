@@ -112,24 +112,20 @@ $acct = isset($_SESSION['account_type']) ? $_SESSION['account_type'] : 'guest';
           </li>
         <?php endif; ?>
       </ul>
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control form-control-dark text-bg-light"
-               placeholder="Search..." aria-label="Search">
-      </form>
-      <!-- Login/Logout/Register Buttons -->
       <div class="text-end">
         <?php if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']): ?>
-          <span class="me-2 text-warning">
+          <a href="/Account_Managment/profile.php"
+             class="btn btn-link text-warning fw-bold me-2 p-0 align-baseline"
+             style="text-decoration:none;">
             <i class="bi bi-person-circle"></i>
             <?= htmlspecialchars($_SESSION['account_name']) ?>
-          </span>
+          </a>
           <a href="/Sign-in/logout.php" class="btn btn-warning">Logout</a>
         <?php else: ?>
           <a href="/Sign-in/signin.php" class="btn btn-outline-light me-2">Sign-in</a>
           <a href="/Sign-in/register.php" class="btn btn-warning">Sign-up</a>
         <?php endif; ?>
       </div>
-      <!-- Basket icon functionality -->
       <?php $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0; ?>
       <a href="/Basket/basket.php"
          class="text-decoration-none text-light ms-3 position-relative"

@@ -9,15 +9,12 @@ if (!isset($_SESSION['account_loggedin']) || !$_SESSION['account_loggedin']) {
     $_SESSION['account_loggedin'] = false;
     $_SESSION['account_type'] = 'guest';
     $_SESSION['account_name'] = 'Guest';
-    // Optional: set defaults for other vars like account_id
 }
 
 // If user is logged in, check account_type and update if needed (e.g., account_type is null)
 if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']) {
     // Fetch fresh data from DB if needed (e.g., privilege changed mid-session)
     if (!isset($_SESSION['account_type']) || $_SESSION['account_type'] === null) {
-        // Only run this part if you want to update role during active session
-        // Replace below with your real DB connection and id fetch
         $serverName = "UK-DIET-SQL-T1";
         $connectionOptions = [
             "Database" => "Group6_DB",
@@ -46,7 +43,4 @@ if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']) {
     }
 }
 
-// After this point, you can always use $_SESSION['account_type'] safely.
-// Only one session per browser/user.
-// Ending the session (logout) should be done with your logout.php as previously shown.
 ?>
