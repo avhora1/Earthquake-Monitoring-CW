@@ -1,6 +1,24 @@
 <?php
 include 'session.php';
 $acct = isset($_SESSION['account_type']) ? $_SESSION['account_type'] : 'guest';
+// Always at the top, after session_start(), on every page that uses the basket!
+if (isset($_SESSION['basket']) && count($_SESSION['basket']) > 0) {
+    $ids = array_keys($_SESSION['basket']);
+    $ids_int = array_map('intval', $ids);
+
+    // Fetch only IDs that still exist in stock_list table
+    if (!empty($ids_int)) {
+        $in = implode(',', $ids_int);
+        $sql = "SELECT id FROM stock_list WHERE id IN ($in)";
+        $result = sqlsrv_query($conn, $sql);
+        $live_ids = [];
+        while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+            $live_ids[] = $row['id'];
+        }
+        // Remove any IDs not in $live_ids
+        $_SESSION['basket'] = array_intersect_key($_SESSION['basket'], array_flip($live_ids));
+    }
+}
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <header class="p-3 text-bg-dark" style="z-index:1030;">

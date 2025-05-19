@@ -17,6 +17,14 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
         .modal { color: #000; }
     </style>
 </head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
 <body>
 <?php include '../header.php'; ?>
 
@@ -238,12 +246,18 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                         </div>
                         <!-- Required -->
                         <div class="mb-3">
-                            <label for="required_<?php echo $id; ?>" class="form-label">Required:</label>
-                            <select id="required_<?php echo $id; ?>" name="required" class="form-select" required>
-                                <option value="Yes" <?php if($required=="Yes") echo "selected"; ?>>Yes</option>
-                                <option value="No" <?php if($required=="No") echo "selected"; ?>>No</option>
-                            </select>
-                        </div>
+                          <label for="required_<?php echo $id; ?>" class="form-label">Required:</label>
+                          <span 
+                              data-bs-toggle="tooltip" 
+                              data-bs-placement="top" 
+                              title="Cannot modify the required field. It can only be changed when adding artefact to the shop"
+                              style="display:inline-block;width:100%;">
+                              <select id="required_<?php echo $id; ?>" name="required" class="form-select" disabled aria-disabled="true" style="pointer-events: none;">
+                                  <option value="Yes" <?php if($required=="Yes") echo "selected"; ?>>Yes</option>
+                                  <option value="No" <?php if($required=="No") echo "selected"; ?>>No</option>
+                              </select>
+                          </span>
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
