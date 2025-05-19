@@ -97,7 +97,7 @@ include '../connection.php';
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="firstName" class="form-label">First name</label>
-          <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+          <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
           <div class="invalid-feedback">
             Valid first name is required.
           </div>
@@ -105,7 +105,7 @@ include '../connection.php';
 
         <div class="col-sm-6">
           <label for="lastName" class="form-label">Last name</label>
-          <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+          <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
           <div class="invalid-feedback">
             Valid last name is required.
           </div>
@@ -113,7 +113,7 @@ include '../connection.php';
 
         <div class="col-12">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+          <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
           <div class="invalid-feedback">
             Please enter a valid email address.
           </div>
@@ -121,7 +121,7 @@ include '../connection.php';
 
         <div class="col-12">
           <label for="address" class="form-label">Phone number</label>
-          <input type="text" class="form-control" id="phoneNumber" placeholder="07XXX XXXXXX" required>
+          <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="07XXX XXXXXX" required>
           <div class="invalid-feedback">
             Please enter your phone number.
           </div>
@@ -134,7 +134,7 @@ include '../connection.php';
 
         <div class="col-md-6">
           <label for="cc-name" class="form-label">Name on card</label>
-          <input type="text" class="form-control" id="cc-name" placeholder="" required>
+          <input type="text" class="form-control" id="cc-name" name="cc-name" placeholder="" required>
           <small class="text-body-secondary">Full name as displayed on card</small>
           <div class="invalid-feedback">
             Name on card is required
@@ -144,7 +144,7 @@ include '../connection.php';
         <div class="col-md-6">
           <label for="cc-number" class="form-label">Credit card number</label>
           <div class="d-flex align-items-center">
-            <input type="text" class="form-control me-2" id="cc-number" placeholder="" required maxlength="19" autocomplete="cc-number">
+            <input type="text" class="form-control me-2" id="cc-number" name="cc-number" placeholder="" required maxlength="19" autocomplete="cc-number">
             <span id="card-logo"></span>
           </div>
           <div class="invalid-feedback">Card number is required</div>
@@ -152,7 +152,7 @@ include '../connection.php';
 
         <div class="col-md-3">
           <label for="cc-expiration" class="form-label">Expiration</label>
-          <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+          <input type="text" class="form-control" id="cc-expiration" name="cc-expiration" placeholder="" required>
           <div class="invalid-feedback">
             Expiration date required
           </div>
@@ -160,7 +160,7 @@ include '../connection.php';
 
         <div class="col-md-3">
           <label for="cc-cvv" class="form-label">CVV</label>
-          <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+          <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="" required>
           <div class="invalid-feedback">
             Security code required
           </div>
