@@ -1,5 +1,6 @@
 <?php
 include 'session.php';
+include 'connection.php';
 $acct = isset($_SESSION['account_type']) ? $_SESSION['account_type'] : 'guest';
 // Always at the top, after session_start(), on every page that uses the basket!
 if (isset($_SESSION['basket']) && count($_SESSION['basket']) > 0) {
