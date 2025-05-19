@@ -1,3 +1,6 @@
+<?php
+include 'session.php';
+?>
 <!-- Save as index.php -->
 <!doctype html>
 <html lang="en">

@@ -1,5 +1,7 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+
 date_default_timezone_set('Europe/London');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $earthquake_id = $_POST['earthquake_id'];

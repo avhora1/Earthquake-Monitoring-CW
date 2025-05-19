@@ -1,10 +1,6 @@
 <?php
-include 'connection.php';
-// Start session safely if none active
-if (session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
-
+include 'session.php';
+$acct = isset($_SESSION['account_type']) ? $_SESSION['account_type'] : 'guest';
 // Always at the top, after session_start(), on every page that uses the basket!
 if (isset($_SESSION['basket']) && count($_SESSION['basket']) > 0) {
     $ids = array_keys($_SESSION['basket']);
@@ -34,80 +30,132 @@ if (isset($_SESSION['basket']) && count($_SESSION['basket']) > 0) {
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/index.php" class="nav-link px-2 text-secondary">Home</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link px-2 text-white dropdown-toggle" id="observatoryDropdown" role="button">Observatory</a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/Observatories/add_observatory.php">Add Observatory</a></li>
-            <li><a class="dropdown-item" href="/Observatories/view_observatories.php">View Observatories</a></li>
-            <li><a class="dropdown-item" href="/Observatories/manage_observatories.php">Manage Observatories</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link px-2 text-white dropdown-toggle" id="earthquakeDropdown" role="button">Earthquake</a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/Earthquake/add_earthquake.php">Add Earthquake</a></li>
-            <li><a class="dropdown-item" href="/Earthquake/view_earthquakes.php">View Earthquakes</a></li>
-            <li><a class="dropdown-item" href="/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link px-2 text-white dropdown-toggle" id="artefactDropdown" role="button">Artefact</a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/Artefact/add_artefact.php">Add Artefact</a></li>
-            <li><a class="dropdown-item" href="/Artefact/view_artefacts.php">View Artefacts</a></li>
-            <li><a class="dropdown-item" href="/Artefact/manage_artefacts.php">Manage Artefacts</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link px-2 text-white dropdown-toggle" id="palletDropdown" role="button">Pallet</a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/Pallet/add_pallet.php">Add Pallet</a></li>
-            <li><a class="dropdown-item" href="/Pallet/view_pallets.php">View Pallets</a></li>
-            <li><a class="dropdown-item" href="/Pallet/manage_pallets.php">Manage Pallets</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link px-2 text-white dropdown-toggle" id="ShopDropdown" role="button">Shop</a>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/Shop/shop.php">View shop</a></li>
-            <li><a class="dropdown-item" href="/Shop/add_to_shop.php">Add to shop</a></li>
-            <li><a class="dropdown-item" href="/Shop/remove_from_shop.php">Remove from shop</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">
-      </form>
 
-      <!-- Login/Logout/Register Buttons -->
+        <!-- Observatory: scientist/admin, all options -->
+        <?php if (in_array($acct, ['junior_scientist', 'senior_scientist', 'admin'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="observatoryDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Observatory</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/Observatories/add_observatory.php">Add Observatory</a></li>
+              <li><a class="dropdown-item" href="/Observatories/view_observatories.php">View Observatories</a></li>
+              <li><a class="dropdown-item" href="/Observatories/manage_observatories.php">Manage Observatories</a></li>
+            </ul>
+          </li>
+        <?php endif; ?>
+
+        <!-- Earthquake: scientist/admin, all options -->
+        <?php if (in_array($acct, ['junior_scientist', 'senior_scientist', 'admin'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="earthquakeDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Earthquake</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/Earthquake/add_earthquake.php">Add Earthquake</a></li>
+              <li><a class="dropdown-item" href="/Earthquake/view_earthquakes.php">View Earthquakes</a></li>
+              <li><a class="dropdown-item" href="/Earthquake/manage_earthquakes.php">Manage Earthquakes</a></li>
+            </ul>
+          </li>
+        <?php endif; ?>
+
+        <!-- Artefact: junior=view only, senior/admin=all options -->
+        <?php if (in_array($acct, ['junior_scientist', 'senior_scientist', 'admin'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="artefactDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Artefact</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <?php if (in_array($acct, ['senior_scientist', 'admin'])): ?>
+                <li><a class="dropdown-item" href="/Artefact/add_artefact.php">Add Artefact</a></li>
+              <?php endif; ?>
+              <li><a class="dropdown-item" href="/Artefact/view_artefacts.php">View Artefacts</a></li>
+              <?php if (in_array($acct, ['senior_scientist', 'admin'])): ?>
+                <li><a class="dropdown-item" href="/Artefact/manage_artefacts.php">Manage Artefacts</a></li>
+              <?php endif; ?>
+            </ul>
+          </li>
+        <?php endif; ?>
+
+        <!-- Pallet: junior=view only, senior/admin=all options -->
+        <?php if (in_array($acct, ['junior_scientist', 'senior_scientist', 'admin'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="palletDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Pallet</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <?php if (in_array($acct, ['senior_scientist', 'admin'])): ?>
+                <li><a class="dropdown-item" href="/Pallet/add_pallet.php">Add Pallet</a></li>
+              <?php endif; ?>
+              <li><a class="dropdown-item" href="/Pallet/view_pallets.php">View Pallets</a></li>
+              <?php if (in_array($acct, ['senior_scientist', 'admin'])): ?>
+                <li><a class="dropdown-item" href="/Pallet/manage_pallets.php">Manage Pallets</a></li>
+              <?php endif; ?>
+            </ul>
+          </li>
+        <?php endif; ?>
+
+        <!-- Shop: All see dropdown, but only senior/admin see Add/Remove -->
+        <?php if (in_array($acct, ['senior_scientist', 'admin'])): ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="ShopDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Shop</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/Shop/shop.php">View shop</a></li>
+              <li><a class="dropdown-item" href="/Shop/add_to_shop.php">Add to shop</a></li>
+              <li><a class="dropdown-item" href="/Shop/remove_from_shop.php">Remove from shop</a></li>
+            </ul>
+          </li>
+        <?php else: ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link px-2 text-white dropdown-toggle"
+               id="ShopDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">Shop</a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="/Shop/shop.php">View shop</a></li>
+            </ul>
+          </li>
+        <?php endif; ?>
+      </ul>
       <div class="text-end">
         <?php if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']): ?>
-          <span class="me-2 text-warning">
+          <a href="/Account_Managment/profile.php"
+             class="btn btn-link text-warning fw-bold me-2 p-0 align-baseline"
+             style="text-decoration:none;">
             <i class="bi bi-person-circle"></i>
             <?= htmlspecialchars($_SESSION['account_name']) ?>
-          </span>
+          </a>
           <a href="/Sign-in/logout.php" class="btn btn-warning">Logout</a>
         <?php else: ?>
           <a href="/Sign-in/signin.php" class="btn btn-outline-light me-2">Sign-in</a>
           <a href="/Sign-in/register.php" class="btn btn-warning">Sign-up</a>
         <?php endif; ?>
       </div>
-
-      <!-- Basket icon functionality -->
-      <?php
-    $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0;
-    ?>
-    <a href="/Basket/basket.php"
-      class="text-decoration-none text-light ms-3 position-relative"
-      style="font-size:1.7rem;">
-      <i class="bi bi-bag-check"></i>
-      <?php if ($basket_count > 0) : ?>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary fs-6"
-              style="z-index:1;">
-          <?= $basket_count ?>
-          <span class="visually-hidden">basket items</span>
-        </span>
-      <?php endif; ?>
+      <?php $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0; ?>
+      <a href="/Basket/basket.php"
+         class="text-decoration-none text-light ms-3 position-relative"
+         style="font-size:1.7rem;">
+         <i class="bi bi-bag-check"></i>
+         <?php if ($basket_count > 0) : ?>
+           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary fs-6"
+                 style="z-index:1;">
+             <?= $basket_count ?>
+             <span class="visually-hidden">basket items</span>
+           </span>
+         <?php endif; ?>
       </a>
     </div>
   </div>

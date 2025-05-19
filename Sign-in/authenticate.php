@@ -1,5 +1,5 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 
 $serverName = "UK-DIET-SQL-T1";
 $connectionOptions = [

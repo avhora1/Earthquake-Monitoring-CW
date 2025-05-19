@@ -1,5 +1,5 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 
 // Check for valid ID in URL (GET method)
 if (isset($_GET['id'])) {
