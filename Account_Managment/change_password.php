@@ -1,9 +1,13 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+if (!isset($_SESSION['account_loggedin']) || !$_SESSION['account_loggedin']) {
+    header('Location: /Sign-in/signin.php');
+    exit();
+}
 include '../header.php';
-$registration_error = "";
-$registration_success = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$change_error = "";
+$change_success = "";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $serverName = "UK-DIET-SQL-T1";
     $connectionOptions = [
         "Database" => "Group6_DB",
@@ -12,11 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     $conn = sqlsrv_connect($serverName, $connectionOptions);
     if ($conn === false) die(print_r(sqlsrv_errors(), true));
-    $username = trim($_POST['username'] ?? "");
-    $email = trim($_POST['email'] ?? "");
-    $password = $_POST['password'] ?? "";
-    $password_confirm = $_POST['password_confirm'] ?? "";
-    $code = trim($_POST['code'] ?? "");
+    $account_id = $_SESSION['account_id'];
+    $password = $_POST['password'] ?? '';
+    $password_confirm = $_POST['password_confirm'] ?? '';
     // Password requirements for "Strong"
     $pw_strong = (
         strlen($password) >= 8 &&
@@ -25,67 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         preg_match('/[0-9]/', $password) &&
         preg_match('/[\W_]/', $password)
     );
-    // Validate fields
-    if (empty($username) || empty($email) || empty($password) || empty($password_confirm)) {
-        $registration_error = "Please fill in all required fields.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $registration_error = "Invalid email format.";
+    if (empty($password) || empty($password_confirm)) {
+        $change_error = "Please fill in both password fields.";
     } elseif ($password !== $password_confirm) {
-        $registration_error = "Passwords do not match.";
+        $change_error = "Passwords do not match.";
     } elseif (!$pw_strong) {
-        $registration_error = "Your password must be at least 'Strong' and meet all requirements.";
+        $change_error = "Your password must be at least 'Strong' and meet all requirements.";
     }
-    // Account type logic 
-    $account_type = "guest";
-    $codes = [
-        'junior_scientist' => '6c8f19b2-8a71-48b3-ba1e-123456JS',
-        'senior_scientist' => 'c5bf13d7-fb91-42a8-af84-123456SS',
-        'admin'            => '829fa94f-3384-41f1-9876-123456AD'
-    ];
-    if (empty($code)) {
-        $account_type = "guest";
-    } elseif ($code === $codes['junior_scientist']) {
-        $account_type = "junior_scientist";
-    } elseif ($code === $codes['senior_scientist']) {
-        $account_type = "senior_scientist";
-    } elseif ($code === $codes['admin']) {
-        $account_type = "admin";
-    } else {
-        $registration_error = "Invalid registration code. Please contact your admin.";
-    }
-    // Check for duplicate usernames or emails
-    if (!$registration_error) {
-        $sql = "SELECT username, email FROM registered_accounts WHERE username = ? OR email = ?";
-        $params = [$username, $email];
+    if (!$change_error) {
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE registered_accounts SET password = ? WHERE id = ?";
+        $params = [$hashed, $account_id];
         $stmt = sqlsrv_query($conn, $sql, $params);
         if ($stmt === false) {
-            $registration_error = "Database error (search): " . print_r(sqlsrv_errors(), true);
+            $change_error = "Database error (update): " . print_r(sqlsrv_errors(), true);
         } else {
-            $already_username = false;
-            $already_email = false;
-            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-                if (strcasecmp($row['username'], $username) === 0) $already_username = true;
-                if (strcasecmp($row['email'], $email) === 0) $already_email = true;
-            }
-            if ($already_username && $already_email) {
-                $registration_error = "Username and email are already in use.";
-            } elseif ($already_username) {
-                $registration_error = "Username is already in use.";
-            } elseif ($already_email) {
-                $registration_error = "Email is already in use.";
-            }
-        }
-    }
-
-    if (!$registration_error) {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $sql2 = "INSERT INTO registered_accounts (username, email, password, account_type) VALUES (?, ?, ?, ?)";
-        $params2 = [$username, $email, $hashed, $account_type];
-        $stmt2 = sqlsrv_query($conn, $sql2, $params2);
-        if ($stmt2 === false) {
-            $registration_error = "Database error (save): " . print_r(sqlsrv_errors(), true);
-        } else {
-            $registration_success = "Registration successful! <a href='signin.php'>Sign in</a>.";
+            $change_success = "Password changed successfully!";
         }
     }
 }
@@ -94,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
-    <title>Register</title>
+    <title>Change Password</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -107,45 +64,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .pwreq-icon { font-weight: bold; width: 1.3em; display: inline-block;}
         .pw-outline-invalid { border-color: #dc3545 !important; }
         #pw-bad-message { color: #dc3545; font-size: 0.97em; display:none; }
-        /* Hide browser's default password toggle where possible */
-input[type="password"]::-ms-reveal,
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-textfield-decoration-container {
-    display: none !important;
-}
-input[type="password"]::-webkit-input-password-toggle-button {
-    display: none !important;
-}
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-webkit-credentials-auto-fill-button,
+        input[type="password"]::-webkit-textfield-decoration-container {
+            display: none !important;
+        }
+        input[type="password"]::-webkit-input-password-toggle-button {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-body-tertiary" onload="checkPasswordStrength()">
 <main class="form-register">
     <form method="post" autocomplete="off" novalidate>
-        <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
-        <?php if ($registration_error): ?>
-            <div class="alert alert-danger"><?= $registration_error ?></div>
-        <?php elseif ($registration_success): ?>
-            <div class="alert alert-success"><?= $registration_success ?></div>
+        <h1 class="h3 mb-3 fw-normal text-center">Change your password</h1>
+        <p class="text-center text-muted mb-4">Choose a strong new password. You can use the eye icon to check your entry.</p>
+        <?php if ($change_error): ?>
+            <div class="alert alert-danger"><?= $change_error ?></div>
+        <?php elseif ($change_success): ?>
+            <div class="alert alert-success"><?= $change_success ?></div>
         <?php endif; ?>
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="username" name="username"
-                   value="<?= htmlspecialchars($_POST['username'] ?? "") ?>"
-                   placeholder="Username" required>
-            <label for="username">Username</label>
-        </div>
-        <div class="form-floating mb-2">
-            <input type="email" class="form-control" id="email" name="email"
-                   value="<?= htmlspecialchars($_POST['email'] ?? "") ?>"
-                   placeholder="name@example.com" required>
-            <label for="email">Email address</label>
-        </div>
-
         <!-- Password input with show/hide button -->
         <div class="form-floating mb-2 position-relative">
             <input type="password" class="form-control" id="password" name="password"
                    placeholder="Password" required
                    oninput="checkPasswordStrength();showPwBtn('password','showPasswordBtn')" onfocus="showPwBtn('password','showPasswordBtn')" onblur="hidePwBtn('password','showPasswordBtn')">
-            <label for="password">Password</label>
+            <label for="password">New Password</label>
             <button type="button"
                     id="showPasswordBtn"
                     class="btn p-0 bg-transparent border-0 position-absolute top-50 end-0 translate-middle-y me-2 d-none"
@@ -180,27 +124,21 @@ input[type="password"]::-webkit-input-password-toggle-button {
         </div>
         <div id="pw-bad-message">Password must be <b>at least Strong</b> and meet all requirements.</div>
         <!-- Confirm password with show/hide button -->
-            <div class="form-floating mb-2 position-relative">
-                <input type="password" class="form-control" id="password_confirm" name="password_confirm"
-                    placeholder="Confirm Password" required
-                    oninput="showPwBtn('password_confirm','showPasswordBtnConfirm')" onfocus="showPwBtn('password_confirm','showPasswordBtnConfirm')" onblur="hidePwBtn('password_confirm','showPasswordBtnConfirm')">
-                <label for="password_confirm">Confirm Password</label>
-                <button type="button"
-                        id="showPasswordBtnConfirm"
-                        class="btn p-0 bg-transparent border-0 position-absolute top-50 end-0 translate-middle-y me-2 d-none"
-                        tabindex="-1"
-                        onclick="togglePassword('password_confirm','eyeIconConfirm')">
-                    <i class="bi bi-eye fs-5" id="eyeIconConfirm"></i>
-                </button>
-            </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="code" name="code"
-                   value="<?= htmlspecialchars($_POST['code'] ?? "") ?>"
-                   placeholder="Optional code">
-            <label for="code">Account Code (optional)</label>
+        <div class="form-floating mb-2 position-relative">
+            <input type="password" class="form-control" id="password_confirm" name="password_confirm"
+                   placeholder="Confirm Password" required
+                   oninput="showPwBtn('password_confirm','showPasswordBtnConfirm')" onfocus="showPwBtn('password_confirm','showPasswordBtnConfirm')" onblur="hidePwBtn('password_confirm','showPasswordBtnConfirm')">
+            <label for="password_confirm">Confirm New Password</label>
+            <button type="button"
+                    id="showPasswordBtnConfirm"
+                    class="btn p-0 bg-transparent border-0 position-absolute top-50 end-0 translate-middle-y me-2 d-none"
+                    tabindex="-1"
+                    onclick="togglePassword('password_confirm','eyeIconConfirm')">
+                <i class="bi bi-eye fs-5" id="eyeIconConfirm"></i>
+            </button>
         </div>
-        <button id="reg-btn" class="btn btn-warning w-100 py-2" type="submit">Register</button>
-        <p class="mt-3 text-center"><a href="signin.php">Already have an account? Sign in</a></p>
+        <button id="reg-btn" class="btn btn-warning w-100 py-2" type="submit">Change Password</button>
+        <p class="mt-3 text-center"><a href="profile.php">&larr; Back to Profile</a></p>
     </form>
 </main>
 <script>
@@ -217,7 +155,6 @@ function togglePassword(inputId, iconId) {
         eye.classList.remove('bi-eye-slash');
     }
 }
-// Show/hide password eye only on typing, focus, or non-empty
 function showPwBtn(inputId, btnId) {
     var pwd = document.getElementById(inputId);
     var btn = document.getElementById(btnId);

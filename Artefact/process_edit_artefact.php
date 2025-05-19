@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 
 // Fetch and sanitize form input
