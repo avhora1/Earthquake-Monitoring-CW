@@ -1,3 +1,7 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

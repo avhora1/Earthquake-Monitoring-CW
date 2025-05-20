@@ -1,5 +1,7 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+
 if (!isset($_SESSION['account_access'])) {
     header('Location: ../index.php');
     exit;

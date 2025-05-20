@@ -1,5 +1,6 @@
 <?php
-session_start();
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+
 $id = intval($_GET['id']);
 if (!isset($_SESSION['basket'])) $_SESSION['basket'] = [];
 // Only allow availability = 'Yes'

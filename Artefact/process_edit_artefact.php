@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 
 // Fetch and sanitize form input
@@ -7,10 +8,9 @@ $earthquake_id = isset($_POST['earthquake_id']) ? intval($_POST['earthquake_id']
 $type = isset($_POST['type']) ? $_POST['type'] : null;
 $shelving_loc = isset($_POST['shelving_loc']) ? $_POST['shelving_loc'] : null;
 $pallet_id = !empty($_POST['pallet_id']) ? intval($_POST['pallet_id']) : null;
-$required = isset($_POST['required']) ? $_POST['required'] : 'No';
 
 // Check
-if ($id === 0 || !$type || !$shelving_loc || !$required) {
+if ($id === 0 || !$type || !$shelving_loc) {
     echo "<script>alert('Please fill in all required fields.'); window.location.href='manage_artefacts.php';</script>";
     exit;
 }
@@ -20,15 +20,13 @@ $sql = "UPDATE artefacts SET
             earthquake_id = ?,
             type = ?,
             shelving_loc = ?,
-            pallet_id = ?,
-            required = ?
+            pallet_id = ?
         WHERE id = ?";
 $params = [
     $earthquake_id,
     $type,
     $shelving_loc,
     $pallet_id,
-    $required,
     $id
 ];
 
