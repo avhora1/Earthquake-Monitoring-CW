@@ -9,17 +9,21 @@ include 'session.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home · Observatory Dashboard</title>
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="globe.css">
+    <script type="module" src="globe.js"></script>
     
     <script type="importmap">
       {
         "imports": {
           "three": "https://cdn.jsdelivr.net/npm/three@v0.174.0/build/three.module.js",
-          "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@v0.174.0/examples/jsm/controls/OrbitControls.js"
+          "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@v0.174.0/examples/jsm/controls/OrbitControls.js",
+          "three/addons/": "./jsm/"
         }
       }
     </script>
-    <script type="module" src="earth.js"></script>
 
+    
     <style>
       /* Fixed Header Styling */
       header {
@@ -50,10 +54,15 @@ include 'session.php';
     <!-- Include the header -->
     <?php include 'header.php'; ?>
 
+  <div id="cover">
+        <canvas id="globe"></canvas>
+ </div> 
+
     <!-- Main content -->
 <main class="container mt-5">
   <h1>Welcome<?= isset($_SESSION['account_name']) ? ', ' . htmlspecialchars($_SESSION['account_name']) : '' ?>!</h1>
   <p>This is your main content area.</p>
+
 
 
 <!-- Main Hero Container -->
