@@ -1,5 +1,4 @@
 <?php
-require_once '../includes/fpdf/fpdf.php';
 include '../connection.php';
 // Start session safely if none active
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -96,63 +95,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($updateStmt === false) {
             $errors[] = "Error updating stock: " . print_r(sqlsrv_errors(), true);
         } else {
-            // Fetch info for pdf
-            $items = [];
-            $sql = "SELECT s.id, s.artifact_id, a.type, s.price FROM stock_list s JOIN artefacts a ON s.artifact_id = a.id WHERE s.id IN ($placeholders)";
-            $itemResult = sqlsrv_query($conn, $sql, $itemIds);
-            while ($row = sqlsrv_fetch_array($itemResult, SQLSRV_FETCH_ASSOC)) {
-                $items[] = $row;
+            // Save Order Into 'orders' Table
+            $order_sql = "INSERT INTO orders (first_name, last_name, email, phone, total, created_at) 
+                          OUTPUT INSERTED.id
+                          VALUES (?, ?, ?, ?,  ?, GETDATE())";
+            $params = [$firstName, $lastName, $email, $phone, 0]; // We'll update total later
+
+            $stmt = sqlsrv_query($conn, $order_sql, $params);
+            if ($stmt && ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))) {
+                $order_id = $row['id'];
+            } else {
+                $errors[] = "Could not create order.";
             }
 
-            // Prepare order info as before...
-            $items = []; $total = 0;
+            // Get items for the PDF and to log them
+            $items = [];
+            $total = 0;
+            $sql = "SELECT s.id, s.artifact_id, a.type, s.price 
+                      FROM stock_list s 
+                      JOIN artefacts a ON s.artifact_id = a.id 
+                     WHERE s.id IN ($placeholders)";
             $rst = sqlsrv_query($conn, $sql, $itemIds);
             while ($row = sqlsrv_fetch_array($rst, SQLSRV_FETCH_ASSOC)) {
                 $items[] = $row;
                 $total += $row['price'];
+
+                // Insert into order_items table (order_id, stock_id, price) so we can get order data later. 
+                $oi_sql = "INSERT INTO order_items (order_id, stock_id, price) VALUES (?, ?, ?)";
+                sqlsrv_query($conn, $oi_sql, [$order_id, $row['id'], $row['price']]);
             }
-            // Optionally free SQL resources
+            // Update total in orders table
+            sqlsrv_query($conn, "UPDATE orders SET total=? WHERE id=?", [$total, $order_id]);
+
             sqlsrv_free_stmt($rst);
             sqlsrv_close($conn);
-            $_SESSION['basket'] = []; // clear the basket
+            $_SESSION['basket'] = []; // clear basket
 
-            // --- PDF Generation Section ---
-            $pdf = new FPDF();
-            $pdf->AddPage();
-            $pdf->SetFont('Times','B',16);
-            $pdf->Cell(0,10,'Order Receipt',0,1,'C');
-            $pdf->SetFont('Times','',12);
-            $pdf->Cell(0,10,"Customer: $firstName $lastName",0,1);
-            $pdf->Cell(0,10,"Email: $email",0,1);
-            $pdf->Cell(0,10,"Phone: $phone",0,1);
-            $pdf->Ln(5);
-
-            $pdf->SetFont('Times','B',12);
-            $pdf->Cell(70,10,'Item',1);
-            $pdf->Cell(40,10,'ID',1);
-            $pdf->Cell(40,10,'Price',1);
-            $pdf->Ln();
-
-            $pdf->SetFont('Times','',12);
-            foreach ($items as $item) {
-                $pdf->Cell(70,10,$item['type'],1);
-                $pdf->Cell(40,10,$item['artifact_id'],1);
-                $pdf->Cell(40,10,'EUR '.number_format($item['price'],2),1);
-                $pdf->Ln();
-            }
-            $pdf->SetFont('Times','B',12);
-            $pdf->Cell(110,10,'Total',1);
-            $pdf->Cell(40,10,'EUR '.number_format($total,2),1);
-            $pdf->Ln(20);
-
-            $pdf->SetFont('Times','I',10);
-            $pdf->Cell(0,10,"Thank you for your order! - The Earthquake Monitoring System",0,1,'C');
-
-            // Output PDF to browser for download:
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="receipt.pdf"');
-            $pdf->Output('D', 'receipt.pdf');
-            exit;
+            // Redirect to thank you page with order id
+            header("Location: thankyou.php?order=" . urlencode($order_id));
+            exit();
         }
     }
 }

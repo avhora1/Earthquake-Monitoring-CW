@@ -1,0 +1,23 @@
+-- ORDERS table
+CREATE TABLE orders (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name NVARCHAR(50) NOT NULL,
+    last_name NVARCHAR(50) NOT NULL,
+    email NVARCHAR(255) NOT NULL,
+    phone NVARCHAR(25),
+    total DECIMAL(10,2) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+-- ORDER_ITEMS table
+CREATE TABLE order_items (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    order_id INT NOT NULL,
+    stock_id INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    -- Optional extras:
+    quantity INT NOT NULL DEFAULT 1,
+
+    CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id),
+    CONSTRAINT fk_stock FOREIGN KEY (stock_id) REFERENCES stock_list(id)
+);
