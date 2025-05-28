@@ -9,6 +9,7 @@ if (!isset($_SESSION['account_access'])) {
 
 // Fetch and sanitize POST data
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+echo $id. 'YOUR ID <br>';
 $country = isset($_POST['country']) ? $_POST['country'] : null;
 $magnitude = isset($_POST['magnitude']) ? $_POST['magnitude'] : null;
 $type = isset($_POST['type']) ? $_POST['type'] : null;
