@@ -11,9 +11,8 @@ include 'session.php';
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="globe.css">
-    <script type="module" src="globe.js"></script>
     
-    <script type="importmap">
+    <!-- <script type="importmap">
       {
         "imports": {
           "three": "https://cdn.jsdelivr.net/npm/three@v0.174.0/build/three.module.js",
@@ -21,8 +20,16 @@ include 'session.php';
           "three/addons/": "./jsm/"
         }
       }
-    </script>
+    </script> -->
 
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+        "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/controls/OrbitControls.js"
+      }
+    }
+  </script>
     
     <style>
       /* Fixed Header Styling */
@@ -51,6 +58,8 @@ include 'session.php';
     </style>
   </head>
   <body>
+    <script type="module" src="globe.js"></script>
+
     <!-- Include the header -->
     <?php include 'header.php'; ?>
 
