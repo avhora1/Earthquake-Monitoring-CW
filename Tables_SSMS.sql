@@ -78,3 +78,8 @@ ADD CONSTRAINT FK_Artefacts_Pallets FOREIGN KEY (pallet_id) REFERENCES pallets (
 -- Add foreign key constraint to stock_list table
 ALTER TABLE stock_list
 ADD CONSTRAINT FK_StockList_Artefacts FOREIGN KEY (artifact_id) REFERENCES artefacts (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Adding the first name and surname to the registered users database
+ALTER TABLE registered_accounts
+ADD firstName VARCHAR(20)  NULL,
+    lastName VARCHAR(30) NULl;
