@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("DB connection error: ".print_r(sqlsrv_errors(), true));
     }
     $password = $_POST['password'] ?? '';
-    $sql = "SELECT id, username, password, account_type FROM registered_accounts WHERE username = ?";
+    $sql = "SELECT firstname, lastname, id, username, password, account_type FROM registered_accounts WHERE username = ?";
     $stmt = sqlsrv_query($conn, $sql, [$username]);
     if ($stmt === false) {
         die("Query error: ".print_r(sqlsrv_errors(), true));
@@ -26,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $row['password'])) {
             $_SESSION['account_loggedin'] = true;
             $_SESSION['account_id'] = $row['id'];
+            $_SESSION['firstname'] = $row['firstname'];
+            $_SESSION['lastname'] = $row['lastname'];
             $_SESSION['account_name'] = $row['username'];
             $_SESSION['account_type'] = $row['account_type'];
             header('Location: ../index.php');
