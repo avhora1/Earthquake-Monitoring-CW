@@ -44,6 +44,7 @@ CREATE TABLE artefacts (
     id INT IDENTITY(1,1) PRIMARY KEY,
     earthquake_id VARCHAR(50) NOT NULL,
     type NVARCHAR(50) NOT NULL,
+    description NVARCHAR(MAX) NOT NULL,
     time_stamp DATETIME NOT NULL,
     shelving_loc CHAR(1) NOT NULL,
     pallet_id INT NULL,
@@ -80,6 +81,6 @@ ALTER TABLE stock_list
 ADD CONSTRAINT FK_StockList_Artefacts FOREIGN KEY (artifact_id) REFERENCES artefacts (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Adding the first name and surname to the registered users database
-ALTER TABLE registered_accounts
-ADD firstName VARCHAR(20)  NULL,
-    lastName VARCHAR(30) NULl;
+-- ALTER TABLE registered_accounts
+-- ADD firstName VARCHAR(20)  NULL,
+--    lastName VARCHAR(30) NULl;

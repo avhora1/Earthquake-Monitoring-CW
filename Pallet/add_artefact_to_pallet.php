@@ -94,7 +94,16 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                     ?>
                 </select>
             </div>
-
+            <div class="mb-3">
+                 <label for="description" class="form-label">Description:</label>
+                    <textarea 
+                        id="description" 
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        required
+                        placeholder="Enter a description"></textarea>
+            </div>
             <button type="submit" class="btn btn-warning">Submit</button>
             <button type="button" class="btn btn-secondary" onclick="window.location.href='../index.php'">Back to Main Page</button>
         </form>
@@ -114,7 +123,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
         if (sqlsrv_has_rows($result)) {
             echo "<table class='table table-dark table-striped table-bordered table-hover'>";
             echo "<thead class='thead-dark'>";
-            echo "<tr><th>ID</th><th>Earthquake ID</th><th>Type</th><th>Timestamp</th><th>Shelving Location</th><th>Pallet ID</th><th>Required</th></tr>";
+            echo "<tr><th>ID</th><th>Earthquake ID</th><th>Type</th><th>Timestamp</th><th>Shelving Location</th><th>Pallet ID</th><th>Required</th><th>Description</th></tr>";
             echo "</thead><tbody>";
 
             while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
@@ -131,6 +140,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                 echo "<td>" . htmlspecialchars($row["shelving_loc"] ?? "N/A") . "</td>";
                 echo "<td>" . htmlspecialchars($row["pallet_id"] ?? "N/A") . "</td>";
                 echo "<td>" . htmlspecialchars($row["required"] ?? "N/A") . "</td>";
+                echo "<td>" . htmlspecialchars($row["description"] ?? "N/A") . "</td>";
                 echo "</tr>";
             }
             echo "</tbody></table>";
