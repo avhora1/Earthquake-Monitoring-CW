@@ -69,7 +69,7 @@ include 'session.php';
 
     <!-- Main content -->
 <main class="container mt-5">
-  <h1>Welcome<?= isset($_SESSION['account_name']) ? ', ' . htmlspecialchars($_SESSION['account_name']) : '' ?>!</h1>
+<h1>Welcome<?= isset($_SESSION['firstname']) ? ', ' . htmlspecialchars($_SESSION['firstname']) : '' ?>!</h1>
   <p>This is your main content area.</p>
 
 

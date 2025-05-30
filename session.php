@@ -23,9 +23,11 @@ if (isset($_SESSION['account_loggedin']) && $_SESSION['account_loggedin']) {
         ];
         $conn = sqlsrv_connect($serverName, $connectionOptions);
         if ($conn !== false && isset($_SESSION['account_id'])) {
-            $stmt = sqlsrv_query($conn, "SELECT account_type, username FROM registered_accounts WHERE id = ?", [$_SESSION['account_id']]);
+            $stmt = sqlsrv_query($conn, "SELECT firstname, lastname, account_type, username FROM registered_accounts WHERE id = ?", [$_SESSION['account_id']]);
             if ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                 $role = $row['account_type'] ?? 'guest';
+                $_SESSION['firstname'] = $row['firstname'];
+                $_SESSION['lastname'] = $row['lastname'];
                 $_SESSION['account_type'] = $role ? $role : 'guest';
                 $_SESSION['account_name'] = $row['username']; // in case it needs updating
             } else {

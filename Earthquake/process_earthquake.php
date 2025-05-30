@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $latitude = $_POST['latitude'] ?? '';
     $longitude = $_POST['longitude'] ?? '';
     $observatory_id = $_POST['observatory_id'] ?? '';
+    $user_id = $_SESSION['account_id'] ?? '';
 
     // 1. Country: non-empty, max 56 chars
     if ($country === "" || strlen($country) > 56 || is_numeric($country)) {
@@ -84,12 +85,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("The selected observatory does not exist.");
     }
     sqlsrv_free_stmt($check_stmt);
+    
+    //calculating and assembling the unique_id
+    //calculating the maximum country_id for the country
+     $id_sql = 'SELECT MAX(country_id) as max_id FROM earthquakes WHERE country = ?';
+     $id_stmt = sqlsrv_query($conn, $id_sql, [$country]);
+    //if query fails then die
+    if ($id_stmt == false) {
+        die ("Database error while checking observatory");
+    }
+    //fetch the country_id then append it to id and assign it to country_id
+    $id_row =  sqlsrv_fetch_array($id_stmt, SQLSRV_FETCH_ASSOC);
+    $country_id = ($id_row['max_id'] ?? 0) + 1;
+    // changing the id depending on the type
+    $id = '';
+    switch($type){
+        case 'collapse':
+            $id = 'EC-'.$magnitude.'-'.$country.'-'.str_pad($country_id, 5, '0', STR_PAD_LEFT);
+            break;
+        case 'tectonic':
+            $id = 'ET-'.$magnitude.'-'.$country.'-'.str_pad($country_id, 5, '0', STR_PAD_LEFT);
+            break;
+        case 'volcanic':
+            $id = 'EV-'.$magnitude.'-'.$country.'-'.str_pad($country_id, 5, '0', STR_PAD_LEFT);
+            break;
+        case 'explosion':
+            $id = 'EE-'.$magnitude.'-'.$country.'-'.str_pad($country_id, 5, '0', STR_PAD_LEFT);
+            break;
+    }
+    sqlsrv_free_stmt($id_stmt);
 
     // SQL query with placeholders because we want to do SQL prepared statements (they're safer from SQL injection attacks)
-    $sql = "INSERT INTO earthquakes (country, magnitude, type, date, time, latitude, longitude, observatory_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO earthquakes (id, country, country_id, magnitude, type, date, time, latitude, longitude, observatory_id, user_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $params = array($country, $magnitude, $type, $date, $time, $latitude, $longitude, $observatory_id);
+    $params = array($id, $country, $country_id, $magnitude, $type, $date, $time, $latitude, $longitude, $observatory_id, $user_id);
 
     $stmt = sqlsrv_query($conn, $sql, $params);
 

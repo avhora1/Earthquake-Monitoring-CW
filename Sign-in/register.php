@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     $conn = sqlsrv_connect($serverName, $connectionOptions);
     if ($conn === false) die(print_r(sqlsrv_errors(), true));
+    $firstname = trim($_POST['firstname'] ?? "");
+    $lastname = trim($_POST['lastname'] ?? "");
     $username = trim($_POST['username'] ?? "");
     $email = trim($_POST['email'] ?? "");
     $password = $_POST['password'] ?? "";
@@ -79,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$registration_error) {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $sql2 = "INSERT INTO registered_accounts (username, email, password, account_type) VALUES (?, ?, ?, ?)";
-        $params2 = [$username, $email, $hashed, $account_type];
+        $sql2 = "INSERT INTO registered_accounts (firstname, lastname, username, email, password, account_type) VALUES (?, ?, ?, ?, ?, ?)";
+        $params2 = [$firstname, $lastname, $username, $email, $hashed, $account_type];
         $stmt2 = sqlsrv_query($conn, $sql2, $params2);
         if ($stmt2 === false) {
             $registration_error = "Database error (save): " . print_r(sqlsrv_errors(), true);
@@ -127,6 +129,18 @@ input[type="password"]::-webkit-input-password-toggle-button {
         <?php elseif ($registration_success): ?>
             <div class="alert alert-success"><?= $registration_success ?></div>
         <?php endif; ?>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="firstname" name="firstname"
+                   value="<?= htmlspecialchars($_POST['firstname'] ?? "") ?>"
+                   placeholder="e.g. John" required>
+            <label for="username">First Name</label>
+        </div>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="lastname" name="lastname"
+                   value="<?= htmlspecialchars($_POST['lastname'] ?? "") ?>"
+                   placeholder="e.g. Smith" required>
+            <label for="username">Last Name</label>
+        </div>
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="username" name="username"
                    value="<?= htmlspecialchars($_POST['username'] ?? "") ?>"
