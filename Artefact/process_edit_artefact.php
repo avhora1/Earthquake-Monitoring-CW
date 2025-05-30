@@ -38,6 +38,9 @@ if ($stmt === false) {
     echo "<script>alert('Error updating artefact: $errors'); window.location.href='manage_artefacts.php';</script>";
     exit;
 }
+$sqlCapDec = "UPDATE shelves SET capacity = capacity - 1 WHERE shelf = ? AND capacity > 0";
+$params = array($shelving_loc);
+sqlsrv_query($conn, $sqlCapDec, $params);
 
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
