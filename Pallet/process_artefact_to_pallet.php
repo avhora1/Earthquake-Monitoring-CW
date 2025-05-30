@@ -8,13 +8,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pallet_id = $_POST['pallet_id'];
     $type = $_POST['type'];
     $shelving_loc = $_POST['shelving_loc'];
+    $description = $_POST['description'];
     $datetime_variable = new DateTime("now");
     $time_stamp = $datetime_variable->format('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO artefacts (earthquake_id, pallet_id, type, time_stamp, shelving_loc) 
-            VALUES (?, ?, ?, CONVERT(DATETIME, ?, 120), ?)"; // Need to explicitly convert otherwise SQL won't interpret correctly
+    $sql = "INSERT INTO artefacts (earthquake_id, pallet_id, type, time_stamp, shelving_loc, description) 
+            VALUES (?, ?, ?, CONVERT(DATETIME, ?, 120), ?, ?)"; // Need to explicitly convert otherwise SQL won't interpret correctly
 
-    $params = array($earthquake_id, $pallet_id, $type, $time_stamp, $shelving_loc);
+    $params = array($earthquake_id, $pallet_id, $type, $time_stamp, $shelving_loc, $description);
 
     $stmt = sqlsrv_query($conn, $sql, $params);
 
