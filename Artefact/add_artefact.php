@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+include '../connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                 <label for="earthquake_id" class="form-label">Earthquake:</label>
                 <select id="earthquake_id" name="earthquake_id" class="form-select" required>
                     <?php
-                    include '../connection.php';
+                    
                     $sql = "SELECT id, country, date FROM earthquakes";
                     $result = sqlsrv_query($conn, $sql);
 
@@ -67,8 +68,6 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                     } else {
                         echo "<option value=''>No earthquakes found</option>";
                     }
-
-                    sqlsrv_close($conn);
                     ?>
                 </select>
             </div>
@@ -87,13 +86,31 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
                 <label for="shelving_loc" class="form-label">Shelving Location:</label>
                 <select id="shelving_loc" name="shelving_loc" class="form-select" required>
                     <?php
-                    foreach (range('A', 'L') as $char) {
-                        echo "<option value='$char'>$char</option>";
+                    $sqlOrder = "SELECT shelf FROM shelves WHERE capacity > 0 ORDER BY shelf ASC";
+                    $stmtOrder = sqlsrv_query($conn, $sqlOrder);
+
+                    if(!$stmtOrder){
+                        echo "<option disabled>Error fetching shelves</option>";
+                    } else{
+                        while($row = sqlsrv_fetch_array($stmtOrder, SQLSRV_FETCH_ASSOC)){
+                            $shelf = htmlspecialchars($row["shelf"]);
+                            echo "<option value='$shelf'>$shelf</option>";
+                        }
                     }
+                    sqlsrv_close($conn);
                     ?>
                 </select>
             </div>
-
+            <div class="mb-3">
+                 <label for="description" class="form-label">Description:</label>
+                    <textarea 
+                        id="description" 
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        required
+                        placeholder="Enter a description"></textarea>
+            </div>
             <button type="submit" class="btn btn-warning">Submit</button>
             <button type="button" class="btn btn-secondary" onclick="window.location.href='../index.php'">Back to Main Page</button>
         </form>
