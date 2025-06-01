@@ -22,6 +22,7 @@ sqlsrv_close($conn);
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <title>Manage Observatories | Quake</title>
     <link rel="stylesheet" href="../assets/css/quake.css">
     <?php include '../headerNew.php'?>
 </head>
@@ -73,9 +74,10 @@ sqlsrv_close($conn);
                         <td><?php echo htmlspecialchars($obs['latitude']); ?></td>
                         <td><?php echo htmlspecialchars($obs['longitude']); ?></td>
                         <td>
-                            <button type="button" class="delete-btn" data-table-delete disabled>
-                                <img src="/assets/delete.svg" alt="Del" style="width:16px;height:16px;">
-                            </button>
+                        <form action="process_delete_observatory.php" method="POST" style="margin:0;">
+                            <input type="hidden" name="id" value="<?=$obs['id']?>">
+                            <button type="submit" class="delete-btn" title="Delete"><img src="/assets/icons/rubbish.svg" alt="Delete" style="height:1.1em;vertical-align:middle;margin:0;padding:0;"></button>
+                        </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -97,27 +99,23 @@ sqlsrv_close($conn);
             <!-- Add Observatory Form Panel -->
             <div class="side-panel add-panel">
                 <h3>Add Observatory</h3>
-                <form class="form-inline" method="POST" action="add_observatory.php">
+                <form class="form-inline" method="POST" action="process_form.php">
                     <div>
                         <label for="name">Name</label>
                         <input name="name" id="name" type="text" required autocomplete="off">
                     </div>
-                    <div>
-                        <label for="date">Est. Date</label>
-                        <input name="date" id="date" type="text" placeholder="YY.MM.DD" required autocomplete="off">
+                    <div class="q-field"><label for="date">Est. Date</label>
+                        <input type="date" name="est_date" id="est_date" pattern="\d{2}/\d{2}/\d{4}" placeholder="dd/mm/yyyy" required>
                     </div>
-                    <div>
-                        <label for="lat">Latitude ≤|90|</label>
-                        <input name="lat" id="lat" type="number" step="any" min="-90" max="90" required>
+                    <div class="q-field"><label for="latitude">Latitude ≤|90|</label>
+                        <input type="number" name="latitude" id="latitude" step="0.0001" min="-90" max="90">
                     </div>
-                    <div>
-                        <label for="lng">Longitude ≤|90|</label>
-                        <input name="lng" id="lng" type="number" step="any" min="-90" max="90" required>
+                    <div class="q-field"><label for="longitude">Longitude ≤|180|</label>
+                        <input type="number" name="longitude" id="longitude" step="0.0001" min="-180" max="180">
                     </div>
-                    <div class="pallet-btns" style="justify-content:flex-start;margin-top:18px;">
+                    <div class="input-group">
                         <button type="submit" class="add-btn">Add</button>
-                        <button type="reset" title="Clear" class="delete-btn" style="padding:8px 18px;"><img src="/assets/delete.svg" alt="" style="width:19px;height:19px;filter:none;"></button>
-                    </div>
+                        <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>
                 </form>
             </div>
         </div>
@@ -133,5 +131,36 @@ sqlsrv_close($conn);
         });
     });
     </script>
+<div id="delete-modal" class="q-modal-backdrop" style="display:none">
+  <div class="q-modal">
+    <h3>Confirm Delete</h3>
+    <p style="font-size:1.12em; color:#fff; margin:18px 0 30px 0;">Are you sure you want to delete this observatory?</p>
+    <div class="q-modal-actions">
+      <button type="button" class="add-btn" id="cancel-delete">Cancel</button>
+      <button type="button" class="delete-btn" id="confirm-delete">Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+let formToDelete = null;
+
+// Intercept submit for all delete artefact forms
+document.querySelectorAll('form[action="process_delete_observatory.php"]').forEach(function(form){
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    formToDelete = form;
+    document.getElementById('delete-modal').style.display = 'flex';
+  });
+});
+document.getElementById('cancel-delete').onclick = function() {
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+document.getElementById('confirm-delete').onclick = function() {
+  if(formToDelete) formToDelete.submit();
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+</script>
 </body>
 </html>

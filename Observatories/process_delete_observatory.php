@@ -10,6 +10,6 @@ delete_observatory($conn, $id);
 
 sqlsrv_close($conn);
 
-header("Location: manage_observatories.php?deleted=1");
+header("Location: manage_observatoriesNew.php");
 exit;
 ?>
