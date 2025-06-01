@@ -23,6 +23,6 @@ if ($stmt2 === false) {
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
 
-header("Location: manage_artefacts.php?deleted=1");
+header("Location: manage_artefactsNew.php");
 exit;
 ?>

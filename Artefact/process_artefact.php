@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     sqlsrv_free_stmt($stmt);
     sqlsrv_close($conn);
 
-    header("Location: add_artefact.php");
+    header("Location: manage_artefactsNew.php");
     exit();
 }
 ?>

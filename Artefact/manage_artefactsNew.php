@@ -115,7 +115,7 @@ sqlsrv_close($conn);
     <!-- ADD PANEL -->
     <div class="glass-panel add-panel">
         <h3>Add Artifact</h3>
-        <form method="POST" action="process_add_artefact.php">
+        <form method="POST" action="process_artefact.php">
             <label>Earthquake
                 <select name="earthquake_id" required>
                     <option value="">Select...</option>
@@ -144,13 +144,6 @@ sqlsrv_close($conn);
                 <textarea name="description" maxlength="255"></textarea>
             </label>
             <div class="input-group">
-                <label for="add_shop_switch">Add to shop</label>
-                <label class="switch">
-                    <input name="required" type="checkbox" id="add_shop_switch" value="Yes">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <div class="input-group">
                 <button type="submit" class="add-btn">Add</button>
                 <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>
             </div>
@@ -158,5 +151,36 @@ sqlsrv_close($conn);
     </div>
 </div>
 <div class="stat-box"><strong><?=number_format($quake_count)?></strong> <span>Earthquakes Logged</span></div>
+<div id="delete-modal" class="q-modal-backdrop" style="display:none">
+  <div class="q-modal">
+    <h3>Confirm Delete</h3>
+    <p style="font-size:1.12em; color:#fff; margin:18px 0 30px 0;">Are you sure you want to delete this artefact?</p>
+    <div class="q-modal-actions">
+      <button type="button" class="add-btn" id="cancel-delete">Cancel</button>
+      <button type="button" class="delete-btn" id="confirm-delete">Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+let formToDelete = null;
+
+// Intercept submit for all delete artefact forms
+document.querySelectorAll('form[action="process_delete_artefact.php"]').forEach(function(form){
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    formToDelete = form;
+    document.getElementById('delete-modal').style.display = 'flex';
+  });
+});
+document.getElementById('cancel-delete').onclick = function() {
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+document.getElementById('confirm-delete').onclick = function() {
+  if(formToDelete) formToDelete.submit();
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+</script>
 </body>
 </html>

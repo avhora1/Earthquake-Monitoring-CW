@@ -508,3 +508,72 @@ tbody td {
     font-size: 1em;
     color: #fff;
 }
+
+.q-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(11, 14, 34, 0.55);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.q-modal {
+    background: linear-gradient(113deg, rgba(44, 48, 69, .98), rgba(21, 23, 38, .98) 90%);
+    border-radius: 22px;
+    box-shadow: 0 4px 46px #181e3380;
+    padding: 36px 32px 28px 32px;
+    max-width: 350px;
+    min-width: 260px;
+    font-family: Urbanist, Arial, sans-serif;
+    text-align: center;
+    border: 1.5px solid #181a2b;
+}
+
+.q-modal h3 {
+    font-size: 1.5em;
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 12px 0;
+    letter-spacing: .01em;
+}
+
+.q-modal-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+}
+
+.q-modal .add-btn {
+    background: linear-gradient(90deg, #ff9100, #ffbe3d 80%);
+    color: #161616;
+    font-weight: 800;
+    font-size: 1.07em;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 41px;
+    min-width: 90px;
+}
+
+.q-modal .delete-btn {
+    background: radial-gradient(ellipse at 67% 25%, #ff4a4a 62%, #fc5d1f 120%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 28px;
+    font-size: 1.07em;
+    font-weight: 700;
+    min-width: 90px;
+}
+
+.q-modal .delete-btn:hover {
+    background: radial-gradient(ellipse at 67% 25%, #fd2b2b 62%, #fc5d1f 140%);
+}
+
+.q-modal .add-btn:hover {
+    background: linear-gradient(100deg, #fdc352 63%, #ffad2f 130%);
+}
