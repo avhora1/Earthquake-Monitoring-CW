@@ -17,10 +17,10 @@
         background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
         backdrop-filter: blur(1vh);
         border-radius: 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.09);
+        box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
         min-height: 80vh;
         transform: translateY(5vh);
-        box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
-        border: 2px solid rgba(255, 255, 255, 0.09);
     }
 
     #globe-canvas-container {
@@ -42,8 +42,7 @@
 
     #quake-hover-card {
         position: absolute;
-        width: 180px;
-        height: 80px;
+        min-width: 250px;
         background: #fff;
         border-radius: 10px;
         z-index: 9999;
@@ -51,11 +50,50 @@
         top: 0;
         display: none;
         pointer-events: none;
+        background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
+        backdrop-filter: blur(1vh);
+        border-radius: 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.09);
+        box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
+        color: #fff;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     #quake-hover-card.active {
-        opacity: 1;
         display: block;
+    }
+
+    #quake-hover-card .quake-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    #quake-location {
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1.09;
+        white-space: nowrap;
+    }
+
+    #quake-mag {
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 2.05rem;
+        font-weight: 100;
+        margin-left: 100px;
+    }
+
+    #quake-date {
+        font-family: 'Roboto', Arial, sans-serif;
+        text-align: right;
+        font-size: 2rem;
+        font-weight: 100;
+        color: #f1f3fc;
+        letter-spacing: 0.01em;
     }
     </style>
 
@@ -83,15 +121,18 @@
             <div class="col-8" id="globe-col">
                 <div id="globe-canvas-container">
                     <div id="quake-hover-card">
-                        <div id="quake-location" style="font-weight:bold;font-size:1.07em"></div>
-                        <div id="quake-mag"></div>
+                        <div class="quake-row">
+                            <div id="quake-location"></div>
+                            <div id="quake-mag"></div>
+                        </div>
                         <div id="quake-date"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+
     <script type="module">
     import * as THREE from 'three';
     import {
@@ -132,6 +173,7 @@
         specular: new THREE.Color('rgb(45,85,130)')
     });
     const globe = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    globe.rotation.y = Math.PI / -2; // quarter turn right (adjust to taste)
     scene.add(globe);
 
     // Earthquake markers
@@ -190,7 +232,7 @@
 
     function createEarthquakeMarker(lat, lon, size) {
         const phi = (90 - lat) * Math.PI / 180;
-        const theta = (lon + 180) * Math.PI / 180;
+        const theta = ((lon + 180) * Math.PI / 180) + (globe.rotation.y = Math.PI / -2);
         const radius = 1.515;
         const x = -radius * Math.sin(phi) * Math.cos(theta);
         const y = radius * Math.cos(phi);
@@ -246,7 +288,7 @@
 
                 // UPDATE BOX TEXT HERE:
                 locDiv.textContent = `${m.userData.city}, ${m.userData.country}`;
-                magDiv.textContent = `Magnitude: ${m.userData.mag}`;
+                magDiv.textContent = `${m.userData.mag}`;
                 dateDiv.textContent = `${m.userData.date}`;
 
                 card.classList.add('active');
