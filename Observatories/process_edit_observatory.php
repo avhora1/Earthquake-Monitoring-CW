@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include '../queryLibrary.php';
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $name = $_POST['name'] ?? '';
@@ -13,10 +14,7 @@ if ($id === 0 || !$name || !$est_date || $latitude === '' || $longitude === '') 
     exit;
 }
 
-$sql = "UPDATE observatories SET name=?, est_date=?, latitude=?, longitude=? WHERE id=?";
-$params = [$name, $est_date, $latitude, $longitude, $id];
-
-$stmt = sqlsrv_query($conn, $sql, $params);
+$stmt = edit_observatory($conn, $name, $est_date, $latitude, $longitude, $id);
 
 if ($stmt === false) {
     $errors = json_encode(print_r(sqlsrv_errors(), true));

@@ -262,8 +262,10 @@
         sqlsrv_query($conn, $sql2, $params);
     }
     //Editing Observatories
-    function edit_observatory($conn){
-        //do later do earthquakes now
+    function edit_observatory($conn, $name, $est_date, $latitude, $longitude, $id){ 
+        $sql = "UPDATE observatories SET name=?, est_date=?, latitude=?, longitude=? WHERE id=?";
+        $params = [$name, $est_date, $latitude, $longitude, $id];
+        return sqlsrv_query($conn, $sql, $params);
     }
     //adding earthquakes
     function add_earthquake($conn, $type, $magnitude, $country, $date, $time, $latitude, $longitude, $observatory_id, $user_id) {
@@ -349,7 +351,87 @@
         return true;
     }
     //Editing earthquakes
-    function edit_earthquakes($conn){
-        
+    function edit_earthquake($conn, $id, $country, $magnitude, $type, $date, $time, $latitude, $longitude, $observatory_id) {
+        // 1. Fetch the old values
+        $sql = "SELECT * FROM earthquakes WHERE id = ?";
+        $stmt = sqlsrv_query($conn, $sql, [$id]);
+        if ($stmt === false) {
+            return false;  // Query failed!
+        }
+        $old = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+        sqlsrv_free_stmt($stmt);
+    
+        if(!$old) return false; // No row found
+    
+        // 2. See if we need to regenerate
+        $regen_id = false;
+        if (
+            $country != $old['country'] ||
+            $magnitude != $old['magnitude'] ||
+            $type != $old['type']
+        ) {
+            $regen_id = true;
+        }
+    
+        $new_id = $id;
+        $country_id = $old['country_id'];
+    
+        if ($regen_id) {
+            // Recompute country_id if country changed
+            if ($country != $old['country']) {
+                $max_sql = "SELECT MAX(country_id) as max_id FROM earthquakes WHERE country = ?";
+                $max_stmt = sqlsrv_query($conn, $max_sql, [$country]);
+                if ($max_stmt === false) return false;
+                $max_row = sqlsrv_fetch_array($max_stmt, SQLSRV_FETCH_ASSOC);
+                $country_id = ($max_row['max_id'] ?? 0) + 1;
+                sqlsrv_free_stmt($max_stmt);
+            }
+            // Regenerate the earthquake ID
+            $type_map = [
+                'collapse'  => 'EC',
+                'tectonic'  => 'ET',
+                'volcanic'  => 'EV',
+                'explosion' => 'EE'
+            ];
+            $prefix = isset($type_map[strtolower($type)]) ? $type_map[strtolower($type)] : 'EQ';
+            $new_id = $prefix . '-' . $magnitude . '-' . $country . '-' . str_pad($country_id, 5, '0', STR_PAD_LEFT);
+    
+            // Update artefacts that point to the old earthquake id
+            $sql_update_artefacts = "UPDATE artefacts SET earthquake_id = ? WHERE earthquake_id = ?";
+            sqlsrv_query($conn, $sql_update_artefacts, [$new_id, $id]);
+        }
+    
+        // 3. Update the earthquake record
+        $sql_update = "UPDATE earthquakes SET
+            id = ?,
+            country = ?,
+            country_id = ?,
+            magnitude = ?,
+            type = ?,
+            date = ?,
+            time = ?,
+            latitude = ?,
+            longitude = ?,
+            observatory_id = ?
+            WHERE id = ?";
+        $params_update = [
+            $new_id,
+            $country,
+            $country_id,
+            $magnitude,
+            $type,
+            $date,
+            $time,
+            $latitude,
+            $longitude,
+            $observatory_id,
+            $id
+        ];
+        $update_stmt = sqlsrv_query($conn, $sql_update, $params_update);
+    
+        if ($update_stmt === false) {
+            return false;
+        }
+        return $update_stmt;
     }
 ?>
