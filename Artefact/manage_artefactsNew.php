@@ -33,13 +33,12 @@ sqlsrv_close($conn);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../headerNew.php';?>
     <meta charset="UTF-8">
     <title>Manage Artifacts | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,600,400|Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/quake.css">
+    <?php include '../headerNew.php';?>
 </head>
 <body>
 

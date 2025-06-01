@@ -36,7 +36,6 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
     <title>Quake</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/quake.css">
     <style>
     body {
         margin: 0;
