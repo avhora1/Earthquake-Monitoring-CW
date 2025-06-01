@@ -14,10 +14,10 @@
         return sqlsrv_query($conn, $sql, $params);
     }
     //Adding an artefact into the database
-    function add_new_artefact($conn, $earthquake_id, $type, $shelving_loc, $datetime_variable, $time_stamp, $description){
-        $sql = "INSERT INTO artefacts (earthquake_id, type, time_stamp, shelving_loc, description) 
-            VALUES (?, ?, CONVERT(DATETIME, ?, 120), ?, ?);"; // Need to explicitly convert the datetime so SQL can interpret the generated time stamp, doesn't work otherwise
-        $params = array($earthquake_id, $type, $time_stamp, $shelving_loc, $description);
+    function add_new_artefact($conn, $earthquake_id, $type, $shelving_loc, $datetime_variable, $time_stamp, $description, $pallet_id = null){
+        $sql = "INSERT INTO artefacts (earthquake_id, type, time_stamp, shelving_loc, description, pallet_id) 
+            VALUES (?, ?, CONVERT(DATETIME, ?, 120), ?, ?, ?);"; // Need to explicitly convert the datetime so SQL can interpret the generated time stamp, doesn't work otherwise
+        $params = array($earthquake_id, $type, $time_stamp, $shelving_loc, $description, $pallet_id);
         decrement_shelf_capacity($conn, $shelving_loc);
         return sqlsrv_query($conn, $sql, $params);
     }
