@@ -233,5 +233,3 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
             </div>
         </div>
     </header>
-    <div style="height: 8vh"></div>
-    <!-- Page content... -->
