@@ -81,6 +81,7 @@ body {
 
 .glass-box {
     background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.09);
     backdrop-filter: blur(1vh);
     border-radius: 1rem;
     min-height: 80vh;
@@ -130,7 +131,7 @@ body {
     transition: border-color 0.2s;
 }
 
-.glass-box input {
+.glass-box input:hover {
     border-bottom: 2px solid #ff9100;
     background: none;
 }

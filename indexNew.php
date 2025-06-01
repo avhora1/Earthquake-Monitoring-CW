@@ -43,6 +43,8 @@ body {
     min-height: 33vh;
     top: 20vh;
     box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
+    border: 2px solid rgba(255, 255, 255, 0.09);
+
 }
 
 .glass-box h1 {

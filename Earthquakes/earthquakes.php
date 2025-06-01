@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Earthquakes</title>
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -19,7 +19,16 @@ body {
 </style>
 
 <body>
-    sdjhfukasdhfjkfh
+
+    <div class="container-fluid">
+        <div class="row justify-content-start align-items-center" style="min-height: 92vh;">
+            <div class="col-1"></div>
+            <div class="col-4">
+                <div class="glass-box">
+
+                </div>
+            </div>
+
 </body>
 
 </html>
