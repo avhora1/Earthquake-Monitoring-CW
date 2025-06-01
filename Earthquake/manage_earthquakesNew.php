@@ -31,12 +31,12 @@ sqlsrv_close($conn);
 <html lang="en">
 <head>
     <?php include '../headerNew.php';?>
+    <link rel="stylesheet" href="../assets/css/quake.css">
     <meta charset="UTF-8">
     <title>Manage Earthquakes | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Urbanist:700,600,400|Roboto:400,500,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/quake.css">
 </head>
 <body>
 
@@ -105,54 +105,52 @@ sqlsrv_close($conn);
         </table>
     </div>
     <!-- SIDE PANELS -->
-    <div class="side-panels">
-        <div class="side-panel">
-            <h3 style="margin-bottom:18px;">Add Pallet</h3>
-            <div class="pallet-btns">
-                <button class="pallet-btn-half" onclick="location.href='add_pallet.php?type=half'">Half</button>
-                <button class="pallet-btn-full" onclick="location.href='add_pallet.php?type=full'">Full</button>
-            </div>
+    <div class="side-panel add-earthquake">
+    <h1>Add Earthquake</h1>
+    <form method="POST" action="process_earthquake.php" autocomplete="off">
+        <div class="q-field"><label for="country">Country</label>
+            <input type="text" name="country" id="country" required autocomplete="off">
         </div>
-        <div class="side-panel add-panel">
-            <h3>Add Artifact</h3>
-            <form method="POST" action="process_add_artefact.php">
-                <label>Earthquake
-                    <select name="earthquake_id" required>
-                        <option value="">Select...</option>
-                        <?php foreach ($all_earthquakes_list as $eq_row) {
-                            $eq_id = $eq_row['id'];
-                            $eq_country = htmlspecialchars($eq_row['country']);
-                            $eq_date = ($eq_row['date'] instanceof DateTime) ? $eq_row['date']->format('d.m.y') : $eq_row['date'];
-                            echo "<option value='$eq_id'>{$eq_country} - {$eq_date}</option>";
-                        } ?>
-                    </select>
-                </label>
-                <label>Type
-                    <select name="type" required>
-                        <option value="">Pick type</option>
-                        <option value="solidified lava">Solidified Lava</option>
-                        <option value="foreign debris">Foreign Debris</option>
-                        <option value="ash sample">Ash Sample</option>
-                        <option value="ground soil">Ground Soil</option>
-                    </select>
-                </label>
-                <label>Shelf
-                    <select name="shelving_loc" required>
-                        <?php foreach (range('A', 'L') as $char) {
-                            echo "<option value='$char'>$char</option>";
-                        } ?>
-                    </select>
-                </label>
-                <label>Description
-                    <textarea name="description" maxlength="255"></textarea>
-                </label>
-                <div class="input-group">
-                    <button type="submit" class="add-btn">Add</button>
-                    <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>
-                </div>
-            </form>
+        <div class="q-field"><label for="magnitude">Magnitude</label>
+            <input type="number" name="magnitude" id="magnitude" step="0.1" min="0.1" max="10" required>
         </div>
-    </div>
+        <div class="q-field"><label for="type">Type</label>
+            <select name="type" id="type" required>
+                <option value="">Select type...</option>
+                <option value="tectonic">Tectonic</option>
+                <option value="volcanic">Volcanic</option>
+                <option value="collapse">Collapse</option>
+                <option value="explosion">Explosion</option>
+            </select>
+        </div>
+        <div class="q-field"><label for="date">Date dd/mm/yyyy</label>
+            <input type="date" name="date" id="date" pattern="\d{2}/\d{2}/\d{4}" placeholder="dd/mm/yyyy" required>
+        </div>
+        <div class="q-field"><label for="time">Time --:--</label>
+            <input type="time" name="time" id="time" pattern="\d{2}:\d{2}" placeholder="hh:mm" required>
+        </div>
+        <div class="q-field"><label for="latitude">Latitude ≤|90|</label>
+            <input type="number" name="latitude" id="latitude" step="0.0001" min="-90" max="90">
+        </div>
+        <div class="q-field"><label for="longitude">Longitude ≤|180|</label>
+            <input type="number" name="longitude" id="longitude" step="0.0001" min="-180" max="180">
+        </div>
+        <div class="q-field"><label for="observatory_id">Observatory</label>
+            <select name="observatory_id" id="observatory_id" required>
+                <option value="">Select...</option>
+                <?php foreach ($observatories as $obs_id=>$obs_name): ?>
+                    <option value="<?=$obs_id?>"><?=htmlspecialchars($obs_name)?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="input-group">
+            <button type="submit" class="add-btn" style="min-width:90px;">Add</button>
+            <button type="reset" class="delete-btn" title="Clear">
+                <img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.6em;">
+            </button>
+        </div>
+    </form>
+</div>
 </div>
 </body>
 </html>

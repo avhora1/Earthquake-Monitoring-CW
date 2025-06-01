@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     sqlsrv_close($conn);
 
-    header("Location: add_earthquake.php");
+    header("Location: manage_earthquakesNew.php");
     exit();
 }
 ?>

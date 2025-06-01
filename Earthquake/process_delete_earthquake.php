@@ -9,5 +9,5 @@ $stmt = delete_earthquake($conn, $id);
 
 
 // Success
-header("Location: manage_earthquakes.php?deleted=1");
+header("Location: manage_earthquakesNew.php");
 exit;
