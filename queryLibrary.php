@@ -495,5 +495,31 @@
         sqlsrv_free_stmt($stmt);
         return $rows;
     }
-
+    //geocoding data from latitude and longitude
+    function getCountryAndCityFromLatLon($lat, $lon) {
+        // Nominatim API URL
+        $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" .
+            urlencode($lat) . "&lon=" . urlencode($lon) . "&zoom=10&addressdetails=1"; // zoom=10 for city level
+        // Set a user agent header to comply with API requirements
+        $opts = [
+            "http" => [
+                "header" => "User-Agent: PHP Demo - your_email@example.com\r\n"
+            ]
+        ];
+        $context = stream_context_create($opts);
+        // Fetch and decode result
+        $json = @file_get_contents($url, false, $context);
+        if($json === FALSE) {
+            return null;
+        }
+        $data = json_decode($json, true);
+    
+        $address = $data['address'] ?? [];
+    
+        // Try to get city, fallbacks for town or village
+        $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? null;
+        $country = $address['country'] ?? null;
+    
+        return ['country' => $country, 'city' => $city];
+    }
 ?>
