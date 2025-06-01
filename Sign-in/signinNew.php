@@ -83,7 +83,7 @@ body {
     background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
     border: 2px solid rgba(255, 255, 255, 0.09);
     backdrop-filter: blur(1vh);
-    border-radius: 1rem;
+    border-radius: 2rem;
     min-height: 80vh;
     top: 20vh;
     box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);

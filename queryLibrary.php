@@ -434,4 +434,66 @@
         }
         return $update_stmt;
     }
+    
+    //Filtering earthquakes and observatories.
+    function filter_earthquakes($conn, $min_year = null, $max_year = null, $min_magnitude = null, $max_magnitude = null, $types = [], $observatories = [], $countries = []) {
+        $conditions = [];
+        $params = [];
+        
+        // Year (assumes 'date' is in YYYY-MM-DD or similar format)
+        if ($min_year !== null) {
+            $conditions[] = "YEAR(date) >= ?";
+            $params[] = $min_year;
+        }
+        if ($max_year !== null) {
+            $conditions[] = "YEAR(date) <= ?";
+            $params[] = $max_year;
+        }
+        
+        // Magnitude
+        if ($min_magnitude !== null) {
+            $conditions[] = "magnitude >= ?";
+            $params[] = $min_magnitude;
+        }
+        if ($max_magnitude !== null) {
+            $conditions[] = "magnitude <= ?";
+            $params[] = $max_magnitude;
+        }
+    
+        // Types (IN clause)
+        if (!empty($types)) {
+            $placeholders = implode(',', array_fill(0, count($types), '?'));
+            $conditions[] = "type IN ($placeholders)";
+            $params = array_merge($params, $types);
+        }
+        // Observatories (IN clause)
+        if (!empty($observatories)) {
+            $placeholders = implode(',', array_fill(0, count($observatories), '?'));
+            $conditions[] = "observatory_id IN ($placeholders)";
+            $params = array_merge($params, $observatories);
+        }
+        // Countries (IN clause)
+        if (!empty($countries)) {
+            $placeholders = implode(',', array_fill(0, count($countries), '?'));
+            $conditions[] = "country IN ($placeholders)";
+            $params = array_merge($params, $countries);
+        }
+    
+        $where = '';
+        if (count($conditions) > 0) {
+            $where = ' WHERE ' . implode(' AND ', $conditions);
+        }
+        $sql = "SELECT * FROM earthquakes$where;";
+        $stmt = sqlsrv_query($conn, $sql, $params);
+        if ($stmt === false) {
+            return false;
+        }
+        $rows = [];
+        while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+            $rows[] = $row;
+        }
+        sqlsrv_free_stmt($stmt);
+        return $rows;
+    }
+
 ?>

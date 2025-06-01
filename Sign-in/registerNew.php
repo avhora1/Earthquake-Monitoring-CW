@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         backdrop-filter: blur(1.2vh);
         -webkit-backdrop-filter: blur(1.2vh);
         border: 2px solid rgba(255, 255, 255, 0.09);
-        border-radius: 1rem;
+        border-radius: 2rem;
         min-height: 80vh;
         transform: translateY(3vh);
         box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
