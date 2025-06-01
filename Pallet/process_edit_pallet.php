@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include '../queryLibrary.php';
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $pallet_size = $_POST['pallet_size'] ?? '';
@@ -10,10 +11,9 @@ if ($id === 0 || !$pallet_size) {
     exit;
 }
 
-$sql = "UPDATE pallets SET pallet_size = ? WHERE id = ?";
-$params = [$pallet_size, $id];
 
-$stmt = sqlsrv_query($conn, $sql, $params);
+
+$stmt = update_pallet($conn, $id, $pallet_size);
 
 if ($stmt === false) {
     $errors = json_encode(print_r(sqlsrv_errors(), true));

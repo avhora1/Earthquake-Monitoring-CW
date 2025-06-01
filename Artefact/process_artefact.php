@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+require_once '../queryLibrary.php';
 
 date_default_timezone_set('Europe/London');
 
@@ -12,13 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time_stamp = $datetime_variable->format('Y-m-d H:i:s');
     $description = $_POST['description'] ?? '';
 
-    // SQL query with placeholders because we want to do SQL prepared statements (they're safer from SQL injection attacks)
-    $sql = "INSERT INTO artefacts (earthquake_id, type, time_stamp, shelving_loc, description) 
-            VALUES (?, ?, CONVERT(DATETIME, ?, 120), ?, ?)"; // Need to explicitly convert the datetime so SQL can interpret the generated time stamp, doesn't work otherwise
-
-    $params = array($earthquake_id, $type, $time_stamp, $shelving_loc, $description);
-
-    $stmt = sqlsrv_query($conn, $sql, $params);
+    //calling function to add artefacts
+    $stmt = add_new_artefact($conn, $earthquake_id, $type, $shelving_loc, $datetime_variable, $time_stamp, $description);
 
     if ($stmt === false) {
         // Print error to see why query failed (to fix it)
@@ -27,13 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "New artefact record created successfully";
     }
 
-    //decreasing the capacity by one. 
-    $sqlCapDec = "UPDATE shelves SET capacity = capacity - 1 WHERE shelf = ? AND capacity > 0";
-    $params = array($shelving_loc);
-    sqlsrv_query($conn, $sqlCapDec, $params);
-
+   
     sqlsrv_free_stmt($stmt);
-
     sqlsrv_close($conn);
 
     header("Location: add_artefact.php");
