@@ -12,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $datetime_variable = new DateTime("now");
     $time_stamp = $datetime_variable->format('Y-m-d H:i:s');
     $description = $_POST['description'] ?? '';
-
+    $pallet_id = $_POST['pallet_id'] ?? '';
     //calling function to add artefacts
-    $stmt = add_new_artefact($conn, $earthquake_id, $type, $shelving_loc, $datetime_variable, $time_stamp, $description);
+    $stmt = add_new_artefact($conn, $earthquake_id, $type, $shelving_loc, $datetime_variable, $time_stamp, $description, $pallet_id);
 
     if ($stmt === false) {
         // Print error to see why query failed (to fix it)
