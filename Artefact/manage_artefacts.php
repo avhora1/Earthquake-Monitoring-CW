@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
             $shelving_loc = $row["shelving_loc"] ?? "";
             $pallet_id = $row["pallet_id"] ?? "N/A";
             $required = $row["required"] ?? "";
+            $description = $row["description"] ?? "";
 
             // Table row
             echo "<tr>
@@ -257,6 +258,16 @@ document.addEventListener('DOMContentLoaded', function () {
                                   <option value="No" <?php if($required=="No") echo "selected"; ?>>No</option>
                               </select>
                           </span>
+                      </div>
+                      <div class="mb-3">
+                      <label for="description" class="form-label">Description:</label>
+                      <textarea 
+                        id="description" 
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        required
+                        placeholder="Enter a description"><?php if($description) echo $description?></textarea>
                       </div>
                     </div>
                     <div class="modal-footer">
