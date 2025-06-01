@@ -151,6 +151,172 @@
         font-weight: 200;
     }
 
+    .switch-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        color: #fff;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 38px;
+        height: 20px;
+        margin-left: 8px;
+        margin-right: 4px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .switch .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, #ff9100, #ffbe3d 71%);
+        border-radius: 20px;
+        transition: background .23s;
+    }
+
+    .switch input:not(:checked)+.slider {
+        background: #222;
+    }
+
+    .switch .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform .23s cubic-bezier(.8, -0.1, .8, 1.2), background .13s;
+    }
+
+    .switch input:checked+.slider:before {
+        transform: translateX(18px);
+        background: #fff;
+    }
+
+    .switch input:not(:checked)+.slider:before {
+        transform: translateX(0);
+    }
+
+    .obs-dropdown-container {
+        position: relative;
+        margin-top: 18px;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .obs-dropdown-selected {
+        background: #fff;
+        border-radius: 12px;
+        border: 2px solid #e4e6f1;
+        box-shadow: 0 3px 16px #0001;
+        padding: 14px 20px 14px 20px;
+        font-size: 1.35rem;
+        color: #21222a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: border .16s;
+    }
+
+    .obs-dropdown-selected:focus,
+    .obs-dropdown-selected.active {
+        border: 2.5px solid #ff9100;
+    }
+
+    .obs-dropdown-arrow {
+        font-size: 1.52rem;
+        color: #222;
+        transition: transform .18s;
+    }
+
+    .obs-dropdown-selected.active .obs-dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .obs-dropdown-list {
+        background: #fff;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 110%;
+        border-radius: 12px;
+        box-shadow: 0 6px 32px #0003;
+        border: 2px solid #e4e6f1;
+        padding: 13px 14px 14px 14px;
+        max-height: 235px;
+        overflow-y: auto;
+        z-index: 99999;
+        display: none;
+    }
+
+    .obs-dropdown-list.active {
+        display: block;
+    }
+
+    .obs-search {
+        width: 97%;
+        font-size: 1.12em;
+        padding: 8px 10px;
+        border-radius: 7px;
+        border: 1.5px solid #d6d1f9;
+        margin-bottom: 11px;
+        outline: none;
+    }
+
+    .obs-options {
+        max-height: 180px;
+        overflow-y: auto;
+    }
+
+    .obs-option-row {
+        display: flex;
+        align-items: center;
+        font-size: 1.12em;
+        min-height: 32px;
+        margin-bottom: 1px;
+        padding: 5px 2px 4px 0;
+    }
+
+    .obs-option-checkbox {
+        appearance: none;
+        border-radius: 5px;
+        margin-right: 11px;
+        width: 17px;
+        height: 17px;
+        border: 2.2px solid #ccc;
+        outline: none;
+        background: #f7f7fc;
+        transition: border .18s;
+        cursor: pointer;
+    }
+
+    .obs-option-checkbox:checked {
+        border-color: #ff9100;
+        background: linear-gradient(90deg, #ff9100 0%, #ffbe3d 100%);
+    }
+
+    .obs-option-label {
+        user-select: none;
+        color: #232441;
+    }
+
+    .obs-dropdown-container {
+        margin-bottom: 8px;
+    }
 
 
     #globe-canvas-container {
@@ -312,7 +478,66 @@
                             </div>
                         </div>
                     </div>
+                    <div class="filter-group">
+                        <label class="filter-label" style="margin-bottom:12px;">Details:</label>
+                        <div class="switch-row">
+                            <span style="font-size:1.22em">All</span>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-all" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="font-size:1.11em; margin:12px 0 8px 0; color: #fff;">Earthquakes</div>
+                        <div class="switch-row">
+                            <span style="margin-left: 1vh;">Tectonic</span>
+                            <label class="switch">
+                                <input type="checkbox" class="eq-type" value="tectonic" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="switch-row">
+                            <span style="margin-left: 1vh;">Volcanic</span>
+                            <label class="switch">
+                                <input type="checkbox" class="eq-type" value="volcanic" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="switch-row">
+                            <span style="margin-left: 1vh;">Collapse</span>
+                            <label class="switch">
+                                <input type="checkbox" class="eq-type" value="collapse" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="switch-row">
+                            <span style="margin-left: 1vh;">Explosion</span>
+                            <label class="switch">
+                                <input type="checkbox" class="eq-type" value="explosion" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="switch-row">
+                        <span style="font-size:1.11em; margin:12px 0 8px 0; color: #fff;">Observatories</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-observatories" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="obs-dropdown-container">
+                        <div class="obs-dropdown-selected" tabindex="0">
+                            <span class="obs-placeholder">Observatories</span>
+                            <span class="obs-dropdown-arrow">&#9662;</span>
+                        </div>
+                        <div class="obs-dropdown-list">
+                            <input type="text" class="obs-search" placeholder="Search observatories..." />
+                            <div class="obs-options">
+                                <!-- JS will render checkboxes here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="col-8" id="globe-col">
                 <div id="globe-canvas-container">
@@ -875,8 +1100,101 @@
     // Magnitude slider
     makeDualSlider("slider-mag-min", "slider-mag-max", "mag-slider-range", "mag-min-label", "mag-max-label", 0, 9,
         0.1, 0.1);
-    </script>
 
+    const allToggle = document.getElementById('toggle-all');
+    const eqTypeToggles = Array.from(document.querySelectorAll('.eq-type'));
+    const observatoriesToggle = document.getElementById('toggle-observatories');
+
+    // "All" controls everything (earthquake types + observatories)
+    allToggle.addEventListener('change', function() {
+        const state = allToggle.checked;
+        eqTypeToggles.forEach(t => t.checked = state);
+        observatoriesToggle.checked = state;
+    });
+
+    // Any sub-toggle or observatories disables "All" if not all are checked
+    function updateAllToggle() {
+        if (eqTypeToggles.every(t => t.checked) && observatoriesToggle.checked) {
+            allToggle.checked = true;
+        } else {
+            allToggle.checked = false;
+        }
+    }
+    // Attach listeners to eqTypeToggles and the observatories toggle
+    eqTypeToggles.forEach(toggle => {
+        toggle.addEventListener('change', updateAllToggle);
+    });
+    observatoriesToggle.addEventListener('change', updateAllToggle);
+
+
+    const observatoryList = [
+        "USGS", "GFZ", "EMSC", "JMA", "INPRES", "NOAA",
+        "US Array", "National Seismological Center",
+        "IRIS", "CEA (China)", "RaspberryShake", "GeoNet", "SeismoPoland", "GNS Science", "Sismologico Italia"
+    ];
+
+    const obsDropdown = document.querySelector('.obs-dropdown-container');
+    const obsSelected = obsDropdown.querySelector('.obs-dropdown-selected');
+    const obsList = obsDropdown.querySelector('.obs-dropdown-list');
+    const obsOptionsCont = obsDropdown.querySelector('.obs-options');
+    const obsSearch = obsDropdown.querySelector('.obs-search');
+    const obsPlaceholder = obsDropdown.querySelector('.obs-placeholder');
+
+    // Render checkboxes
+    function renderObservatories(filter = '') {
+        obsOptionsCont.innerHTML = '';
+        observatoryList.forEach(obs => {
+            if (!filter || obs.toLowerCase().includes(filter.toLowerCase())) {
+                const row = document.createElement('div');
+                row.className = 'obs-option-row';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'obs-option-checkbox';
+                checkbox.value = obs;
+                checkbox.checked = false;
+                const label = document.createElement('span');
+                label.className = 'obs-option-label';
+                label.textContent = obs;
+                checkbox.addEventListener('change', updateObsSelectedText);
+                row.appendChild(checkbox);
+                row.appendChild(label);
+                obsOptionsCont.appendChild(row);
+            }
+        });
+    }
+
+    // Show/hide dropdown
+    obsSelected.addEventListener('click', function() {
+        obsSelected.classList.toggle('active');
+        obsList.classList.toggle('active');
+        obsSearch.value = '';
+        renderObservatories();
+        setTimeout(() => obsSearch.focus(), 50);
+    });
+    // Also close on click outside
+    document.addEventListener('mousedown', e => {
+        if (!obsDropdown.contains(e.target)) {
+            obsSelected.classList.remove('active');
+            obsList.classList.remove('active');
+        }
+    });
+    // Filter as you type
+    obsSearch.addEventListener('input', function() {
+        renderObservatories(this.value.trim());
+    });
+    // Update selected text (checked observatory names)
+    function updateObsSelectedText() {
+        const checked = [...obsOptionsCont.querySelectorAll('input[type=checkbox]:checked')].map(cb => cb.value);
+        if (!checked.length) {
+            obsPlaceholder.textContent = "Observatories";
+        } else if (checked.length === 1) {
+            obsPlaceholder.textContent = checked[0];
+        } else {
+            obsPlaceholder.textContent = `${checked.length} Observatories`;
+        }
+    }
+    renderObservatories();
+    </script>
 </body>
 
 </html>
