@@ -21,35 +21,45 @@
         box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
         min-height: 80vh;
         transform: translateY(5vh);
-        z-index: -3;
         padding: 2vh;
+        overflow: hidden;
     }
 
-    .year-slider-outer {
+    .filters-title {
+        color: #fff;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 700;
+        font-size: 2rem;
+        text-align: center;
+
+    }
+
+    .dual-slider {
         width: 100%;
         margin-top: 7px;
         margin-bottom: 10px;
     }
 
-    .year-slider-track {
+    .slider-track {
         position: relative;
         width: 100%;
         height: 32px;
-        margin-bottom: 0;
     }
 
-    .year-slider {
+    .slider {
         position: absolute;
         left: 0;
         right: 0;
         top: 7px;
         width: 100%;
         pointer-events: none;
+        appearance: none;
         -webkit-appearance: none;
         background: none;
+        z-index: 3;
     }
 
-    .year-slider::-webkit-slider-thumb {
+    .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         background: #18f545;
@@ -61,10 +71,12 @@
         cursor: pointer;
         pointer-events: all;
         transition: background .19s;
-        z-index: 99;
+        z-index: 10;
+        position: relative;
     }
 
-    .year-slider::-moz-range-thumb {
+    .slider::-moz-range-thumb,
+    .slider::-ms-thumb {
         background: #18f545;
         border-radius: 50%;
         width: 32px;
@@ -73,64 +85,53 @@
         cursor: pointer;
         pointer-events: all;
         transition: background .19s;
-        z-index: 99;
+        z-index: 10;
+        position: relative;
     }
 
-    .year-slider::-ms-thumb {
-        background: #18f545;
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
-        border: 2.5px solid #fff;
-        cursor: pointer;
-        pointer-events: all;
-        transition: background .19s;
-        z-index: 99;
-    }
-
-    .year-slider:focus {
+    .slider:focus {
         outline: none;
     }
 
-    .year-slider::-webkit-slider-runnable-track {
+    .slider::-webkit-slider-runnable-track {
         height: 5px;
         background: transparent;
         border-radius: 1.4vw;
     }
 
-    .year-slider::-moz-range-track {
+    .slider::-moz-range-track {
         height: 5px;
         background: transparent;
     }
 
-    .year-slider::-ms-fill-lower,
-    .year-slider::-ms-fill-upper {
+    .slider::-ms-fill-lower,
+    .slider::-ms-fill-upper {
         background: transparent;
     }
 
-    .year-slider-range {
+    .slider-range {
         position: absolute;
         left: 0;
         top: 21px;
         height: 5px;
         background: linear-gradient(90deg, #09ff00, #00b144);
-        z-index: 5;
+        z-index: 2;
         border-radius: 3px;
+        pointer-events: none;
     }
 
-    .year-slider-label-row {
+    .slider-label-row {
         font-size: 1.5rem;
         color: #fff;
         margin-top: 8px;
         display: flex;
         justify-content: space-between;
         font-family: 'Roboto', Arial, sans-serif;
-        font-weight: 200;
+        font-weight: 300;
         letter-spacing: 0.02em;
     }
 
-    .year-slider-track::before,
-    .year-slider-track::after {
+    .slider-track::before {
         content: "";
         position: absolute;
         left: 0;
@@ -139,7 +140,8 @@
         height: 5px;
         background: #fff;
         border-radius: 1.4vw;
-        z-index: 0;
+        z-index: 1;
+        pointer-events: none;
     }
 
     .filter-label {
@@ -147,8 +149,8 @@
         color: #fff;
         font-family: 'Roboto', Arial, sans-serif;
         font-weight: 200;
-
     }
+
 
 
     #globe-canvas-container {
@@ -272,19 +274,41 @@
             <div class="col-1"></div>
             <div class="col-3">
                 <div class="glass-box">
+                    <div class="filters-title">
+                        Filters
+                    </div>
+                    <!-- Year Slider -->
                     <div class="filter-group">
-                        <label class="filter-label">Year:</label>
-                        <div class="year-slider-outer">
-                            <div class="year-slider-track">
-                                <div class="year-slider-range" id="year-slider-range"></div>
-                                <input id="year-min" type="range" min="1950" max="2025" value="1950"
-                                    class="year-slider" />
-                                <input id="year-max" type="range" min="1950" max="2025" value="2025"
-                                    class="year-slider" />
+                        <label class="filter-label" for="slider-year-min">Year:</label>
+                        <div class="dual-slider">
+                            <div class="slider-track">
+                                <div class="slider-range" id="year-slider-range"></div>
+                                <input id="slider-year-min" type="range" min="1950" max="2025" value="1950"
+                                    class="slider" />
+                                <input id="slider-year-max" type="range" min="1950" max="2025" value="2025"
+                                    class="slider" />
                             </div>
-                            <div class="year-slider-label-row">
+                            <div class="slider-label-row">
                                 <span id="year-min-label">1950</span>
                                 <span id="year-max-label" style="float:right">2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Magnitude Slider -->
+                    <div class="filter-group">
+                        <label class="filter-label" for="slider-mag-min">Magnitude:</label>
+                        <div class="dual-slider">
+                            <div class="slider-track">
+                                <div class="slider-range" id="mag-slider-range"></div>
+                                <input id="slider-mag-min" type="range" min="0" max="9" step="0.1" value="0"
+                                    class="slider" />
+                                <input id="slider-mag-max" type="range" min="0" max="9" step="0.1" value="9"
+                                    class="slider" />
+                            </div>
+                            <div class="slider-label-row">
+                                <span id="mag-min-label">0</span>
+                                <span id="mag-max-label" style="float:right">9</span>
                             </div>
                         </div>
                     </div>
@@ -804,45 +828,55 @@
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
     });
-    </script>
 
-    <script>
-    // Say you put this at the end of your <body>
-    const yearMin = document.getElementById('year-min');
-    const yearMax = document.getElementById('year-max');
-    const yearMinL = document.getElementById('year-min-label');
-    const yearMaxL = document.getElementById('year-max-label');
-    const rngBar = document.getElementById('year-slider-range');
 
-    const minYear = parseInt(yearMin.min);
-    const maxYear = parseInt(yearMax.max);
-    const padding = 1; // Minimum distance in years between the sliders
+    // Slider js
+    function makeDualSlider(minId, maxId, barId, minLblId, maxLblId, min, max, padding, step) {
+        const minEl = document.getElementById(minId);
+        const maxEl = document.getElementById(maxId);
+        const barEl = document.getElementById(barId);
+        const minLbl = document.getElementById(minLblId);
+        const maxLbl = document.getElementById(maxLblId);
 
-    yearMin.addEventListener('input', function() {
-        if (parseInt(yearMin.value) > parseInt(yearMax.value) - padding) {
-            yearMin.value = parseInt(yearMax.value) - padding;
+        // Ensure correct step value for comparison/precision
+        function toStep(val) {
+            val = parseFloat(val);
+            return step ? parseFloat(val.toFixed(String(step).split('.')[1]?.length || 1)) : val;
         }
-        yearMinL.textContent = yearMin.value;
-        updateRangeBar();
-    });
-    yearMax.addEventListener('input', function() {
-        if (parseInt(yearMax.value) < parseInt(yearMin.value) + padding) {
-            yearMax.value = parseInt(yearMin.value) + padding;
-        }
-        yearMaxL.textContent = yearMax.value;
-        updateRangeBar();
-    });
+        minEl.addEventListener('input', function() {
+            if (toStep(minEl.value) > toStep(maxEl.value) - padding) {
+                minEl.value = toStep(maxEl.value) - padding;
+            }
+            minLbl.textContent = minEl.value;
+            updateBar();
+        });
+        maxEl.addEventListener('input', function() {
+            if (toStep(maxEl.value) < toStep(minEl.value) + padding) {
+                maxEl.value = toStep(minEl.value) + padding;
+            }
+            maxLbl.textContent = maxEl.value;
+            updateBar();
+        });
 
-    function updateRangeBar() {
-        const percentMin = 100 * (yearMin.value - minYear) / (maxYear - minYear);
-        const percentMax = 100 * (yearMax.value - minYear) / (maxYear - minYear);
-        rngBar.style.left = percentMin + "%";
-        rngBar.style.width = (percentMax - percentMin) + "%";
+        function updateBar() {
+            const percentMin = 100 * (minEl.value - min) / (max - min);
+            const percentMax = 100 * (maxEl.value - min) / (max - min);
+            barEl.style.left = percentMin + "%";
+            barEl.style.width = (percentMax - percentMin) + "%";
+        }
+        updateBar();
+        minLbl.textContent = minEl.value;
+        maxLbl.textContent = maxEl.value;
     }
-    updateRangeBar();
-    yearMinL.textContent = yearMin.value;
-    yearMaxL.textContent = yearMax.value;
+
+    // Year slider
+    makeDualSlider("slider-year-min", "slider-year-max", "year-slider-range", "year-min-label", "year-max-label",
+        1950, 2025, 1, 1);
+    // Magnitude slider
+    makeDualSlider("slider-mag-min", "slider-mag-max", "mag-slider-range", "mag-min-label", "mag-max-label", 0, 9,
+        0.1, 0.1);
     </script>
+
 </body>
 
 </html>
