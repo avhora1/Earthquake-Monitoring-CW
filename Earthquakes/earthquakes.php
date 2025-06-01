@@ -21,6 +21,8 @@
         box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
         min-height: 80vh;
         transform: translateY(5vh);
+        z-index: -3;
+        padding: 2vh;
     }
 
     .year-slider-outer {
@@ -59,6 +61,7 @@
         cursor: pointer;
         pointer-events: all;
         transition: background .19s;
+        z-index: 99;
     }
 
     .year-slider::-moz-range-thumb {
@@ -70,6 +73,7 @@
         cursor: pointer;
         pointer-events: all;
         transition: background .19s;
+        z-index: 99;
     }
 
     .year-slider::-ms-thumb {
@@ -81,6 +85,7 @@
         cursor: pointer;
         pointer-events: all;
         transition: background .19s;
+        z-index: 99;
     }
 
     .year-slider:focus {
@@ -114,13 +119,13 @@
     }
 
     .year-slider-label-row {
-        font-size: 2.2rem;
+        font-size: 1.5rem;
         color: #fff;
         margin-top: 8px;
         display: flex;
         justify-content: space-between;
         font-family: 'Roboto', Arial, sans-serif;
-        font-weight: 500;
+        font-weight: 200;
         letter-spacing: 0.02em;
     }
 
@@ -135,6 +140,14 @@
         background: #fff;
         border-radius: 1.4vw;
         z-index: 0;
+    }
+
+    .filter-label {
+        font-size: 1.5rem;
+        color: #fff;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 200;
+
     }
 
 
