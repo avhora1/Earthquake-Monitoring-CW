@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     sqlsrv_close($conn);
 
-    header("Location: add_observatory.php");
+    header("Location: manage_observatoriesNew.php");
     exit();
 }
 ?>

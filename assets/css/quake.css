@@ -1,0 +1,506 @@
+/* ========== Quake Admin Theme (quake.css) ========== */
+/* ==== GENERAL ==== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 60% 30%, #11172a 60%, #000 100%);
+    font-family: 'Urbanist', 'Roboto', Arial, sans-serif;
+    color: #fff;
+}
+
+a {
+    color: #ff9100;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==== SIDEBAR ==== */
+.sidebar {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    width: 285px;
+    height: calc(100vh - 90px);
+    background: linear-gradient(170deg, rgba(30, 32, 40, .88) 75%, rgba(22, 20, 28, .9));
+    border-radius: 18px;
+    margin-left: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 34px #0007;
+}
+
+.sidebar-nav {
+    list-style: none;
+    margin: 36px 0 0 0;
+    padding: 0;
+}
+
+.sidebar-nav li {
+    display: flex;
+    align-items: center;
+    padding: 0px 5vw 0px 28px;
+    height: 52px;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.13rem;
+    font-weight: 500;
+    gap: 15px;
+    opacity: .87;
+    transition: background .13s, color .13s;
+    border-radius: 12px;
+    padding: 8px 0;
+}
+
+.sidebar-nav li.active a,
+.sidebar-nav li a:hover {
+    color: #ff9100;
+    background: rgba(60, 41, 8, 0.13);
+    opacity: 1.0;
+}
+
+.sidebar-nav li img {
+    width: 26px;
+    height: 26px;
+    filter: drop-shadow(0 1px 7px #202020b0);
+}
+
+.sidebar-logout {
+    align-self: flex-start;
+    padding: 15px 0px 23px 28px;
+}
+
+.sidebar-logout a {
+    color: #fff;
+    font-size: 1.12rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0.80;
+}
+
+.sidebar-logout a:hover {
+    color: #ff9100;
+    opacity: 1;
+}
+
+.sidebar-logout img {
+    width: 28px;
+    opacity: 0.69;
+}
+
+/* ==== MAIN PANELS ==== */
+.main-content {
+    margin-left: 330px;
+    /* accommodates sidebar */
+    margin-top: 110px;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+}
+
+.glass-panel,
+.side-panel {
+    background: linear-gradient(113deg, rgba(40, 44, 64, .91), rgba(22, 26, 38, .95) 90%);
+    border-radius: 20px;
+    box-shadow: 0 0 34px #090e206e;
+    padding: 36px 32px 32px 32px;
+}
+
+.manage-panel {
+    flex: 1.4;
+    min-width: 430px;
+    margin-right: 8px;
+}
+
+.side-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 340px;
+}
+
+/* ==== TABLE ==== */
+.manage-panel h2,
+.add-panel h3 {
+    font-size: 2.0rem;
+    font-family: Urbanist, Arial, sans-serif;
+    font-weight: 800;
+    margin: 0 0 24px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 12px;
+    font-size: 1.08rem;
+    line-height: 1.41;
+}
+
+thead th {
+    background: none;
+    color: #fff;
+    font-weight: 700;
+    border-bottom: 2px solid #292a3a;
+    padding-bottom: 6px;
+    text-align: center;
+}
+
+tbody td {
+    border-bottom: 1px solid #26273f;
+    padding: 7px 0 7px 0;
+    color: #fff;
+    font-family: 'Roboto', Arial, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.stat-box {
+    position: fixed;
+    right: 38px;
+    bottom: 43px;
+    background: linear-gradient(113deg, rgba(40, 44, 64, .91), rgba(22, 26, 38, 1) 90%);
+    border-radius: 14px;
+    box-shadow: 0 0 22px #181e33b4;
+    padding: 18px 41px 15px 30px;
+    min-width: 230px;
+    z-index: 1002;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.stat-box strong {
+    font-size: 1.38em;
+    color: #fff;
+    font-family: Urbanist, Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.stat-box span {
+    font-size: 1.13em;
+    color: #bfc1c4;
+    opacity: 0.67;
+    font-family: Urbanist, Arial, sans-serif;
+}
+
+@media (max-width:900px) {
+    .stat-box {
+        position: static;
+        width: auto;
+        margin: 30px auto 12px auto;
+        display: block;
+        text-align: center;
+        padding: 10px 16px;
+    }
+}
+
+/* ==== BUTTONS ==== */
+.delete-btn {
+    background: linear-gradient(110deg, #fd3816 60%, #f35564);
+    border: none;
+    border-radius: 999px;
+    padding: 7px 15px 7px 15px;
+    color: #fff;
+    box-shadow: 0 0 18px #ff3329ba;
+    font-size: 1.21em;
+    cursor: pointer;
+    transition: box-shadow .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.delete-btn:hover {
+    box-shadow: 0 0 20px #ff3329;
+    background: linear-gradient(110deg, #ff6646 .7, #fd3816 1);
+}
+
+.add-btn {
+    background: linear-gradient(90deg, #ff9100, #ffbe3d 80%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.13em;
+    padding: 9px 38px;
+    border-radius: 999px;
+    border: none;
+    margin-right: 12px;
+    box-shadow: 0 0 10px #fa8c16bb;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+}
+
+.add-btn:hover {
+    background: linear-gradient(90deg, #ffbe3d, #ff9100 90%);
+    box-shadow: 0 0 30px #fa8c16d0;
+}
+
+/* Pallet buttons */
+.pallet-btns {
+    display: flex;
+    gap: 18px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.pallet-btn-half {
+    background: linear-gradient(90deg, #ff9100, #ffbe3d 75%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.15em;
+    padding: 10px 38px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px #fa8c16bb;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+}
+
+.pallet-btn-half:hover {
+    background: linear-gradient(90deg, #ffbe3d, #ff9100 100%);
+    box-shadow: 0 0 30px #fa8c16d0;
+}
+
+.pallet-btn-full {
+    background: linear-gradient(90deg, #ff5540 0, #f35564 90%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.15em;
+    padding: 10px 38px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 14px #ff5540;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+}
+
+.pallet-btn-full:hover {
+    background: linear-gradient(90deg, #f35564, #ff5540 100%);
+    box-shadow: 0 0 30px #ff5540a0;
+}
+
+/* ==== FORMS ==== */
+.add-panel form,
+.side-panel form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.add-panel label,
+.side-panel label {
+    font-size: 1.08em;
+}
+
+.add-panel select,
+.add-panel input,
+.add-panel textarea,
+.side-panel select,
+.side-panel input,
+.side-panel textarea {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    height: 37px;
+    background: #191c23d9;
+    color: #fff;
+    padding: 1px 12px;
+    margin-top: 4px;
+    font-size: 1.0em;
+}
+
+.add-panel textarea,
+.side-panel textarea {
+    min-height: 48px;
+    resize: vertical;
+}
+
+.add-panel .input-group,
+.side-panel .input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-group .delete-btn {
+    margin: 0 0 0 8px;
+}
+
+/* ==== SWITCH ==== */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    margin-left: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #484857;
+    border-radius: 22px;
+    transition: .2s;
+}
+
+.switch input:checked+.slider {
+    background: linear-gradient(90deg, #ff9100, #ffbe3d 90%);
+}
+
+.slider:before {
+    position: absolute;
+    left: 6px;
+    bottom: 5px;
+    content: "";
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: .22s;
+}
+
+.switch input:checked+.slider:before {
+    left: 30px;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width:1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .side-panels {
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .sidebar {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width:900px) {
+    .sidebar {
+        position: static;
+        width: 100vw;
+        border-radius: 0;
+    }
+
+    .main-content {
+        margin: 0;
+        gap: 12px;
+    }
+}
+
+/* Add to shop row */
+.add-shop-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* <--- centers horizontally */
+    align-items: center;
+    gap: 12px;
+    /* space between label and switch */
+    margin-bottom: 15px;
+}
+
+.add-shop-row label[for="add_shop_switch"] {
+    min-width: 0;
+    font-size: 1em;
+    color: #fff;
+}
+
+.q-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(11, 14, 34, 0.55);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.q-modal {
+    background: linear-gradient(113deg, rgba(44, 48, 69, .98), rgba(21, 23, 38, .98) 90%);
+    border-radius: 22px;
+    box-shadow: 0 4px 46px #181e3380;
+    padding: 36px 32px 28px 32px;
+    max-width: 350px;
+    min-width: 260px;
+    font-family: Urbanist, Arial, sans-serif;
+    text-align: center;
+    border: 1.5px solid #181a2b;
+}
+
+.q-modal h3 {
+    font-size: 1.5em;
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 12px 0;
+    letter-spacing: .01em;
+}
+
+.q-modal-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+}
+
+.q-modal .add-btn {
+    background: linear-gradient(90deg, #ff9100, #ffbe3d 80%);
+    color: #161616;
+    font-weight: 800;
+    font-size: 1.07em;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 41px;
+    min-width: 90px;
+}
+
+.q-modal .delete-btn {
+    background: radial-gradient(ellipse at 67% 25%, #ff4a4a 62%, #fc5d1f 120%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 28px;
+    font-size: 1.07em;
+    font-weight: 700;
+    min-width: 90px;
+}
+
+.q-modal .delete-btn:hover {
+    background: radial-gradient(ellipse at 67% 25%, #fd2b2b 62%, #fc5d1f 140%);
+}
+
+.q-modal .add-btn:hover {
+    background: linear-gradient(100deg, #fdc352 63%, #ffad2f 130%);
+}
