@@ -46,7 +46,7 @@ sqlsrv_close($conn);
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
         <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
         <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
+        <li><a href="../Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
         <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
         <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
@@ -146,13 +146,6 @@ sqlsrv_close($conn);
                 <label>Description
                     <textarea name="description" maxlength="255"></textarea>
                 </label>
-                <div class="input-group">
-                    <label for="add_shop_switch">Add to shop</label>
-                    <label class="switch">
-                        <input name="required" type="checkbox" id="add_shop_switch" value="Yes">
-                        <span class="slider"></span>
-                    </label>
-                </div>
                 <div class="input-group">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>

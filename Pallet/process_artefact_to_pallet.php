@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     sqlsrv_free_stmt($stmt);
     sqlsrv_close($conn);
     // Redirect to the page for adding artefacts linked to the pallet
-    header("Location: add_artefact_to_pallet.php?pallet_id=" . $pallet_id);
+    header("Location: ../Pallet/manage_palletsNew.php?new_pallet_id=" . $pallet_id);
     exit();
 }
 ?>

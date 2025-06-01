@@ -49,7 +49,7 @@ sqlsrv_close($conn);
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
         <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
         <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
+        <li><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li class="active"><a href="#"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
         <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
         <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
