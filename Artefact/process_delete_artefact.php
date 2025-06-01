@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
-require_once 'artefactsLibrary.php';
+require_once '../queryLibrary.php';
 
 // Get and sanitize id
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
