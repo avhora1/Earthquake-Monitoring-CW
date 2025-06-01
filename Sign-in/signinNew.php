@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -68,6 +68,15 @@ body {
     z-index: -1;
     width: 80vh;
     height: 80vh;
+}
+
+.crack img {
+    position: absolute;
+    top: 6vh;
+    left: 12vw;
+    z-index: 2;
+    width: auto;
+    height: 15vh;
 }
 
 .glass-box {
@@ -107,8 +116,7 @@ body {
     margin-right: auto;
 }
 
-.glass-box input[type="text"],
-.glass-box input[type="password"] {
+.glass-box input {
     width: 100%;
     font-size: 1.3rem;
     color: #fff;
@@ -122,8 +130,7 @@ body {
     transition: border-color 0.2s;
 }
 
-.glass-box input[type="text"]:hover,
-.glass-box input[type="password"]:hover {
+.glass-box input {
     border-bottom: 2px solid #ff9100;
     background: none;
 }
@@ -173,7 +180,9 @@ body {
 
 <body>
 
-    <!-- <img src="../assets/images/crack.png" alt="Crack" class="crack-img"> -->
+    <div class="crack">
+        <img src="/assets/images/crack.png" alt="">
+    </div>
 
     <div class="earth">
         <img src="/assets/images/earth.png" alt="">
@@ -190,11 +199,19 @@ body {
                     </a>
                     <h1 style="color: #FF7400;">Login</h1>
                     <p>Welcome Back!</p>
+
+                    <?php if ($login_error): ?>
+                    <div style="color:#FF7400; background:rgba(55,0,0,0.24); border-radius:8px;
+                                     padding:10px 18px; margin:10px 0 20px 0; font-size:1.11rem;">
+                        <?= htmlspecialchars($login_error) ?>
+                    </div>
+                    <?php endif; ?>
+
+
                     <form style="margin-top:10px;text-align:left;" action="" method="post" autocomplete="off">
                         <input type="text" id="username" name="username" value="<?= htmlspecialchars($username) ?>"
                             placeholder="Username" required autofocus>
-                        <input type="password" id="password" name="password" placeholder="Password" required
-                            onfocus="showToggleBtn()" onblur="hideToggleBtn()" oninput="showToggleBtn()">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
                         <button type="submit" class="login-btn">Login</button>
                     </form>
                     <div class="login-signup-message">
@@ -203,8 +220,6 @@ body {
                     </div>
                 </div>
             </div>
-
-
 
 </body>
 
