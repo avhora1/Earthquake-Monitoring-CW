@@ -1,4 +1,6 @@
 <?php
+    //Queries for artefacts!!
+
     //Incrementing the shelf capacity by 1
     function increment_shelf_capacity($conn, $shelving_loc){
         $sql = "UPDATE shelves SET capacity = capacity + 1 WHERE shelf = ?;";
@@ -134,5 +136,99 @@
         }
         sqlsrv_free_stmt($stmt);
         return $results;
+    }
+
+    //Queries for pallets!!!!
+    //Adding a new pallet
+    function add_pallets($conn, $pallet_size, $arrival_date){ 
+        $sql = "INSERT INTO pallets (pallet_size, arrival_date) VALUES (?, CONVERT(DATETIME, ?, 120));";
+        $params = array($pallet_size, $arrival_date);
+        return sqlsrv_query($conn, $sql, $params);
+    }
+    //retrieving the id of the last added pallet
+    function retrieve_last_pallet_ID($conn){
+        //returns an ID
+        $sql = "SELECT ident_current('pallets') AS last_pallet_id;";
+        $stmt = sqlsrv_query($conn, $sql);
+        if ($stmt === false) {
+            die(print_r(sqlsrv_errors(), true));
+        }
+        $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+        if ($row === false || !isset($row['last_pallet_id'])) {
+            die("No pallet ID was retrieved.");
+        }
+        $last_pallet_id = $row['last_pallet_id'];
+        sqlsrv_free_stmt($stmt);
+        //return the ID of the last pallet added
+        return $last_pallet_id;
+    }
+    //Updating pallet - normally only edits the pallet_size
+    function update_pallet($conn, $id, $pallet_size){
+        $sql = "UPDATE pallets SET pallet_size = ? WHERE id = ?;";
+        $params = array($pallet_size, $id);
+        return sqlsrv_query($conn, $sql, $params);
+    }
+    //deleting pallets and subsequent artefacts
+    function delete_pallet($conn, $id){
+        //begin by deleting all artefacts linked to pallet
+        $sqlArtefacts = "SELECT id FROM artefacts WHERE pallet_id = ?;";
+        $params = array($id);
+        $stmtArtefacts = sqlsrv_query($conn, $sqlArtefacts, $params);
+        if($stmtArtefacts === false) return false; 
+        while ($row = sqlsrv_fetch_array($stmtArtefacts, SQLSRV_FETCH_ASSOC)) {
+            $artefact_ids[] = $row['id'];
+        }
+        if(!empty($artefact_ids)){
+            foreach($artefact_ids as $artefact_id){
+                delete_artefact($conn, $artefact_id);
+            }
+        }
+        //now delete the pallet from the list
+        $sql = "DELETE FROM pallets WHERE id = ?;";
+        return sqlsrv_query($conn, $sql, $params);
+    }
+
+    //Queries for shelves: this is for the sliding feature
+    //Two things we need: 1. Collect capacity of shelves, and have the number of items in each shelf.
+    //Getting Shelf Capacity
+    function get_shelf_capacity($conn, $shelving_loc) {
+        $params = array($shelving_loc);
+        $sql = "SELECT capacity FROM shelves WHERE shelf = ?;";
+        $stmt = sqlsrv_query($conn, $sql, $params);
+    
+        if ($stmt === false) {
+            // SQL query failed
+            return false;
+        }
+    
+        $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    
+        sqlsrv_free_stmt($stmt);
+    
+        if ($row && isset($row['capacity'])) {
+            return $row['capacity'];
+        } else {
+            // shelf not found, or no capacity column
+            return null;
+        }
+    }
+    //Getting artefacts in desired shelf -? returns array.
+    function get_artefacts_by_shelf($conn, $shelving_loc) {
+        $sql = "SELECT * FROM artefacts WHERE shelving_loc = ?;";
+        $params = array($shelving_loc);
+        $stmt = sqlsrv_query($conn, $sql, $params);
+    
+        if ($stmt === false) {
+            // Query failed
+            return false;
+        }
+    
+        $artefacts = [];
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+            $artefacts[] = $row; // Each $row is an associative array of one artefact's fields
+        }
+    
+        sqlsrv_free_stmt($stmt);
+        return $artefacts;
     }
 ?>
