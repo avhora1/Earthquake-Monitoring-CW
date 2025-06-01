@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include '../headerNew.php';
 
 // --- Fetch observatories (if needed for forms) ---
 $obs_sql = "SELECT id, name FROM observatories";
@@ -30,13 +31,10 @@ sqlsrv_close($conn);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../headerNew.php';?>
     <link rel="stylesheet" href="../assets/css/quake.css">
     <meta charset="UTF-8">
     <title>Manage Earthquakes | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,600,400|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -44,7 +42,7 @@ sqlsrv_close($conn);
 <div class="sidebar">
     <ul class="sidebar-nav">
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
+        <li><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
         <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
         <li><a href="../Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
