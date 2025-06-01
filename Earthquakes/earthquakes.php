@@ -42,42 +42,20 @@
 
     #quake-hover-card {
         position: absolute;
-        min-width: 210px;
-        max-width: 340px;
-        background: linear-gradient(153deg, rgba(255, 255, 255, 0.18) 0%, rgba(32, 35, 53, 0.09) 100%);
-        backdrop-filter: blur(1.4vh);
-        -webkit-backdrop-filter: blur(1.4vh);
-        border-radius: 0.7em;
-        border: 1.5px solid rgba(255, 255, 255, 0.12);
-        color: #fff;
-        padding: 17px 22px 13px 22px;
-        z-index: 888;
-        box-shadow: 0 4px 32px #0007;
-        font-family: 'Roboto', Arial, sans-serif;
-        pointer-events: none;
+        width: 180px;
+        height: 80px;
+        background: #fff;
+        border-radius: 10px;
+        z-index: 9999;
         left: 0;
         top: 0;
-        transform: translate(-50%, -125%) scale(1);
-        transition: opacity .19s, filter .23s;
-        opacity: 0;
         display: none;
+        pointer-events: none;
     }
 
     #quake-hover-card.active {
-        display: block;
         opacity: 1;
-        filter: drop-shadow(0 2px 12px #1117);
-    }
-
-    .quake-card-city {
-        font-size: 1.12em;
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
-
-    .quake-card-mag {
-        font-size: 1.02em;
-        opacity: .93;
+        display: block;
     }
     </style>
 
@@ -104,14 +82,15 @@
             </div>
             <div class="col-8" id="globe-col">
                 <div id="globe-canvas-container">
-                    <!-- Floating Quake Card -->
                     <div id="quake-hover-card">
-                        <div class="quake-card-city"></div>
-                        <div class="quake-card-mag"></div>
+                        <div id="quake-location" style="font-weight:bold;font-size:1.07em"></div>
+                        <div id="quake-mag"></div>
+                        <div id="quake-date"></div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <script type="module">
     import * as THREE from 'three';
@@ -162,7 +141,8 @@
             size: 0.05,
             city: "Bournemouth",
             country: "UK",
-            mag: 7.9
+            mag: 7.9,
+            date: "18.09.2005"
         },
         {
             lat: 35.7796,
@@ -170,7 +150,9 @@
             size: 0.045,
             city: "Tangier",
             country: "Morocco",
-            mag: 3.9
+            mag: 3.9,
+            date: "18.09.2005"
+
         },
         {
             lat: 37.9838,
@@ -178,7 +160,9 @@
             size: 0.04,
             city: "Athens",
             country: "Greece",
-            mag: 4.6
+            mag: 4.6,
+            date: "18.09.2005"
+
         },
         {
             lat: 40.7128,
@@ -186,16 +170,19 @@
             size: 0.037,
             city: "New York",
             country: "USA",
-            mag: 5.1
+            mag: 5.1,
+            date: "18.09.2005"
+
         }
     ];
     const quakeMarkers = [];
     earthquakes.forEach(eq => {
-        const marker = createEarthquakeMarker(eq.lat, eq.lon, eq.size || 0.037);
+        const marker = createEarthquakeMarker(eq.lat, eq.lon, eq.size, eq.date || 0.037);
         marker.userData = {
             city: eq.city,
             country: eq.country,
-            mag: eq.mag
+            mag: eq.mag,
+            date: eq.date
         };
         scene.add(marker);
         quakeMarkers.push(marker);
@@ -235,39 +222,52 @@
     const raycaster = new THREE.Raycaster(),
         mouse = new THREE.Vector2();
     const card = document.getElementById('quake-hover-card');
-    const cityEl = card.querySelector('.quake-card-city');
-    const magEl = card.querySelector('.quake-card-mag');
     let showingMarker = null;
 
     renderer.domElement.addEventListener('pointermove', onPointerMove);
     renderer.domElement.addEventListener('mouseleave', onPointerLeave);
 
     function onPointerMove(event) {
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(quakeMarkers, false);
-        if (intersects.length > 0) {
-            const m = intersects[0].object;
-            cityEl.textContent = `${m.userData.city}, ${m.userData.country}`;
-            magEl.textContent = `Magnitude: ${m.userData.mag}`;
-            card.classList.add('active');
-            const markerScreenPos = m.position.clone().project(camera);
-            const halfW = container.offsetWidth / 2;
-            const halfH = container.offsetHeight / 2;
-            const cardX = halfW + markerScreenPos.x * halfW;
-            const cardY = halfH - markerScreenPos.y * halfH;
-            card.style.left = (cardX) + 'px';
-            card.style.top = (cardY) + 'px';
-            card.style.display = 'block';
-            showingMarker = m;
-        } else {
+        const card = document.getElementById('quake-hover-card');
+        const locDiv = document.getElementById('quake-location');
+        const magDiv = document.getElementById('quake-mag');
+        const dateDiv = document.getElementById('quake-date');
+        let showingMarker = null;
+
+        renderer.domElement.addEventListener('pointermove', (event) => {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(quakeMarkers, false);
+
+            if (intersects.length > 0) {
+                const m = intersects[0].object;
+
+                // UPDATE BOX TEXT HERE:
+                locDiv.textContent = `${m.userData.city}, ${m.userData.country}`;
+                magDiv.textContent = `Magnitude: ${m.userData.mag}`;
+                dateDiv.textContent = `${m.userData.date}`;
+
+                card.classList.add('active');
+                // Project to screen
+                const markerScreenPos = m.position.clone().project(camera);
+                const halfW = container.offsetWidth / 2;
+                const halfH = container.offsetHeight / 2;
+                const cardX = halfW + markerScreenPos.x * halfW;
+                const cardY = halfH - markerScreenPos.y * halfH - 70; // a little above the dot
+                card.style.left = cardX + 'px';
+                card.style.top = cardY + 'px';
+                showingMarker = m;
+            } else {
+                card.classList.remove('active');
+                showingMarker = null;
+            }
+        });
+        renderer.domElement.addEventListener('mouseleave', () => {
             card.classList.remove('active');
-            card.style.opacity = 0;
-            card.style.display = 'none';
             showingMarker = null;
-        }
+        });
     }
 
     function onPointerLeave() {
