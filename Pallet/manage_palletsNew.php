@@ -18,7 +18,6 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
     <meta charset="UTF-8">
     <title>Manage Pallets | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,600,400|Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/quake.css">
     <style>
         th, td { vertical-align: middle!important; }
@@ -34,7 +33,7 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
 <div class="sidebar">
     <ul class="sidebar-nav">
         <li><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
+        <li><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' '; ?>><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' class="active"'; ?>><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>

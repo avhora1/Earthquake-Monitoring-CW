@@ -46,7 +46,7 @@ sqlsrv_close($conn);
 <div class="sidebar">
     <ul class="sidebar-nav">
         <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
+        <li><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
         <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
         <li><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li class="active"><a href="#"><img src="/assets/icons/artifact.svg">Artifacts</a></li>

@@ -85,7 +85,7 @@ sqlsrv_close($conn);
                         <tr class="empty-row"><td colspan="6"></td></tr>
                     <?php endfor; ?>
                 <?php else: ?>
-                    <tr><td colspan="6" style="text-align:center;color:orange;">No observatories found.</td></tr>
+                    <tr><td colspan="6" style="text-align:center;color:#eee;">No observatories found.</td></tr>
                     <?php for($i=0;$i<6;$i++): ?>
                         <tr class="empty-row"><td colspan="6"></td></tr>
                     <?php endfor; ?>
