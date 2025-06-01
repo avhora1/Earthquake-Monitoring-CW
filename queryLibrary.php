@@ -231,4 +231,125 @@
         sqlsrv_free_stmt($stmt);
         return $artefacts;
     }
+
+    //Earthquake and Observatory filtering and management.!!!!!!
+    //Adding Observatories
+    function add_observatory($conn, $name, $est_date, $latitude, $longitude){
+        $sql = "INSERT INTO observatories (name, est_date, latitude, longitude) VALUES (?,?,?,?);";
+        $params = array($name, $est_date, $latitude, $longitude);
+        $stmt = sqlsrv_query($conn, $sql, $params);
+        return $stmt;
+    }
+    //Deleting Observatories
+    function delete_observatory($conn, $id){
+        $params = array($id);
+        //delete dependent earthquakes then delete observatory.
+        $sqlEarthquakes = "SELECT id FROM earthquakes WHERE observatory_id = ?;";
+        $stmtEarthquakes = sqlsrv_query($conn, $sqlEarthquakes, $params);
+        if($stmtEarthquakes === false) return false; 
+        while ($row = sqlsrv_fetch_array( $stmtEarthquakes, SQLSRV_FETCH_ASSOC)) {
+            $earthquake_ids[] = $row['id'];
+        }
+        if(!empty($earthquake_ids)){
+            foreach($earthquake_ids as $earthquake_id){
+                delete_earthquake($conn, $earthquake_id);
+            }
+        }
+        //free statement
+        sqlsrv_free_stmt($stmtEarthquakes);
+        //delete observatory from table. 
+        $sql2 = "DELETE FROM observatories WHERE id = ?;";
+        sqlsrv_query($conn, $sql2, $params);
+    }
+    //Editing Observatories
+    function edit_observatory($conn){
+        //do later do earthquakes now
+    }
+    //adding earthquakes
+    function add_earthquake($conn, $type, $magnitude, $country, $date, $time, $latitude, $longitude, $observatory_id, $user_id) {
+        // 1. Validate observatory existence
+        $check_sql = "SELECT COUNT(*) as cnt FROM observatories WHERE id = ?";
+        $check_stmt = sqlsrv_query($conn, $check_sql, [intval($observatory_id)]);
+        if ($check_stmt === false) {
+            return "Database error while checking observatory.";
+        }
+        $row = sqlsrv_fetch_array($check_stmt, SQLSRV_FETCH_ASSOC);
+        if (!$row || $row['cnt'] == 0) {
+            sqlsrv_free_stmt($check_stmt);
+            return "The selected observatory does not exist.";
+        }
+        sqlsrv_free_stmt($check_stmt);
+
+        // 2. Compute the next country-specific earthquake counter
+        $id_sql = "SELECT MAX(country_id) as max_id FROM earthquakes WHERE country = ?";
+        $id_stmt = sqlsrv_query($conn, $id_sql, [$country]);
+        if ($id_stmt === false) {
+            return "Database error while checking max country_id.";
+        }
+        $id_row = sqlsrv_fetch_array($id_stmt, SQLSRV_FETCH_ASSOC);
+        $country_id = ($id_row['max_id'] ?? 0) + 1;
+        sqlsrv_free_stmt($id_stmt);
+
+        // 3. Generate the earthquake id depending on type
+        $type_lower = strtolower($type);
+        $prefix = '';
+        switch($type_lower) {
+            case 'collapse':   $prefix = 'EC'; break;
+            case 'tectonic':   $prefix = 'ET'; break;
+            case 'volcanic':   $prefix = 'EV'; break;
+            case 'explosion':  $prefix = 'EE'; break;
+            default:           $prefix = 'EQ'; // fallback or you can return an error
+        }
+        $id = $prefix . '-' . $magnitude . '-' . $country . '-' . str_pad($country_id, 5, '0', STR_PAD_LEFT);
+
+        // 4. Insert the earthquake
+        $sql = "INSERT INTO earthquakes (id, country, country_id, magnitude, type, date, time, latitude, longitude, observatory_id, user_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $params = [
+            $id, $country, $country_id, $magnitude, $type, $date, $time,
+            $latitude, $longitude, $observatory_id, $user_id
+        ];
+        $stmt = sqlsrv_query($conn, $sql, $params);
+        return $stmt; 
+    }
+    //Deleting earthquakes
+    function delete_earthquake($conn, $id) {
+        // 1. Find all artefacts linked to this earthquake
+        $sqlArtefacts = "SELECT id FROM artefacts WHERE earthquake_id = ?;";
+        $params = array($id);
+        $stmtArtefacts = sqlsrv_query($conn, $sqlArtefacts, $params);
+    
+        if ($stmtArtefacts === false) {
+            return false;
+        }
+    
+        $artefact_ids = [];
+        while ($row = sqlsrv_fetch_array($stmtArtefacts, SQLSRV_FETCH_ASSOC)) {
+            $artefact_ids[] = $row['id'];
+        }
+        sqlsrv_free_stmt($stmtArtefacts);
+    
+        // 2. Delete each artefact
+        if (!empty($artefact_ids)) {
+            foreach ($artefact_ids as $artefact_id) {
+                if (!delete_artefact($conn, $artefact_id)) {
+                    // If deleting an artefact fails, stop and return false
+                    return false;
+                }
+            }
+        }
+    
+        // 3. Now delete the earthquake itself
+        $sql = "DELETE FROM earthquakes WHERE id = ?;";
+        $stmt = sqlsrv_query($conn, $sql, $params);
+        if ($stmt === false) {
+            return false;
+        }
+        sqlsrv_free_stmt($stmt);
+        return true;
+    }
+    //Editing earthquakes
+    function edit_earthquakes($conn){
+        
+    }
 ?>
