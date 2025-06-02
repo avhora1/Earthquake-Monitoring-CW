@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
+include '../headerNew.php';
 // --- Fetch earthquake and artefact data, as before ---
 $earthquakes_sql = "SELECT id, country, date FROM earthquakes";
 $earthquakes_result = sqlsrv_query($conn, $earthquakes_sql);
@@ -35,7 +36,6 @@ sqlsrv_close($conn);
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!-- Google Fonts -->
     <link rel="stylesheet" href="../assets/css/quake.css">
-    <?php include '../headerNew.php';?>
     <style>
     th,
     td {

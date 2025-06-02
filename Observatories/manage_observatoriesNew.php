@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
+include '../headerNew.php';
 
 
 // Query the observatories
@@ -21,12 +22,13 @@ sqlsrv_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Manage Observatories | Quake</title>
     <link rel="stylesheet" href="../assets/css/quake.css">
-    <?php include '../headerNew.php'?>
 </head>
+
 <body>
     <!-- MAIN PANELS -->
     <main class="main-content">
@@ -49,7 +51,7 @@ sqlsrv_close($conn);
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (count($observatories)): ?>
+                    <?php if (count($observatories)): ?>
                     <?php foreach($observatories as $obs): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($obs['id']); ?></td>
@@ -58,22 +60,30 @@ sqlsrv_close($conn);
                         <td><?php echo htmlspecialchars($obs['latitude']); ?></td>
                         <td><?php echo htmlspecialchars($obs['longitude']); ?></td>
                         <td>
-                        <form action="process_delete_observatory.php" method="POST" style="margin:0;">
-                            <input type="hidden" name="id" value="<?=$obs['id']?>">
-                            <button type="submit" class="delete-btn" title="Delete"><img src="/assets/icons/rubbish.svg" alt="Delete" style="height:1.1em;vertical-align:middle;margin:0;padding:0;"></button>
-                        </form>
+                            <form action="process_delete_observatory.php" method="POST" style="margin:0;">
+                                <input type="hidden" name="id" value="<?=$obs['id']?>">
+                                <button type="submit" class="delete-btn" title="Delete"><img
+                                        src="/assets/icons/rubbish.svg" alt="Delete"
+                                        style="height:1.1em;vertical-align:middle;margin:0;padding:0;"></button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                     <?php for($i=0;$i<max(0,6-count($observatories));$i++): ?>
-                        <tr class="empty-row"><td colspan="6"></td></tr>
+                    <tr class="empty-row">
+                        <td colspan="6"></td>
+                    </tr>
                     <?php endfor; ?>
-                <?php else: ?>
-                    <tr><td colspan="6" style="text-align:center;color:#eee;">No observatories found.</td></tr>
+                    <?php else: ?>
+                    <tr>
+                        <td colspan="6" style="text-align:center;color:#eee;">No observatories found.</td>
+                    </tr>
                     <?php for($i=0;$i<6;$i++): ?>
-                        <tr class="empty-row"><td colspan="6"></td></tr>
+                    <tr class="empty-row">
+                        <td colspan="6"></td>
+                    </tr>
                     <?php endfor; ?>
-                <?php endif; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -89,7 +99,8 @@ sqlsrv_close($conn);
                         <input name="name" id="name" type="text" required autocomplete="off">
                     </div>
                     <div class="q-field"><label for="date">Est. Date</label>
-                        <input type="date" name="est_date" id="est_date" pattern="\d{2}/\d{2}/\d{4}" placeholder="dd/mm/yyyy" required>
+                        <input type="date" name="est_date" id="est_date" pattern="\d{2}/\d{2}/\d{4}"
+                            placeholder="dd/mm/yyyy" required>
                     </div>
                     <div class="q-field"><label for="latitude">Latitude ≤|90|</label>
                         <input type="number" name="latitude" id="latitude" step="0.0001" min="-90" max="90">
@@ -99,52 +110,55 @@ sqlsrv_close($conn);
                     </div>
                     <div class="input-group">
                         <button type="submit" class="add-btn">Add</button>
-                        <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>
+                        <button type="reset" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg"
+                                alt="Clear" style="height:1.2em;"></button>
                 </form>
             </div>
         </div>
     </main>
     <script>
     // Toggle delete button disabled/enabled
-    document.getElementById('edit-switch').addEventListener('change', function(){
+    document.getElementById('edit-switch').addEventListener('change', function() {
         const enabled = this.checked;
         document.querySelectorAll('.delete-btn[data-table-delete]').forEach(btn => {
             btn.disabled = !enabled;
-            if(!enabled) btn.classList.add('disabled')
+            if (!enabled) btn.classList.add('disabled')
             else btn.classList.remove('disabled')
         });
     });
     </script>
-<div id="delete-modal" class="q-modal-backdrop" style="display:none">
-  <div class="q-modal">
-    <h3>Confirm Delete</h3>
-    <p style="font-size:1.12em; color:#fff; margin:18px 0 30px 0;">Are you sure you want to delete this observatory?</p>
-    <div class="q-modal-actions">
-      <button type="button" class="add-btn" id="cancel-delete">Cancel</button>
-      <button type="button" class="delete-btn" id="confirm-delete">Delete</button>
+    <div id="delete-modal" class="q-modal-backdrop" style="display:none">
+        <div class="q-modal">
+            <h3>Confirm Delete</h3>
+            <p style="font-size:1.12em; color:#fff; margin:18px 0 30px 0;">Are you sure you want to delete this
+                observatory?</p>
+            <div class="q-modal-actions">
+                <button type="button" class="add-btn" id="cancel-delete">Cancel</button>
+                <button type="button" class="delete-btn" id="confirm-delete">Delete</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<script>
-let formToDelete = null;
+    <script>
+    let formToDelete = null;
 
-// Intercept submit for all delete artefact forms
-document.querySelectorAll('form[action="process_delete_observatory.php"]').forEach(function(form){
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    formToDelete = form;
-    document.getElementById('delete-modal').style.display = 'flex';
-  });
-});
-document.getElementById('cancel-delete').onclick = function() {
-  document.getElementById('delete-modal').style.display = 'none';
-  formToDelete = null;
-};
-document.getElementById('confirm-delete').onclick = function() {
-  if(formToDelete) formToDelete.submit();
-  document.getElementById('delete-modal').style.display = 'none';
-  formToDelete = null;
-};
-</script>
+    // Intercept submit for all delete artefact forms
+    document.querySelectorAll('form[action="process_delete_observatory.php"]').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            formToDelete = form;
+            document.getElementById('delete-modal').style.display = 'flex';
+        });
+    });
+    document.getElementById('cancel-delete').onclick = function() {
+        document.getElementById('delete-modal').style.display = 'none';
+        formToDelete = null;
+    };
+    document.getElementById('confirm-delete').onclick = function() {
+        if (formToDelete) formToDelete.submit();
+        document.getElementById('delete-modal').style.display = 'none';
+        formToDelete = null;
+    };
+    </script>
 </body>
+
 </html>

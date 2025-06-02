@@ -1,8 +1,11 @@
 <?php
-$new_pallet_id = isset($_GET['new_pallet_id']) ? intval($_GET['new_pallet_id']) : null;
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
 include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
+include '../headerNew.php';
+
+
+$new_pallet_id = isset($_GET['new_pallet_id']) ? intval($_GET['new_pallet_id']) : null;
 // For "Add Artefact" - you may want a list of earthquakes from your DB:
 $all_earthquakes_list = [];
 $eq_res = sqlsrv_query($conn, "SELECT id,country,date FROM earthquakes");
@@ -15,7 +18,6 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../headerNew.php';?>
     <meta charset="UTF-8">
     <title>Manage Pallets | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
