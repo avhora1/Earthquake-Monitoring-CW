@@ -497,29 +497,39 @@
     }
     //geocoding data from latitude and longitude
     function getCountryAndCityFromLatLon($lat, $lon) {
-        // Nominatim API URL
         $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" .
-            urlencode($lat) . "&lon=" . urlencode($lon) . "&zoom=10&addressdetails=1"; // zoom=10 for city level
-        // Set a user agent header to comply with API requirements
+            urlencode($lat) . "&lon=" . urlencode($lon) . "&zoom=10&addressdetails=1";
         $opts = [
             "http" => [
-                "header" => "User-Agent: PHP Demo - your_email@example.com\r\n"
+                "header" => "User-Agent: My-Site/1.0 (me@mydomain.com)\r\n"
             ]
         ];
         $context = stream_context_create($opts);
-        // Fetch and decode result
+    
         $json = @file_get_contents($url, false, $context);
-        if($json === FALSE) {
+        if ($json === FALSE) {
+            error_log("Nominatim fetch failed for lat=$lat lon=$lon");
             return null;
         }
         $data = json_decode($json, true);
     
-        $address = $data['address'] ?? [];
-    
-        // Try to get city, fallbacks for town or village
-        $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? null;
+        if (!isset($data['address'])) {
+            error_log("Nominatim missing address for lat=$lat lon=$lon Response: ".print_r($data,true));
+            return ['country'=>null, 'city'=>null];
+        }
+        $address = $data['address'];
+        $city = $address['city'] ??
+                $address['town'] ??
+                $address['village'] ??
+                $address['municipality'] ??
+                $address['state_district'] ??
+                $address['county'] ??
+                $address['region'] ??
+                $address['state'] ??
+                null;
         $country = $address['country'] ?? null;
     
+        error_log("Geocode result: city=$city country=$country input=($lat,$lon) address=".json_encode($address));
         return ['country' => $country, 'city' => $city];
     }
 ?>

@@ -19,7 +19,7 @@ a:hover {
 /* ==== SIDEBAR ==== */
 .sidebar {
     position: fixed;
-    top: 90px;
+    top: 81px;
     left: 0;
     width: 285px;
     height: calc(100vh - 90px);
@@ -102,7 +102,7 @@ a:hover {
 .main-content {
     margin-left: 330px;
     /* accommodates sidebar */
-    margin-top: 110px;
+    margin-top: 81px;
     display: flex;
     flex-direction: row;
     gap: 32px;
