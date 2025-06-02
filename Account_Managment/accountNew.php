@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
         <li><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
         <li><a href="../Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
         <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
+        <li><a href="team_structure.php"><img src="/assets/icons/team.svg">Team</a></li>
         <li class="active"><a href="#"><img src="/assets/icons/account.svg">Account</a></li>
     </ul>
     <div class="sidebar-logout">
@@ -250,6 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
                 <button class="add-btn" type="submit" name="change_password" id="changepw-btn" disabled>Change Password</button>
             </form>
         </div>
+        <a href="/Account_Managment/team_structure.php" class="add-btn" style="margin-top:20px; text-decoration:none;">Edit Team Structure</a>
     </div>
 </div>
 
