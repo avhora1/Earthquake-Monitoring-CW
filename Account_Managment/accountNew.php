@@ -206,6 +206,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
             padding: 9px 1vw 18px 2vw;
         }
     }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
+        }
     </style>
 </head>
 

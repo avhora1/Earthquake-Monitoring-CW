@@ -125,6 +125,12 @@ sqlsrv_close($conn);
         .q-modal .delete-btn:hover {
         background: radial-gradient(ellipse at 67% 25%, #fd2b2b 62%, #fc5d1f 140%);
         }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top: 0px;
+        }
     </style>
 </head>
 <body>

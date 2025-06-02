@@ -102,7 +102,7 @@ a:hover {
 .main-content {
     margin-left: 330px;
     /* accommodates sidebar */
-    margin-top: 81px;
+    margin-top: 0px;
     display: flex;
     flex-direction: row;
     gap: 32px;

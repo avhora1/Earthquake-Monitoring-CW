@@ -39,6 +39,47 @@ sqlsrv_close($conn);
     <title>Manage Earthquakes | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
+<style>
+    header {
+        position: relative;
+    }
+    .main-content {
+    margin-left: 320px;
+    margin-top: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 38px;
+    max-width: 1440px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    padding-bottom: 36px;
+}
+.glass-panel.manage-panel {
+    flex: 1 1 0;
+    min-width: 1000px;
+    margin-right: 0;
+    padding: 34px 38px 33px 38px;
+    border-radius: 22px;
+    box-shadow: 0 0 34px #090e206e;
+    background: linear-gradient(113deg, rgba(40,44,64,0.93), rgba(22,26,38,0.96) 90%);
+}
+.glass-panel.add-panel {
+    flex: 0 0 400px;
+    min-width: 320px;
+    max-width: 425px;
+    margin-right: 0;
+    padding: 35px 32px 37px 32px;
+    border-radius: 22px;
+    box-shadow: 0 0 34px #090e206e;
+    background: linear-gradient(113deg,rgba(60,66,92,.94),rgba(27,33,52,.97) 93%);
+}
+@media (max-width: 1200px) {
+    .main-content { flex-direction: column; margin-left: 0; gap: 26px; max-width: 99vw;}
+    .glass-panel.manage-panel, .glass-panel.add-panel { max-width: 99vw; }
+}
+table { width: 100%; }
+</style>
 
 <body>
 
@@ -93,7 +134,7 @@ sqlsrv_close($conn);
             </table>
         </div>
         <!-- SIDE PANELS -->
-        <div class="side-panel add-earthquake">
+        <div class="glass-panel add-panel">
             <h1>Add Earthquake</h1>
             <form method="POST" action="process_earthquake.php" autocomplete="off">
                 <div class="q-field"><label for="country">Country</label>

@@ -24,11 +24,17 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
     <link rel="stylesheet" href="../assets/css/quake.css">
     <style>
         th, td { vertical-align: middle!important; }
-        .artefact-list { font-family:monospace; line-height:1.7; padding:0; margin:0;}
-        .main-content { display:flex; align-items:flex-start;}
+        .artefact-list { font-family:monospace; line-height:1.7; padding:0;}
+        .main-content { display:flex; align-items:flex-start;margin-top:0}
         .glass-panel.manage-panel { flex:2; min-width:0; }
         .side-panel.add-panel { 
             <?php if (!$new_pallet_id): ?>display:none;<?php endif; ?>
+        }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
         }
     </style>
 </head>
