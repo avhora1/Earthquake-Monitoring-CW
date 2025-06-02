@@ -42,10 +42,10 @@ body {
     background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
     backdrop-filter: blur(1vh);
     border-radius: 2rem;
-    min-height: 33vh;
-    top: 20vh;
     box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
     border: 2px solid rgba(255, 255, 255, 0.09);
+    min-height: 33vh;
+    top: 20vh;
 
 }
 
@@ -54,9 +54,9 @@ body {
     padding-left: 3vh;
     font-size: 6vh;
     font-weight: 900;
+    font-family: 'Roboto', Arial, sans-serif;
     color: #fff;
     margin-bottom: 20px;
-    font-family: 'Roboto', Arial, sans-serif;
 }
 
 .glass-box .highlight {
