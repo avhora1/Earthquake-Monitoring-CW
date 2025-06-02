@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
 // Only logged in accounts allowed
 if (!isset($_SESSION['account_loggedin']) || !$_SESSION['account_loggedin']) {
     header('Location: /Sign-in/signin.php');
@@ -174,22 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
     </style>
 </head>
 <body>
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <ul class="sidebar-nav">
-        <li><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
-        <li><a href="../Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="team_structure.php"><img src="/assets/icons/team.svg">Team</a></li>
-        <li class="active"><a href="#"><img src="/assets/icons/account.svg">Account</a></li>
-    </ul>
-    <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-    </div>
-</div>
 
 <!-- MAIN CONTENT AREA -->
 <div class="main-content">

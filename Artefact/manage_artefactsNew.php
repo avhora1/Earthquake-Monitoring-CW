@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
 
 // --- Fetch earthquake and artefact data, as before ---
 $earthquakes_sql = "SELECT id, country, date FROM earthquakes";
@@ -41,23 +42,6 @@ sqlsrv_close($conn);
     <?php include '../headerNew.php';?>
 </head>
 <body>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <ul class="sidebar-nav">
-        <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
-        <li class="active"><a href="#"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
-        <li><a href="../Account_Management/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
-    </ul>
-    <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-    </div>
-</div>
 
 <!-- MAIN CONTENT AREA -->
 <div class="main-content">

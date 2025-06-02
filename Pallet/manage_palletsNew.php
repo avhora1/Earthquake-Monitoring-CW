@@ -2,6 +2,7 @@
 $new_pallet_id = isset($_GET['new_pallet_id']) ? intval($_GET['new_pallet_id']) : null;
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
 // For "Add Artefact" - you may want a list of earthquakes from your DB:
 $all_earthquakes_list = [];
 $eq_res = sqlsrv_query($conn, "SELECT id,country,date FROM earthquakes");
@@ -30,21 +31,6 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <ul class="sidebar-nav">
-        <li><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' '; ?>><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' class="active"'; ?>><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
-        <li><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
-        <li><a href="../Account_Managment/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
-    </ul>
-    <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-    </div>
-</div>
 <div class="main-content">
     <div class="glass-panel manage-panel">
         <h2>Manage Pallets</h2>
