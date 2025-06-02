@@ -234,9 +234,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
                 </div>
                 <button class="add-btn" type="submit" name="change_password" id="changepw-btn" disabled>Change Password</button>
             </form>
-        </div>
-        <a href="/Account_Managment/team_structure.php" class="add-btn" style="margin-top:20px; text-decoration:none;">Edit Team Structure</a>
-    </div>
 </div>
 
 <script>
