@@ -178,9 +178,8 @@ header {
                     to the shop.
                 </div>
                 <div class="shop-header-desc">
-                    This is a website to monitor earthquakes, buy artifacts and lorum ipsum deez nuts. Lorem ipsum dolor
-                    sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    This is the shop, where you can buy any artefacts that the scientists have deemed as not required for scientific research. Add to your basket to buy a piece of explosive nature! 
+                    All these artefacts are real, get one while stock lasts!
                 </div>
                 <hr class="shop-header-sep">
             </div>

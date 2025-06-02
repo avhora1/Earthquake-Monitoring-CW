@@ -111,11 +111,10 @@ body {
                         <span class="highlight">Earthquake</span><span> Monitoring</span>
                     </h1>
                     <p>
-                        This is a website to monitor earthquakes, buy artifacts and lorum ipsum deez nuts. Lorem ipsum
-                        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur.
+                        This is a website to monitor earthquakes, buy artefacts and manage observatories around the world.
+                        You must be logged in to access these features. If you are a guest, then you are free to buy real artefacts 
+                        from the shop and you don't even have to be logged in to do this! However, please save your receipt as proof of payment to receive your artefact from collections. 
+                        We hope you have a good time on Quake!
                     </p>
                 </div>
             </div>
