@@ -28,24 +28,23 @@ function nav_active($paths) {
             <li class="<?= nav_active(['manage_artefacts']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
             <li class="<?= nav_active(['shop']) ?>"><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
             <li class="<?= nav_active(['team']) ?>"><a href="/Account_Managment/team_structure.php"><img src="/assets/icons/team.svg">Team</a></li>
+            <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img src="/assets/icons/shelves.svg">View stock</a></li>
         <?php elseif($account_type === 'senior_scientist'): ?>
             <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
             <li class="<?= nav_active(['Earthquake']) ?>"><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
             <li class="<?= nav_active(['Observatories']) ?>"><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-<<<<<<< HEAD
-            <li class="<?= nav_active(['Warehouse']) ?>"><a href="/Warehouse/warehouse.php"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-=======
->>>>>>> 7212f6416e94b9d3fb15dda0a9ead3b4d0833a59
             <li class="<?= nav_active(['Pallet']) ?>"><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
             <li class="<?= nav_active(['Artefact']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
             <li class="<?= nav_active(['shop']) ?>"><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
             <li class="<?= nav_active(['team']) ?>"><a href="/Account_Managment/team_structure.php"><img src="/assets/icons/team.svg">Team</a></li>
+            <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img src="/assets/icons/shelves.svg">View stock</a></li>
         <?php elseif($account_type === 'junior_scientist'): ?>
             <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
             <li class="<?= nav_active(['Earthquake']) ?>"><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
             <li class="<?= nav_active(['Observatories']) ?>"><a href="/Observatories/manage_observatoriesNew.php"><img src="/assets/icons/observatory.svg">Observatories</a></li>
             <li class="<?= nav_active(['Artefact']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
             <li class="<?= nav_active(['shop']) ?>"><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
+            <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img src="/assets/icons/shelves.svg">View stock</a></li>
         <?php elseif ($account_type === 'guest') : ?>
             <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
         <?php endif; ?>
