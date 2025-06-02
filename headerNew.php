@@ -228,8 +228,16 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
                 </ul>
             </nav>
             <div class="nav-actions">
+            <?php if (!empty($_SESSION['account_loggedin'])): ?>
+                <span style="display: flex; align-items: center; color: #ffe8a2; font-weight: 700; margin-right: 12px; font-size: 1.07em;">
+                    <img src="/assets/icons/user.svg" alt="User" style="width:20px;height:20px;margin-right:7px;vertical-align:middle;">
+                    <?= htmlspecialchars($_SESSION['account_name']) ?>
+                </span>
+                <a href="/sign-in/logout.php" class="login-btn">Log out</a>
+            <?php else: ?>
                 <a href="/sign-in/signin.php" class="login-btn">Login</a>
                 <a href="/sign-in/register.php" class="signup-btn">Sign up</a>
+            <?php endif; ?>
                 <a href="/basket/basket.php" class="basket-link" title="Basket">
                     <img src="/assets/icons/basket.png" alt="Basket" class="basket-icon">
                 </a>
