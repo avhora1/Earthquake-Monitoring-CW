@@ -116,6 +116,9 @@ ADD CONSTRAINT FK_Artefacts_Earthquakes FOREIGN KEY (earthquake_id) REFERENCES e
 ALTER TABLE artefacts
 ADD CONSTRAINT FK_Artefacts_Pallets FOREIGN KEY (pallet_id) REFERENCES pallets (id) ON UPDATE CASCADE;
 
+-- Add foreign key constraint to artefacts table for shelves
+ALTER TABLE artefacts
+ADD CONSTRAINT FK_Artefacts_Shelves FOREIGN KEY (shelving_loc) REFERENCES shelves (shelf) ON UPDATE CASCADE;
 -- Add foreign key constraint to stock_list table
 ALTER TABLE stock_list
 ADD CONSTRAINT FK_StockList_Artefacts FOREIGN KEY (artifact_id) REFERENCES artefacts (id) ON DELETE CASCADE ON UPDATE CASCADE;
