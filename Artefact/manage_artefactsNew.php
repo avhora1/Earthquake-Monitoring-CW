@@ -1,8 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
-
-// --- Fetch earthquake and artefact data ---
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
+// --- Fetch earthquake and artefact data, as before ---
 $earthquakes_sql = "SELECT id, country, date FROM earthquakes";
 $earthquakes_result = sqlsrv_query($conn, $earthquakes_sql);
 $earthquakes = [];
@@ -64,7 +64,6 @@ sqlsrv_close($conn);
         box-shadow: 0 0 20px #ff910099;
     }
 
-    /* Modal Backdrop */
     .q-modal-backdrop {
         display: none;
         position: fixed;
@@ -147,24 +146,6 @@ sqlsrv_close($conn);
 </head>
 
 <body>
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <ul class="sidebar-nav">
-            <li<?php if(strpos($_SERVER['REQUEST_URI'], 'earthquakes')!==false) echo ' class="active"'; ?>><a
-                    href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-                <li><a href="/Observatories/manage_observatoriesNew.php"><img
-                            src="/assets/icons/observatory.svg">Observatories</a></li>
-                <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-                <li><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
-                <li class="active"><a href="#"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-                <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-                <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
-                <li><a href="../Account_Management/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
-        </ul>
-        <div class="sidebar-logout">
-            <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-        </div>
-    </div>
     <!-- MAIN CONTENT AREA -->
     <div class="main-content">
         <!-- MANAGE PANEL -->
@@ -183,14 +164,14 @@ sqlsrv_close($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($artefacts)): foreach ($artefacts as $row):
-    $id = $row["id"] ?? "";
-    $earthquake_id = $row["earthquake_id"] ?? "";
-    $type = $row["type"] ?? "";
-    $timestamp = ($row["time_stamp"] instanceof DateTime) ? $row["time_stamp"]->format('d.m.y') : ($row["time_stamp"] ?? "");
-    $shelving_loc = $row["shelving_loc"] ?? "N/A";
-    $required = $row["required"] ?? "";
-?>
+                    <?php if (!empty($artefacts)): foreach ($artefacts as $row): 
+                $id = $row["id"] ?? "";
+                $earthquake_id = $row["earthquake_id"] ?? "";
+                $type = $row["type"] ?? "";
+                $timestamp = ($row["time_stamp"] instanceof DateTime) ? $row["time_stamp"]->format('d.m.y') : ($row["time_stamp"] ?? "");
+                $shelving_loc = $row["shelving_loc"] ?? "N/A";
+                $required = $row["required"] ?? "";
+            ?>
                     <tr>
                         <td><?=htmlspecialchars($id)?></td>
                         <td><?= isset($earthquakes[$earthquake_id]) ? explode(' - ', htmlspecialchars($earthquakes[$earthquake_id]))[0] : "N/A"; ?>
@@ -314,7 +295,6 @@ sqlsrv_close($conn);
         document.getElementById('delete-modal').style.display = 'none';
         formToDelete = null;
     };
-
     // ----- Add To Shop Modal -----
     let currentArtefactId = null;
     document.querySelectorAll('.add-shop-btn').forEach(btn => {
