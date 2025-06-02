@@ -27,6 +27,14 @@ sqlsrv_close($conn);
     <meta charset="utf-8">
     <title>Manage Observatories | Quake</title>
     <link rel="stylesheet" href="../assets/css/quake.css">
+    <style>
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
+        }
+    </style>
 </head>
 
 <body>

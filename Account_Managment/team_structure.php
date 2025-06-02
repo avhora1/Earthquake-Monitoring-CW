@@ -141,7 +141,7 @@ sort($account_types_in_table);
         margin-bottom: 32px;
     }
     .main-content {
-        margin-top: 88px;
+        margin-top: 81px;
         display: flex;
         flex-direction: column;
         gap: 24px;
@@ -264,6 +264,12 @@ sort($account_types_in_table);
     color: #fff;
     background: #1c202e ;
     }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
+        }
     </style>
 </head>
 <body>

@@ -142,6 +142,12 @@ sqlsrv_close($conn);
     .delete-btn:hover {
         background: #ee2222;
     }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
+        }
     </style>
 </head>
 
