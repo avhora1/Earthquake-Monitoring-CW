@@ -27,11 +27,12 @@ for ($i = 0; $i < 12; $i++) {
         }
         .carousel-outer {
             display: flex;
-            flex-direction: column;
+             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            width: 100vw;
+            width: calc(100% - 285px);
+            margin-left: 285px;
         }
         .carousel-header {
             width: 900px;
