@@ -16,15 +16,18 @@ include '../connection.php';
 
 </head>
 <body class="bg-body-tertiary">
-  <?php include '../header.php';
-  $basket = isset($_SESSION['basket']) ? $_SESSION['basket'] : [];?>
-
+  <div style="padding-top:3vh; padding-left:40vh;">
+    <a href="/"><img src="/assets/brand/Quake Logo Black.png" alt="Quake Logo" style="height:45px;"></a>
+  </div>
   <div class="container">
     <main>
-      <div class="py-5 text-center">
-        <h1 class="h2">Checkout</h1>
+      <div class="py-4 text-center">
+        <h1 class="h2 mb-0">Checkout</h1>
       </div>
-      <?php if (isset($_GET['removed']) && $_GET['removed'] == 1): ?>
+      <?php $basket = isset($_SESSION['basket']) ? $_SESSION['basket'] : [];?>
+    </main>
+  
+    <?php if (isset($_GET['removed']) && $_GET['removed'] == 1): ?>
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
   <div id="updateToast" class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
@@ -48,7 +51,6 @@ include '../connection.php';
 <?php endif; ?>
       <?php if (empty($basket)): ?>
         <div class="alert alert-dark text-center w-50 mx-auto">Your basket is empty.</div>
-        <div class="text-center"><a href="../Shop/shop.php" class="btn btn-primary">Return to Shop</a></div>
     </main>
   </div>
   <script src="../script.js"></script>
@@ -95,7 +97,7 @@ include '../connection.php';
   </div>
   <div class="col-md-7 col-lg-8">
     <h4 class="mb-3">Customer information</h4>
-    <form class="needs-validation" novalidate method="POST" action="checkout.php">
+    <form class="needs-validation" novalidate method="POST" action="checkoutNew.php">
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="firstName" class="form-label">First name</label>

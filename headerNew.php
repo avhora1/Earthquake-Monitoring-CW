@@ -209,6 +209,44 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
     navbar.active {
         max-width: 1300px;
     }
+
+    .basket-link {
+    /* your existing styles */
+    display: flex;
+    align-items: center;
+    height: 38px;
+    position: relative; /* not strictly needed, icon wrap is relatively positioned */
+}
+
+.basket-icon-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.basket-icon {
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+    /* your existing style */
+}
+
+.basket-badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    padding: 0 6px;
+    background: #ff9100;
+    color: #fff;
+    font-size: 0.92em;
+    font-family: inherit;
+    line-height: 20px;
+    border-radius: 16px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px #ff910091;
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+}
     </style>
 </head>
 
@@ -245,8 +283,14 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
                 <a href="/sign-in/signin.php" class="login-btn">Login</a>
                 <a href="/sign-in/register.php" class="signup-btn">Sign up</a>
                 <?php endif; ?>
+                <?php $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0; ?>
                 <a href="/basket/basket.php" class="basket-link" title="Basket">
-                    <img src="/assets/icons/basket.png" alt="Basket" class="basket-icon">
+                    <span class="basket-icon-wrap">
+                        <img src="/assets/icons/basket.png" alt="Basket" class="basket-icon">
+                        <?php if ($basket_count > 0) : ?>
+                            <span class="basket-badge"><?= $basket_count ?></span>
+                        <?php endif; ?>
+                    </span>
                 </a>
             </div>
         </div>
