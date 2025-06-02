@@ -174,7 +174,7 @@ sort($account_types_in_table);
     }
     #userTable th,
     .table th {
-        color: #ffd351 !important;
+        color: #ffd351s;
         background: none;
         font-weight: 800;
         border-bottom: 2px solid #353745;
@@ -193,8 +193,8 @@ sort($account_types_in_table);
     }
 
     .badge-typetag {
-        color: #fff !important;
-        background: #343956 !important;
+        color: #fff;
+        background: #343956;
         border-radius: 7px;
         padding: 2px 9px;
         font-size: 0.97em;
@@ -203,13 +203,8 @@ sort($account_types_in_table);
     }
 
     /* Links/breadcrumb/action style */
-    a, a:visited, a:hover, a:active {
-        color: #ff9100;
-        text-decoration: none;
-        font-weight: 600;
-    }
     a.add-btn, .add-btn {
-        color: #222 !important;
+        color: #222 ;
         background: linear-gradient(90deg, #ff9100, #ffbe3d 80%);
         border-radius: 999px;
         padding: 9px 38px;
@@ -222,9 +217,9 @@ sort($account_types_in_table);
         display: inline-block;
     }
     a.add-btn:hover, .add-btn:hover {
-        background: linear-gradient(90deg,#ffbe3d,#ff9100 90%) !important;
+        background: linear-gradient(90deg,#ffbe3d,#ff9100 90%) ;
         box-shadow: 0 0 30px #fa8c16d0;
-        color: #161616 !important;
+        color: #161616;
     }
 
     /* Inputs and selects */
@@ -253,7 +248,7 @@ sort($account_types_in_table);
 
     /* Hide link underline for nav/btn links */
     .sidebar-nav a, .navbar a, a.add-btn, .add-btn {
-        text-decoration: none !important;
+        text-decoration: none;
     }
 
     /* Responsiveness for main content */
@@ -265,8 +260,8 @@ sort($account_types_in_table);
         .main-content, .team-manage-panel, .glass-panel {padding:10px 1.5vw;}
     }
     select, select option {
-    color: #fff !important;
-    background: #1c202e !important;
+    color: #fff;
+    background: #1c202e ;
     }
     </style>
 </head>

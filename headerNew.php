@@ -224,7 +224,7 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
                     <li><a href="/shop/shop.php" class="<?php echo $shop_active; ?>">Shop</a></li>
                     <li><a href="/earthquakes/earthquakes.php"
                             class="<?php echo $earthquakes_active; ?>">Earthquakes</a></li>
-                    <li><a href="/dashboard/dashboard.php" class="<?php echo $dashboard_active; ?>">Dashboard</a></li>
+                    <li><a href="/Earthquake/manage_earthquakesNew.php" class="<?php echo $dashboard_active; ?>">Dashboard</a></li>
                 </ul>
             </nav>
             <div class="nav-actions">
