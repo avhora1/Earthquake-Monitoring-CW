@@ -1,138 +1,126 @@
-<?php
-include 'session.php';
-?>
-<!-- Save as index.php -->
-<!doctype html>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/session.php'; ?>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home · Observatory Dashboard</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quake</title>
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="globe.css">
-    
-    <!-- <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@v0.174.0/build/three.module.js",
-          "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@v0.174.0/examples/jsm/controls/OrbitControls.js",
-          "three/addons/": "./jsm/"
-        }
-      }
-    </script> -->
-
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
-        "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/controls/OrbitControls.js"
-      }
-    }
-  </script>
-    
-    <style>
-      /* Fixed Header Styling */
-      header {
-        position: fixed; /* Fix the header at the top */
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1030; /* Ensure the header stays above other elements */
-      }
-
-      /* Padding for body to prevent overlapping the fixed header */
-      body {
-        padding-top: 70px; /* Adjust the padding based on header height */
-      }
-
-      /* Dropdown menu appears on hover */
-      .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-      }
-
-      /* Additional styling for dropdown hover experience */
-      .nav-item.dropdown:hover {
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <script type="module" src="globe.js"></script>
-
-    <!-- Include the header -->
-    <?php include 'header.php'; ?>
-
-  <div id="cover">
-        <canvas id="globe"></canvas>
- </div> 
-
-    <!-- Main content -->
-<main class="container mt-5">
-<h1>Welcome<?= isset($_SESSION['firstname']) ? ', ' . htmlspecialchars($_SESSION['firstname']) : '' ?>!</h1>
-  <p>This is your main content area.</p>
 
 
+</head>
+<?php include 'headerNew.php'; ?>
+<style>
+body {
+    background: radial-gradient(#000525 0%, #000 100%);
+}
 
-<!-- Main Hero Container -->
-    <div>Main Hero</div>
-    <div class="container my-5">
-        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg overflow-hidden">
-            <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis">bootstrap</h1>
-                <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the
-                    world’s most popular front-end open source toolkit, featuring Sass variables and mixins,
-                    responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"> <button type="button"
-                        class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Dive in!</button></div>
-            </div>
-            <div class="col m-0 p-0" style="width:500px; height:400px;">
-              <img class="" src="assets/earth/earth placeholder.png" style="width:700px; height:600px; display:block; object-fit:cover;"></img>
-            </div>
-        </div>
+.earth img {
+    position: absolute;
+    top: 20vh;
+    right: 10vw;
+    z-index: -1;
+    width: 80vh;
+    height: 80vh;
+}
+
+.crack img {
+    position: absolute;
+    top: 0;
+    right: 23vw;
+    z-index: -2;
+    height: 93vh;
+
+}
+
+.glass-box {
+    background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
+    backdrop-filter: blur(1vh);
+    border-radius: 2rem;
+    min-height: 33vh;
+    top: 20vh;
+    box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
+    border: 2px solid rgba(255, 255, 255, 0.09);
+
+}
+
+.glass-box h1 {
+    padding-top: 2vh;
+    padding-left: 3vh;
+    font-size: 6vh;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.glass-box .highlight {
+    color: #ff7400;
+}
+
+
+.glass-box p {
+    padding-left: 3vh;
+    padding-right: 3vh;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2vh;
+    padding-bottom: 1vh;
+    font-weight: 400;
+    line-height: 1.32;
+}
+
+.signup-btn {
+    padding: 7px 24px;
+    background: linear-gradient(90deg, #ff9100, #ffbe3d);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    box-shadow: 0 0 16px #fa8c16;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.25s, box-shadow 0.25s;
+    font-family: 'Roboto', Arial, sans-serif;
+    text-decoration: none;
+}
+</style>
+
+<body>
+
+    <div class="earth">
+        <img src="/assets/images/earth.png" alt="">
+    </div>
+    <div class="crack">
+        <img src="/assets/images/crack.png" alt="">
     </div>
 
-<!-- Shop Overview -->
-    <div>Shop Overview</div>
 
-    <div class="container my-5">
-      <div class="row">
+    <div class="container-fluid">
+        <div class="row justify-content-start align-items-center" style="min-height: 92vh;">
+            <div class="col-1"></div>
+            <div class="col-6">
+                <div class="glass-box">
+                    <h1>
+                        Seismic Activity<br>
+                        <span class="highlight">Earthquake</span><span> Monitoring</span>
+                    </h1>
+                    <p>
+                        This is a website to monitor earthquakes, buy artifacts and lorum ipsum deez nuts. Lorem ipsum
+                        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur.
+                    </p>
+                </div>
+            </div>
+            <div class="col-5"></div>
 
-        <div class="card col m-2 shadow">
-          <img src="assets\home images\artifact placeholder.png" class="card-img-top" alt="...">
-
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
         </div>
-
-        <div class="card col m-2 shadow">
-          <img src="assets\home images\artifact placeholder.png" class="card-img-top" alt="...">
-
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-
-        <div class="card col m-2 shadow">
-          <img src="assets\home images\artifact placeholder.png" class="card-img-top" alt="...">
-
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-
-      </div>
     </div>
-</main>
+</body>
 
-    <!-- Include Bootstrap JS -->
-    <script src="assets/dist/js/bootstrap.bundle.min.js" defer></script>
-  </body>
 </html>
