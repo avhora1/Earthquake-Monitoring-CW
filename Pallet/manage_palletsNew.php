@@ -143,13 +143,6 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
                     <textarea name="description" maxlength="255"></textarea>
                 </label>
                 <div class="input-group">
-                    <label for="add_shop_switch">Add to shop</label>
-                    <label class="switch">
-                        <input name="required" type="checkbox" id="add_shop_switch" value="Yes">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="input-group">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="button" onclick="window.location='../Pallet/manage_palletsNew.php'" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>
                 </div>
