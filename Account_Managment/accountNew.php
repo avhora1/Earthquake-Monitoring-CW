@@ -96,9 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
     }
 
     .account-panel h2 {
-        font-size: 2.1rem;
+        font-size: 2.0rem;
+        font-family: Urbanist, Arial, sans-serif;
         font-weight: 800;
-        margin-bottom: 3px;
+        margin: 0 0 24px 0;
     }
 
     .account-panel .section-desc {
@@ -206,12 +207,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_password'])) {
             padding: 9px 1vw 18px 2vw;
         }
     }
-        header {
-            position: relative;
-        }
-        .main-content {
-            margin-top:0;
-        }
+
+    header {
+        position: relative;
+    }
+
+    .main-content {
+        margin-top: 0;
+    }
     </style>
 </head>
 
