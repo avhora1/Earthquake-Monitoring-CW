@@ -25,7 +25,7 @@ CREATE TABLE earthquakes(
     country VARCHAR(20),
     country_id INT,
     magnitude FLOAT,
-    [type] VARCHAR(8),
+    [type] VARCHAR(20),
     [date] DATE,
     [time] TIME,
     latitude FLOAT, 
