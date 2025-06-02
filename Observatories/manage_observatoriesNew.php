@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
 
 
 // Query the observatories
@@ -27,23 +28,6 @@ sqlsrv_close($conn);
     <?php include '../headerNew.php'?>
 </head>
 <body>
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-    <ul class="sidebar-nav">
-        <li><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li class="active"><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li><a href="/Pallet/manage_palletsNew.php"><img src="/assets/icons/box.svg">Pallets</a></li>
-        <li><a href="../Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
-        <li><a href="../Account_Management/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
-    </ul>
-    <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-    </div>
-    </div>
-
     <!-- MAIN PANELS -->
     <main class="main-content">
         <!-- Manage Observatories Table Panel -->
