@@ -40,104 +40,188 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!doctype html>
-<html lang="en" data-bs-theme="light">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign-in</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="sign-in.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
-      .form-signin { max-width: 400px; margin: auto; }
-      .position-relative .btn-outline-secondary {
-        position: absolute;
-        right: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-        background: #343a40;
-        color: #fff;
-      }
-      .form-signin input[type="password"], .form-signin input[type="text"] { padding-right: 2.5rem; }
-      /* Hide browser's default password toggle where possible */
-input[type="password"]::-ms-reveal,
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-textfield-decoration-container {
-    display: none !important;
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+<style>
+* {
+    color: rgb(255, 255, 255)
 }
-input[type="password"]::-webkit-input-password-toggle-button {
-    display: none !important;
+
+body {
+    background: radial-gradient(78.82% 50% at 50% 50%, #000525 0%, #000 100%);
 }
-    </style>
-  </head>
-  <body>
-    <?php include "../header.php"; ?>
-    <div class="d-flex align-items-center py-4 bg-body-tertiary" style="min-height:calc(100vh - 64px);">
-      <main class="form-signin w-100 m-auto">
-        <form action="" method="post" autocomplete="off">
-          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-          <?php if ($login_error): ?>
-            <div class="alert alert-danger" role="alert">
-              <?= htmlspecialchars($login_error) ?>
-            </div>
-          <?php endif; ?>
-          <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="username" name="username"
-                   value="<?= htmlspecialchars($username) ?>" placeholder="Username" required autofocus>
-            <label for="username">Username</label>
-          </div>
-          <div class="form-floating mb-2 position-relative">
-            <input type="password" class="form-control" id="password" name="password"
-                   placeholder="Password" required
-                   onfocus="showToggleBtn()" onblur="hideToggleBtn()" oninput="showToggleBtn()">
-            <label for="password">Password</label>
-            <button type="button"
-        id="showPasswordBtn"
-        class="btn p-0 bg-transparent border-0 position-absolute top-50 end-0 translate-middle-y me-2 d-none"
-        tabindex="-1" 
-        onclick="togglePassword('password','eyeIcon')">
-    <i class="bi bi-eye fs-5" id="eyeIcon"></i>
-</button>
-          </div>
-          <button class="btn btn-warning w-100 py-2" type="submit">Sign in</button>
-          <p class="mt-3 text-center mb-0">Don't have an account? <a href="register.php" class="form-link">Register</a></p>
-          <p class="mt-3 mb-2 text-body-secondary text-center">&copy; 2017–2025</p>
-        </form>
-      </main>
+
+.earth img {
+    position: absolute;
+    top: 20vh;
+    right: 10vw;
+    z-index: -1;
+    width: 80vh;
+    height: 80vh;
+}
+
+.crack img {
+    position: absolute;
+    top: 6vh;
+    left: 12vw;
+    z-index: 2;
+    width: auto;
+    height: 15vh;
+}
+
+.glass-box {
+    background: linear-gradient(153deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(1vh);
+    border-radius: 2rem;
+    min-height: 80vh;
+    top: 20vh;
+    box-shadow: 0 4px 32px 0 rgb(0 0 0 / 10%);
+    padding-left: 4.5vh;
+    padding-right: 4.5vh;
+}
+
+.glass-box h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    padding-top: 8vh;
+    font-size: 6vh;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.glass-box p {
+    padding-right: 3vh;
+    color: rgb(255, 255, 255);
+    padding-bottom: 1vh;
+    font-weight: 400;
+    font-size: 1.3rem;
+
+}
+
+.login-logo {
+    display: block;
+    padding-top: 6vh;
+    width: 20vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.glass-box input {
+    width: 100%;
+    font-size: 1.3rem;
+    color: #fff;
+    background: none !important;
+    border: none;
+    border-bottom: 2px solid rgb(255, 255, 255);
+    padding: 12px 2px 6px 0;
+    margin-bottom: 40px;
+    outline: none;
+    font-family: 'Roboto', Arial, sans-serif;
+    transition: border-color 0.2s;
+}
+
+.glass-box input:hover {
+    border-bottom: 2px solid #ff9100;
+    background: none;
+}
+
+.login-btn {
+    display: block;
+    width: 70%;
+    margin: 0 auto 24px auto;
+    padding: 12px 0;
+    border-radius: 1rem;
+    background: linear-gradient(92deg, #FF8008 0.64%, #FFC837 98.46%);
+    border: none;
+    color: #fff;
+    font-size: 1.36rem;
+    font-weight: 500;
+    box-shadow: 0 0 18px #fa8c1690;
+    cursor: pointer;
+    transition: background 0.19s, box-shadow 0.18s;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.login-btn:hover {
+    background: linear-gradient(90deg, #ffbe3d, #ff9100);
+    box-shadow: 0 0 32px #fa8c16bb;
+}
+
+.login-signup-message {
+    text-align: center;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 1rem;
+    position: absolute;
+    bottom: 2vh;
+    left: 0;
+    right: 0;
+    margin-bottom: 6px;
+}
+
+.login-signup-message a {
+    color: #ff9100;
+    text-decoration: underline;
+}
+</style>
+
+<body>
+
+    <div class="crack">
+        <img src="/assets/images/crack.png" alt="">
     </div>
-    <script>
-    function togglePassword() {
-        const pwd = document.getElementById('password');
-        const eye = document.getElementById('eyeIcon');
-        if (pwd.type === 'password') {
-            pwd.type = 'text';
-            eye.classList.remove('bi-eye');
-            eye.classList.add('bi-eye-slash');
-        } else {
-            pwd.type = 'password';
-            eye.classList.add('bi-eye');
-            eye.classList.remove('bi-eye-slash');
-        }
-    }
-    function showToggleBtn() {
-        var pwd = document.getElementById('password');
-        var btn = document.getElementById('showPasswordBtn');
-        if (pwd.value.length > 0 || document.activeElement === pwd) {
-            btn.classList.remove('d-none');
-        }
-    }
-    function hideToggleBtn() {
-        var pwd = document.getElementById('password');
-        var btn = document.getElementById('showPasswordBtn');
-        setTimeout(function() {
-          if (pwd.value.length === 0 && document.activeElement !== pwd) {
-              btn.classList.add('d-none');
-          }
-        }, 100);
-    }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+
+    <div class="earth">
+        <img src="/assets/images/earth.png" alt="">
+    </div>
+
+    <div class="container-fluid">
+        <div class="row justify-content-start align-items-center" style="min-height: 92vh;">
+            <div class="col-1"></div>
+            <div class="col-4">
+                <div class="glass-box">
+                    <a href="../">
+                        <img class="login-logo" src="/assets/brand/Quake Logo.png" alt="">
+
+                    </a>
+                    <h1 style="color: #FF7400;">Login</h1>
+                    <p>Welcome Back!</p>
+
+                    <?php if ($login_error): ?>
+                    <div style="color:#FF7400; background:rgba(55,0,0,0.24); border-radius:8px;
+                                     padding:10px 18px; margin:10px 0 20px 0; font-size:1.11rem;">
+                        <?= htmlspecialchars($login_error) ?>
+                    </div>
+                    <?php endif; ?>
+
+
+                    <form style="margin-top:10px;text-align:left;" action="" method="post" autocomplete="off">
+                        <input type="text" id="username" name="username" value="<?= htmlspecialchars($username) ?>"
+                            placeholder="Username" required autofocus>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <button type="submit" class="login-btn">Login</button>
+                    </form>
+                    <div class="login-signup-message">
+                        Don’t have an account?
+                        <a href="/sign-in/register.php">Sign up</a>
+                    </div>
+                </div>
+            </div>
+
+</body>
+
 </html>

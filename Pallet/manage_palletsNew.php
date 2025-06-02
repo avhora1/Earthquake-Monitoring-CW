@@ -1,7 +1,11 @@
 <?php
-$new_pallet_id = isset($_GET['new_pallet_id']) ? intval($_GET['new_pallet_id']) : null;
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 include '../connection.php';
+include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
+include '../headerNew.php';
+
+
+$new_pallet_id = isset($_GET['new_pallet_id']) ? intval($_GET['new_pallet_id']) : null;
 // For "Add Artefact" - you may want a list of earthquakes from your DB:
 $all_earthquakes_list = [];
 $eq_res = sqlsrv_query($conn, "SELECT id,country,date FROM earthquakes");
@@ -14,38 +18,27 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../headerNew.php';?>
     <meta charset="UTF-8">
     <title>Manage Pallets | Quake</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Urbanist:700,600,400|Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/quake.css">
     <style>
         th, td { vertical-align: middle!important; }
-        .artefact-list { font-family:monospace; line-height:1.7; padding:0; margin:0;}
-        .main-content { display:flex; align-items:flex-start;}
+        .artefact-list { font-family:monospace; line-height:1.7; padding:0;}
+        .main-content { display:flex; align-items:flex-start;margin-top:0}
         .glass-panel.manage-panel { flex:2; min-width:0; }
         .side-panel.add-panel { 
             <?php if (!$new_pallet_id): ?>display:none;<?php endif; ?>
         }
+        header {
+            position: relative;
+        }
+        .main-content {
+            margin-top:0;
+        }
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <ul class="sidebar-nav">
-        <li><a href="/Earthquake/manage_earthquakesNew.php"><img src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li><a href="#"><img src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' '; ?>><a href="#"><img src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li<?php if(strpos($_SERVER['REQUEST_URI'], 'pallet')!==false) echo ' class="active"'; ?>><a href="#"><img src="/assets/icons/box.svg">Pallets</a></li>
-        <li><a href="/Artefact/manage_artefactsNew.php"><img src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li><a href="/shop/shop.php"><img src="/assets/icons/shop.svg">Shop</a></li>
-        <li><a href="#"><img src="/assets/icons/team.svg">Team</a></li>
-        <li><a href="../Account_Managment/accountNew.php"><img src="/assets/icons/account.svg">Account</a></li>
-    </ul>
-    <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
-    </div>
-</div>
 <div class="main-content">
     <div class="glass-panel manage-panel">
         <h2>Manage Pallets</h2>
@@ -149,13 +142,6 @@ if ($eq_res && sqlsrv_has_rows($eq_res)) {
                 <label>Description
                     <textarea name="description" maxlength="255"></textarea>
                 </label>
-                <div class="input-group">
-                    <label for="add_shop_switch">Add to shop</label>
-                    <label class="switch">
-                        <input name="required" type="checkbox" id="add_shop_switch" value="Yes">
-                        <span class="slider"></span>
-                    </label>
-                </div>
                 <div class="input-group">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="button" onclick="window.location='../Pallet/manage_palletsNew.php'" class="delete-btn" title="Clear"><img src="/assets/icons/rubbish.svg" alt="Clear" style="height:1.2em;"></button>

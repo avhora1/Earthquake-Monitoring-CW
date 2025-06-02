@@ -9,7 +9,6 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- If not already imported, Roboto font -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-<?php include '../headerNew.php'; ?>
 <style>
 body {
     background: radial-gradient(#000525 0%, #000 100%);
@@ -133,17 +132,16 @@ body {
 <body>
 <div class="thankyou-bg-blur">
     <div class="glass-box">
-        <h1>Thank you <span class="highlight"><?php echo $_SESSION["firstname"];?></span>!</h1>
+        <h1>Thank you!</h1>
         <p>We are getting your order ready. Please press the button below to download your receipt.</p>
         <div class="big-icon">
         <img src="../assets/icons/ThankYouBox.svg" alt="Icon" width="220" height="220" class="big-icon-svg">
         </div>
         <div class="thankyou-actions">
-            <button class="btn btn-download">Receipt download</button>
-            <button class="btn btn-shop">Continue shopping</button>
+            <button class="btn btn-download" onclick="window.open('../Shop/receipt.php', '_blank')">Receipt download</button>
+            <button class="btn btn-shop" onclick="window.location.href='../index.php'">Continue shopping</button>
         </div>
     </div>
 </div>
 </body>
 </html>
-<!--Add script that uses AJAX that produces a receipt from querying the orders database-->

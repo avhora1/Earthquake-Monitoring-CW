@@ -33,7 +33,6 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
 
 <head>
     <meta charset="UTF-8">
-    <title>Quake</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -210,6 +209,44 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
     navbar.active {
         max-width: 1300px;
     }
+
+    .basket-link {
+    /* your existing styles */
+    display: flex;
+    align-items: center;
+    height: 38px;
+    position: relative; /* not strictly needed, icon wrap is relatively positioned */
+}
+
+.basket-icon-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.basket-icon {
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+    /* your existing style */
+}
+
+.basket-badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    padding: 0 6px;
+    background: #ff9100;
+    color: #fff;
+    font-size: 0.92em;
+    font-family: inherit;
+    line-height: 20px;
+    border-radius: 16px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px #ff910091;
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+}
     </style>
 </head>
 
@@ -224,14 +261,36 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
                     <li><a href="/shop/shop.php" class="<?php echo $shop_active; ?>">Shop</a></li>
                     <li><a href="/earthquakes/earthquakes.php"
                             class="<?php echo $earthquakes_active; ?>">Earthquakes</a></li>
-                    <li><a href="/dashboard/dashboard.php" class="<?php echo $dashboard_active; ?>">Dashboard</a></li>
+                            <li>
+                                <?php if (!empty($_SESSION['account_loggedin'])): ?>
+                                <a href="/Account_Managment/accountNew.php" class="<?php echo $dashboard_active; ?>">Dashboard</a>
+                                <?php else: ?>
+                                <a href="/sign-in/signin.php" class="<?php echo $dashboard_active; ?>">Dashboard</a>
+                                <?php endif; ?>
+                            </li>
                 </ul>
             </nav>
             <div class="nav-actions">
+                <?php if (!empty($_SESSION['account_loggedin'])): ?>
+                <span
+                    style="display: flex; align-items: center; color: #ffe8a2; font-weight: 700; margin-right: 12px; font-size: 1.07em;">
+                    <img src="/assets/icons/user.svg" alt="User"
+                        style="width:20px;height:20px;margin-right:7px;vertical-align:middle;">
+                    <?= htmlspecialchars($_SESSION['account_name']) ?>
+                </span>
+                <a href="/sign-in/logout.php" class="login-btn">Log out</a>
+                <?php else: ?>
                 <a href="/sign-in/signin.php" class="login-btn">Login</a>
                 <a href="/sign-in/register.php" class="signup-btn">Sign up</a>
+                <?php endif; ?>
+                <?php $basket_count = isset($_SESSION['basket']) ? count($_SESSION['basket']) : 0; ?>
                 <a href="/basket/basket.php" class="basket-link" title="Basket">
-                    <img src="/assets/icons/basket.png" alt="Basket" class="basket-icon">
+                    <span class="basket-icon-wrap">
+                        <img src="/assets/icons/basket.png" alt="Basket" class="basket-icon">
+                        <?php if ($basket_count > 0) : ?>
+                            <span class="basket-badge"><?= $basket_count ?></span>
+                        <?php endif; ?>
+                    </span>
                 </a>
             </div>
         </div>
