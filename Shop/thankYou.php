@@ -132,7 +132,7 @@ body {
 <body>
 <div class="thankyou-bg-blur">
     <div class="glass-box">
-        <h1>Thank you <span class="highlight"><?php echo $_SESSION["firstname"];?></span>!</h1>
+        <h1>Thank you!</h1>
         <p>We are getting your order ready. Please press the button below to download your receipt.</p>
         <div class="big-icon">
         <img src="../assets/icons/ThankYouBox.svg" alt="Icon" width="220" height="220" class="big-icon-svg">
@@ -145,4 +145,3 @@ body {
 </div>
 </body>
 </html>
-<!--Add script that uses AJAX that produces a receipt from querying the orders database-->
