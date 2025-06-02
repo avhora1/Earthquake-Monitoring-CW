@@ -9,7 +9,6 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- If not already imported, Roboto font -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-<?php include '../headerNew.php'; ?>
 <style>
 body {
     background: radial-gradient(#000525 0%, #000 100%);
@@ -139,8 +138,8 @@ body {
         <img src="../assets/icons/ThankYouBox.svg" alt="Icon" width="220" height="220" class="big-icon-svg">
         </div>
         <div class="thankyou-actions">
-            <button class="btn btn-download">Receipt download</button>
-            <button class="btn btn-shop">Continue shopping</button>
+            <button class="btn btn-download" onclick="window.open('../Shop/receipt.php', '_blank')">Receipt download</button>
+            <button class="btn btn-shop" onclick="window.location.href='../index.php'">Continue shopping</button>
         </div>
     </div>
 </div>
