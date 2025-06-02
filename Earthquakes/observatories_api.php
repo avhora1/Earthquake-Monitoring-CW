@@ -12,8 +12,8 @@ if ($stmt) {
             'name'      => $row['name'],
             'country'   => $row['country'],
             'est_date'  => $row['est_date'] instanceof DateTime
-                            ? $row['est_date']->format('Y-m-d')
-                            : $row['est_date'],
+                            ? $row['est_date']->format('Y')
+                            : substr($row['est_date'], 0, 4),
             'latitude'  => (float)$row['latitude'],
             'longitude' => (float)$row['longitude']
         ];

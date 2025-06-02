@@ -630,7 +630,7 @@ async function updateObservatoryMarkers() {
     let obsArr = await fetch('observatories_api.php').then(r=>r.json());
     obsArr.forEach(obs => {
         const marker = createObservatoryMarker(parseFloat(obs.latitude), parseFloat(obs.longitude));
-        marker.userData = { name: obs.name, est: obs.est_date, country: obs.country };
+        marker.userData = { name: obs.name, est: obs.est_date, country: obs.country, state:'observatory' };
         marker.visible = document.getElementById('toggle-observatories').checked;
         scene.add(marker);
         observatoryMarkers.push(marker);
@@ -669,6 +669,7 @@ function renderEarthquakes(eqArr) {
         if (isNaN(eq.lat) || isNaN(eq.lon)) return;
         const marker = createEarthquakeMarker(eq.lat, eq.lon, 0.003 * eq.mag, eq.mag);
         marker.userData = { ...eq };
+        marker.userData.state = 'earthquake';
         scene.add(marker);
         quakeMarkers.push(marker);
     });
@@ -697,8 +698,6 @@ async function getCityCountryForMarker(marker) {
     const resp = await fetch("geocode_api.php?lat=" + encodeURIComponent(marker.userData.lat) + "&lon=" + encodeURIComponent(marker.userData.lon));
     const result = await resp.json();
     quakeHoverCache[key] = result || {city: "", country: ""}; // cache
-    marker.userData.city = result.city || "";
-    marker.userData.country = result.country || "";
     return result;
 }
 // --- Raycasting/popover for earthquakes ---
@@ -714,28 +713,41 @@ renderer.domElement.addEventListener('pointermove', async (event) => {
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(quakeMarkers, false);
+    const intersects = raycaster.intersectObjects([...quakeMarkers, ...observatoryMarkers], false);
+
     if (intersects.length > 0) {
-        const m = intersects[0].object;
+    const m = intersects[0].object;
+
+    // For Earthquake
+    if (m.userData.state === 'earthquake') {
         let {city, country} = await getCityCountryForMarker(m);
-        locDiv.textContent = (city ? (city+', ') : '') + (country||'');
+        locDiv.textContent = (city ? (city + ', ') : '') + (country ? country : m.userData.country);
         magDiv.textContent = `${m.userData.mag}`;
         dateDiv.textContent = `${m.userData.date}`;
         descDiv.textContent = m.userData.desc || "";
-        card.classList.add('active');
-        card.style.display = "block";
-        const markerScreenPos = m.position.clone().project(camera);
-        const halfW = container.offsetWidth / 2;
-        const halfH = container.offsetHeight / 2;
-        const cardX = halfW + markerScreenPos.x * halfW;
-        const cardY = halfH - markerScreenPos.y * halfH - 70;
-        card.style.left = cardX + 'px';
-        card.style.top = cardY + 'px';
-        showingMarker = m;
+    }
+    // For Observatory
+    else if (m.userData.state === 'observatory') {
+        locDiv.textContent = m.userData.name || '';
+        magDiv.textContent = '';
+        dateDiv.textContent = m.userData.est ? 'Est. ' + m.userData.est : '';
+        descDiv.textContent = m.userData.country || '';
+    }
+
+    card.classList.add('active');
+    card.style.display = "block";
+    const markerScreenPos = m.position.clone().project(camera);
+    const halfW = container.offsetWidth / 2;
+    const halfH = container.offsetHeight / 2;
+    const cardX = halfW + markerScreenPos.x * halfW;
+    const cardY = halfH - markerScreenPos.y * halfH - 70;
+    card.style.left = cardX + 'px';
+    card.style.top = cardY + 'px';
+    showingMarker = m;
     } else {
-        card.classList.remove('active');
-        card.style.display = "none";
-        showingMarker = null;
+    card.classList.remove('active');
+    card.style.display = "none";
+    showingMarker = null;
     }
 });
 renderer.domElement.addEventListener('mouseleave', () => {

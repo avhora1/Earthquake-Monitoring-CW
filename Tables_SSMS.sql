@@ -65,7 +65,7 @@ WITH Letters AS (
     SELECT CHAR(ASCII(shelf) + 1) FROM Letters WHERE shelf < 'Z'
 )
 INSERT INTO Shelves (shelf, capacity)
-SELECT shelf, 10 FROM Letters
+SELECT shelf, 9 FROM Letters
 OPTION (MAXRECURSION 26);
 
 -- Table structure for 'stock_list'
