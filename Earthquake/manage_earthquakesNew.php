@@ -150,5 +150,47 @@ sqlsrv_close($conn);
     </form>
 </div>
 </div>
+<script>
+    // Toggle delete button disabled/enabled
+    document.getElementById('edit-switch').addEventListener('change', function(){
+        const enabled = this.checked;
+        document.querySelectorAll('.delete-btn[data-table-delete]').forEach(btn => {
+            btn.disabled = !enabled;
+            if(!enabled) btn.classList.add('disabled')
+            else btn.classList.remove('disabled')
+        });
+    });
+    </script>
+<div id="delete-modal" class="q-modal-backdrop" style="display:none">
+  <div class="q-modal">
+    <h3>Confirm Delete</h3>
+    <p style="font-size:1.12em; color:#fff; margin:18px 0 30px 0;">Are you sure you want to delete this earthquake?</p>
+    <div class="q-modal-actions">
+      <button type="button" class="add-btn" id="cancel-delete">Cancel</button>
+      <button type="button" class="delete-btn" id="confirm-delete">Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+let formToDelete = null;
+
+// Intercept submit for all delete artefact forms
+document.querySelectorAll('form[action="process_delete_earthquake.php"]').forEach(function(form){
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    formToDelete = form;
+    document.getElementById('delete-modal').style.display = 'flex';
+  });
+});
+document.getElementById('cancel-delete').onclick = function() {
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+document.getElementById('confirm-delete').onclick = function() {
+  if(formToDelete) formToDelete.submit();
+  document.getElementById('delete-modal').style.display = 'none';
+  formToDelete = null;
+};
+</script>
 </body>
 </html>
