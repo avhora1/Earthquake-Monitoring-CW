@@ -16,7 +16,6 @@ function nav_active($paths) {
     return '';
 }
 ?>
-
 <!-- SIDEBAR -->
 <div class="sidebar">
     <ul class="sidebar-nav">
