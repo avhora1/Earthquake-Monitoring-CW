@@ -32,7 +32,7 @@ body {
 .crack img {
     position: absolute;
     top: 0;
-    right: 23vw;
+    right: 26vw;
     z-index: -2;
     height: 93vh;
 
@@ -124,46 +124,109 @@ body {
         </div>
     </div>
     <?php if ($show_logout_toast): ?>
-  <div class="quake-toast-container" aria-live="assertive" aria-atomic="true">
-      <div class="quake-toast" id="quakeLogoutToast" role="alert">
-          <span class="quake-toast__icon">
-              <svg width="28" height="28" fill="none" viewBox="0 0 28 28">
-                <circle cx="14" cy="14" r="14" fill="#ffbe3d" fill-opacity="0.22"/>
-                <path d="M8 15.5l4.1 3.2c.28.22.68.18.91-.09l6-7" stroke="#ff9100" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-          </span>
-          <span class="quake-toast__msg">
-              Logged out successfully!
-          </span>
-          <button class="quake-toast__close" onclick="dismissToast()" aria-label="Dismiss">&times;</button>
-      </div>
-  </div>
-  <script>
+    <div class="quake-toast-container" aria-live="assertive" aria-atomic="true">
+        <div class="quake-toast" id="quakeLogoutToast" role="alert">
+            <span class="quake-toast__icon">
+                <svg width="28" height="28" fill="none" viewBox="0 0 28 28">
+                    <circle cx="14" cy="14" r="14" fill="#ffbe3d" fill-opacity="0.22" />
+                    <path d="M8 15.5l4.1 3.2c.28.22.68.18.91-.09l6-7" stroke="#ff9100" stroke-width="2.1"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </span>
+            <span class="quake-toast__msg">
+                Logged out successfully!
+            </span>
+            <button class="quake-toast__close" onclick="dismissToast()" aria-label="Dismiss">&times;</button>
+        </div>
+    </div>
+    <script>
     function dismissToast() {
-      document.getElementById('quakeLogoutToast').style.display = 'none';
+        document.getElementById('quakeLogoutToast').style.display = 'none';
     }
     setTimeout(dismissToast, 3000);
-  </script>
-  <style>
+    </script>
+    <style>
     .quake-toast-container {
-        position: fixed; top:36px; right:38px; z-index:9999; pointer-events: none;
+        position: fixed;
+        top: 36px;
+        right: 38px;
+        z-index: 9999;
+        pointer-events: none;
     }
+
     .quake-toast {
-        display: flex; align-items: center; min-width:290px; max-width:360px;
-        padding:18px 28px 18px 18px; font-size: 1.11em; font-weight: 600; color: #fff;
-        background: linear-gradient(113deg,rgba(40,44,64,.93) 55%,rgba(22,26,38,.99) 100%);
-        border-radius: 18px; box-shadow: 0px 6px 38px #000a, 0 0 8px #ff910034;
-        backdrop-filter: blur(12px); border: 1.3px solid #312e2255; pointer-events: auto;
-        animation:quake-toast-in .5s cubic-bezier(.88,.12,.48,.98);
+        display: flex;
+        align-items: center;
+        min-width: 290px;
+        max-width: 360px;
+        padding: 18px 28px 18px 18px;
+        font-size: 1.11em;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(113deg, rgba(40, 44, 64, .93) 55%, rgba(22, 26, 38, .99) 100%);
+        border-radius: 18px;
+        box-shadow: 0px 6px 38px #000a, 0 0 8px #ff910034;
+        backdrop-filter: blur(12px);
+        border: 1.3px solid #312e2255;
+        pointer-events: auto;
+        animation: quake-toast-in .5s cubic-bezier(.88, .12, .48, .98);
     }
-    @keyframes quake-toast-in { from { opacity:0; transform: translateY(-24px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);} }
-    .quake-toast__icon { color: #ffbe3d; margin-right: 14px; font-size: 2em; display: flex;align-items:center;}
-    .quake-toast__msg strong { font-weight: 900; color: #ff9100; }
-    .quake-toast__close { cursor:pointer;margin-left:18px;opacity:.7;background:none;border:none;font-size:1.4em;color:#fff;transition:opacity.15s;}
-    .quake-toast__close:hover {opacity:1;}
-    @media (max-width:600px){.quake-toast-container{right:4vw;top:14px;}.quake-toast{min-width:180px;max-width:95vw;font-size:1em;padding:13px 13px 13px 16px;}}
-  </style>
-<?php endif; ?>
+
+    @keyframes quake-toast-in {
+        from {
+            opacity: 0;
+            transform: translateY(-24px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .quake-toast__icon {
+        color: #ffbe3d;
+        margin-right: 14px;
+        font-size: 2em;
+        display: flex;
+        align-items: center;
+    }
+
+    .quake-toast__msg strong {
+        font-weight: 900;
+        color: #ff9100;
+    }
+
+    .quake-toast__close {
+        cursor: pointer;
+        margin-left: 18px;
+        opacity: .7;
+        background: none;
+        border: none;
+        font-size: 1.4em;
+        color: #fff;
+        transition: opacity.15s;
+    }
+
+    .quake-toast__close:hover {
+        opacity: 1;
+    }
+
+    @media (max-width:600px) {
+        .quake-toast-container {
+            right: 4vw;
+            top: 14px;
+        }
+
+        .quake-toast {
+            min-width: 180px;
+            max-width: 95vw;
+            font-size: 1em;
+            padding: 13px 13px 13px 16px;
+        }
+    }
+    </style>
+    <?php endif; ?>
 </body>
 
 </html>
