@@ -272,12 +272,12 @@ $dashboard_active = strpos($current_path, '/dashboard/dashboard.php') !== false 
             </nav>
             <div class="nav-actions">
                 <?php if (!empty($_SESSION['account_loggedin'])): ?>
-                <span
-                    style="display: flex; align-items: center; color: #ffe8a2; font-weight: 700; margin-right: 12px; font-size: 1.07em;">
-                    <img src="/assets/icons/user.svg" alt="User"
-                        style="width:20px;height:20px;margin-right:7px;vertical-align:middle;">
-                    <?= htmlspecialchars($_SESSION['account_name']) ?>
-                </span>
+                    <a href="/Account_Managment/accountNew.php"
+                        style="display: flex; align-items: center; color: #ffe8a2; font-weight: 700; margin-right: 12px; font-size: 1.07em; text-decoration:none;">
+                        <img src="/assets/icons/user.svg" alt="User"
+                            style="width:20px;height:20px;margin-right:7px;vertical-align:middle;">
+                        <?= htmlspecialchars($_SESSION['account_name']) ?>
+                    </a>
                 <a href="/sign-in/logout.php" class="login-btn">Log out</a>
                 <?php else: ?>
                 <a href="/sign-in/signin.php" class="login-btn">Login</a>
