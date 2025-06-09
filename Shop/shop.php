@@ -54,7 +54,7 @@
     .glass-grid {
         display: grid;
         grid-template-columns: repeat(4, 15vw);
-        grid-template-rows: repeat(2, 35vh);
+        grid-template-rows: repeat(3, 35vh);
         gap: 3vw 2vw;
         justify-content: start;
         width: 65vw;
@@ -333,7 +333,7 @@ $sql = "SELECT s.id, a.type, s.price, a.description, a.earthquake_id
         JOIN artefacts a ON s.artifact_id = a.id
         WHERE s.availability = 'Yes'
         ORDER BY s.id ASC
-        OFFSET 0 ROWS FETCH NEXT 8 ROWS ONLY";
+        OFFSET 0 ROWS FETCH NEXT 16 ROWS ONLY";
 $result = sqlsrv_query($conn, $sql);
 if ($result === false) {
     echo '<div style="color:#f66;font-size:1.3em;">' . print_r(sqlsrv_errors(), true) . '</div>';
