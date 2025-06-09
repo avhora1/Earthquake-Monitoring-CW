@@ -52,229 +52,275 @@ $allUsernames = array_column($list, "username");
 <html lang="en">
 
 <head>
+<link rel="stylesheet" href="../assets/css/quake.css">
 <meta charset="utf-8">
 <title>User Administration</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-body {
-    background: radial-gradient(78.82% 50% at 50% 50%, #000525 0%, #13172c 100%);
-    color: #fff;
-    min-height: 100vh;
-}
-.admin-glass-wrap {
-    padding-left: 255px; /* sidebar width + margin */
-    min-height: 100vh;
-}
-.admin-glass-box {
-    background: linear-gradient(153deg,rgba(255,255,255,0.11),rgba(255,255,255,0.00) 107%);
-    border: 2px solid rgba(255,255,255,0.09); backdrop-filter: blur(0.9vh);
-    border-radius: 2rem; max-width: 1500px; margin: 100px auto 0 auto;
-    box-shadow: 0 8px 55px 0 rgb(10 18 44 / 32%);
-    color: #fff;
-    padding: 42px 48px 52px 48px;
-}
-@media (max-width: 1200px) {
-    .admin-glass-box { max-width:98vw; padding:18px; margin-left: 20px; }
-    .admin-glass-wrap { padding-left:0;}
+    header {
+        position: relative;
+    }
+.glass-panel.manage-panel {
+    min-width: 780px;
+    max-width: 1100px;
+    margin-right: 0;
+    padding: 34px 38px 33px 38px;
+    border-radius: 22px;
+    box-shadow: 0 0 34px #090e206e;
+    background: linear-gradient(113deg, rgba(40,44,64,0.93), rgba(22,26,38,0.96) 90%);
 }
 h2.admin-heading {
-    font-size:2.33rem;
-    font-weight:900;
-    color:#fff;
-    letter-spacing:.02em;
-    margin-bottom: 16px;
-    display:flex;
-    align-items:center;
-    gap:12px;
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
 }
-hr.admin-sep { border:none; border-top:2px solid #fff2; margin:12px 0 28px 0;}
-label, .form-label {color:#fff;}
-.autocomplete-list {
-  max-height: 240px; overflow-y: auto; position: absolute; z-index: 1050; width: 100%;
-  background: #23243a; border: 2px solid #2a2b36; border-radius: 11px; color:#fff; font-weight:400;
+hr.admin-sep {
+    border: none;
+    border-top:2px solid #fff2;
+    margin:18px 0 36px 0;
 }
-.autocomplete-list .list-group-item {cursor: pointer; color:#fff; background:none;}
-.autocomplete-list .list-group-item:hover, .autocomplete-list .active {background: #ff9100; color: #fff;}
-.user-modal-info dt { width:120px; color:#ff9100;}
-.user-modal-info dd { margin-bottom:0.5em;}
-#user-searchbox { background:#23243a; color:#fff; border-radius:8px; border:none; }
-.toast-container { position: fixed; top:1rem; right: 1rem; z-index: 1080; }
-.btn-outline-primary, .btn-outline-danger {
-  border-radius: 1.2rem;
-  font-weight: 700;
-  padding: 9px 20px 8px 20px;
-  border: 2px solid #ff9100;
-  color: #ff9100;
-  background: none;
-  margin-right: 9px;
+.info-text { color: #bbb; font-size: 1.13rem; margin-bottom: 13px;}
+.info-warning {color: #ff9100; font-weight: 700;}
+.userlist-autocomplete {
+    max-height: 220px;
+    overflow-y: auto;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 100%;
+    background: #23243a;
+    border: 2px solid #2a2b36;
+    border-radius: 11px;
+    color: #fff;
+    font-weight: 400;
+    z-index: 51;
+    display: none;
+    font-size: 1.07em;
+    box-shadow: none;
+    border: none;
 }
-.btn-outline-primary:hover, .btn-outline-danger:hover {
+.userlist-autocomplete.active { display: block; }
+.userlist-autocomplete .item {
+    padding: 9px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #22253b;
+}
+.userlist-autocomplete .item:last-child {border-bottom: none;}
+.userlist-autocomplete .item:hover, .userlist-autocomplete .item.active {
     background: #ff9100;
-    color: #13172c;
+    color: #23243a;
 }
-.btn-close-white { filter: invert(1); }
+.form-row { position:relative; }
+.form-label { display: block; color: #fff; font-weight: 500;margin-bottom: .25em;}
+.form-control {
+    display:block;
+    width:100%;
+    font-size:1.06em;
+    background: #22243a;
+    color:#eee;
+    border:1.5px solid #333542;
+    border-radius: 10px;
+    padding: 11px 14px;
+}
+.form-control:focus { outline:2px solid #ff9100; border-color:#ff9100;}
+.select-account {margin-top:8px;}
+.panel-message {
+    margin: 0 0 20px 0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1.08em;
+}
+.panel-message.success { background: #213227; color: #6fcf97;}
+.panel-message.warning { background: #232439; color: #ff9100; }
+.panel-message.error { background: #331818; color: #ff4444;}
+.panel-message.info { background: #1d263a; color: #84befa;}
+.modal { display:none; position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(21,22,34,.92);align-items:center;justify-content:center;z-index:9999;}
+.modal.active {display:flex;}
+.modal-dialog {
+    background: linear-gradient(113deg, #22253b 60%, #181b2a 100%);
+    border-radius: 17px;
+    width: 98%;
+    max-width: 370px;
+    box-shadow: 0 0 30px #090e206a;
+    padding: 36px 30px 26px 30px;
+    color: #fafafc;
+    position: relative;
+    z-index: 101;
+}
+.modal-title { font-size:1.34em;font-weight:700;}
+.modal-close-btn {
+    position: absolute; right: 14px; top: 13px; background:none; border:none; color: #ccc; font-size: 1.4em; cursor:pointer;}
+.modal-actions {display:flex;justify-content:flex-end;gap:14px;margin-top:2em;}
+.btn {
+    display:inline-block;
+    border-radius: 16px;
+    background: none;
+    color: #ffa034;
+    border:2px solid #ffa034;
+    padding: 9px 23px;
+    font-weight: 600;
+    font-size: 1.07em;
+    transition: .16s;
+    margin-right: 5px;
+    cursor:pointer;
+}
+.btn:hover,.btn:focus{ background: #ffa034; color: #181826;}
+.btn.btn-danger { border-color:#ff4444; color:#ff4444;}
+.btn.btn-danger:hover{background:#ff4444;color:white;}
 </style>
 </head>
 
 <body>
-<div class="admin-glass-wrap">
-<div class="admin-glass-box shadow">
-    <h2 class="admin-heading mb-2"><i class="bi bi-people-fill"></i>User Administration</h2>
-    <hr class="admin-sep">
-    <p style="color:#d1d3ea;font-size:1.17rem;margin-bottom:18px;font-weight:500;">
-        Search, view, edit, change account type or delete users below.<br>
-        <span style="color:#ffbb00;">Only administrators are authorized for these functions.</span>
-    </p>
-    <?php if ($type_message): ?><div class="alert alert-info"><?= $type_message ?></div><?php endif; ?>
-    <?php if ($del_message): ?><div class="alert alert-info"><?= $del_message ?></div><?php endif; ?>
-    <div class="mb-4 position-relative" style="margin-bottom:36px;">
-        <label for="user-searchbox" class="form-label" style="color:#fff;font-size:1.18rem;font-weight:700;">Find User</label>
-        <input id="user-searchbox" class="form-control" style="background:#23243a;color:#fff;padding:12px 2px;border-radius:10px;border:none;" autocomplete="off" placeholder="Type username or email..." onfocus="showUserList()" oninput="filterUserList()">
-        <div id="user-autocomplete" class="autocomplete-list list-group d-none"></div>
+<div class="main-content">
+<div class="glass-panel manage-panel">
+    <h2 class="admin-heading">User Administration</h2>
+    <hr class="admin-step"/>
+    <div class="info-text">Search, view, edit, change account type or delete users below.</div>
+    <div class="info-warning">Only administrators are authorized for these functions.</div>
+
+    <?php if ($type_message): ?><div class="panel-message info"><?= $type_message ?></div><?php endif; ?>
+    <?php if ($del_message): ?><div class="panel-message info"><?= $del_message ?></div><?php endif; ?>
+  
+    <div class="form-row" style="position:relative;max-width:500px;">
+        <label for="user-searchbox" class="form-label">Find User</label>
+        <input id="user-searchbox" class="form-control" autocomplete="off" placeholder="Type username or email..." onfocus="showUserList()" oninput="filterUserList()">
+        <div id="user-autocomplete" class="userlist-autocomplete"></div>
     </div>
 </div>
-</div>
-<!-- Toast (for additional messages, if needed) -->
-<div class="toast-container p-3 position-fixed">
-  <?php if ($type_message): ?>
-    <div id="useradm-toast" class="toast show text-bg-success"><div class="d-flex"><div class="toast-body"><?= $type_message ?></div><button type="button" class="btn-close btn-close-white m-auto" data-bs-dismiss="toast"></button></div></div>
-  <?php elseif ($del_message): ?>
-    <div id="useradm-toast" class="toast show text-bg-danger"><div class="d-flex"><div class="toast-body"><?= $del_message ?></div><button type="button" class="btn-close btn-close-white m-auto" data-bs-dismiss="toast"></button></div></div>
-  <?php endif; ?>
-</div>
+
 <!-- User Info Modal -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content" style="background:#222532;">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userModalLabel" style="color:#fff;"><i class="bi bi-person"></i> User Account</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body user-modal-info">
-        <dl class="row mb-0" id="modal-user-fields"></dl>
-        <div id="type-change-wrap" class="mb-3 mt-4">
-          <form method="post" id="editTypeForm">
+<div id="userModal" class="modal">
+  <div class="modal-dialog">
+    <button class="modal-close-btn" onclick="hideModal('userModal')">&times;</button>
+    <div class="modal-title" id="userModalLabel">User Account</div>
+    <dl id="modal-user-fields"></dl>
+    <div id="type-change-wrap" class="form-row" style="margin-top:20px;">
+        <form method="post" id="editTypeForm" style="display:flex;align-items:center;gap:18px;">
             <input type="hidden" name="change_type_user" id="change_type_user" value="">
-            <label class="form-label" style="color:#ff9100;">Change Account Type</label>
-            <select class="form-select" name="change_type_type" id="change_type_type" style="background:#23243a;color:#fff;">
-              <option value="guest">Guest</option>
-              <option value="junior_scientist">Junior Scientist</option>
-              <option value="senior_scientist">Senior Scientist</option>
-              <option value="admin">Admin</option>
+            <label for="change_type_type" class="form-label" style="margin-bottom:0;">Change Type</label>
+            <select class="form-control select-account" name="change_type_type" id="change_type_type">
+                <option value="guest">Guest</option>
+                <option value="junior_scientist">Junior Scientist</option>
+                <option value="senior_scientist">Senior Scientist</option>
+                <option value="admin">Admin</option>
             </select>
-            <button class="btn btn-outline-primary mt-2" type="submit"><i class="bi bi-save"></i> Update Account Type</button>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <form method="post" id="deleteUserForm" style="display:inline;">
-          <input type="hidden" name="delete_user_confirmed" id="delete_user_confirmed" value="">
-          <button type="button" class="btn btn-outline-danger me-auto" id="deleteBtn"><i class="bi bi-trash"></i> Delete User</button>
+            <button class="btn" type="submit">Update</button>
         </form>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Close</button>
-      </div>
+    </div>
+    <div class="modal-actions">
+        <form method="post" id="deleteUserForm" style="display:inline;">
+            <input type="hidden" name="delete_user_confirmed" id="delete_user_confirmed" value="">
+            <button type="button" class="btn btn-danger" id="deleteBtn">Delete User</button>
+        </form>
+        <button class="btn" type="button" onclick="hideModal('userModal')">Close</button>
     </div>
   </div>
 </div>
-<div class="modal fade" id="delConfirmModal1" tabindex="-1">
-  <div class="modal-dialog"><div class="modal-content" style="background:#222532;">
-    <div class="modal-header"><h5 class="modal-title" style="color:#fff;">Are you sure?</h5></div>
-    <div class="modal-body" style="color:#fff;"><p>Are you sure you want to <b>delete</b> this account?</p></div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      <button class="btn btn-danger" id="delConfirmBtn1">Yes, continue</button>
+
+<!-- Delete Confirm Modal -->
+<div id="delConfirmModal1" class="modal">
+  <div class="modal-dialog">
+    <button class="modal-close-btn" onclick="hideModal('delConfirmModal1')">&times;</button>
+    <div class="modal-title">Are you sure?</div>
+    <div style="padding:18px 0 6px 0;">Are you sure you want to <b>delete</b> this account?</div>
+    <div class="modal-actions">
+        <button class="btn" onclick="hideModal('delConfirmModal1')">Cancel</button>
+        <button class="btn btn-danger" id="delConfirmBtn1">Yes, continue</button>
     </div>
-  </div></div>
+  </div>
 </div>
-<div class="modal fade" id="delConfirmModal2" tabindex="-1">
-  <div class="modal-dialog"><div class="modal-content" style="background:#222532;">
-    <div class="modal-header"><h5 class="modal-title" style="color:#fff;">Please Confirm</h5></div>
-    <div class="modal-body" style="color:#fff;"><p>This action is <b>irreversible</b>. Do you want to proceed and delete this account?</p></div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      <button class="btn btn-danger" id="delConfirmBtn2">Delete Account</button>
-    </div>
-  </div></div>
+
+<!-- Delete Confirm Final Modal -->
+<div id="delConfirmModal2" class="modal">
+  <div class="modal-dialog">
+    <button class="modal-close-btn" onclick="hideModal('delConfirmModal2')">&times;</button>
+       <div class="modal-title">Please Confirm</div>
+          <div style="padding:18px 0 6px 0;">This action is <b>irreversible</b>. Do you want to proceed and delete this account?</div>
+          <div class="modal-actions">
+              <button class="btn" onclick="hideModal('delConfirmModal2')">No</button>
+              <button class="btn btn-danger" id="delConfirmBtn2">Delete Account</button>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>
+
 <script>
 let allUsers = [];
 let usersDetail = {};
 <?php
-usort($list, fn($a,$b)=>strcasecmp($a['username'],$b['username']));
+usort($list, fn($a, $b)=>strcasecmp($a['username'], $b['username']));
 echo "allUsers = ".json_encode(array_column($list,"username")).";\n";
 echo "usersDetail = ".json_encode(array_column($list,null,"username")).";\n";
 ?>
 const adminUsername = <?= json_encode($_SESSION['account_name']); ?>;
 const searchBox = document.getElementById('user-searchbox');
 const acList = document.getElementById('user-autocomplete');
+// --- Autocomplete logic ---
 searchBox.addEventListener('input', filterUserList);
 searchBox.addEventListener('focus', showUserList);
 function showUserList() {
     filterUserList();
-    acList.classList.remove('d-none');
+    acList.classList.add('active');
 }
 function filterUserList() {
     let val = searchBox.value.toLowerCase();
-    let filtered = allUsers.filter(u => u.toLowerCase().includes(val)).sort((a,b)=>a.localeCompare(b,"en",{sensitivity:"base"}));
     acList.innerHTML = "";
-    if (!val) {
-        acList.classList.add('d-none');
-        return;
-    }
+    if (!val) { acList.classList.remove('active'); return; }
+    let filtered = allUsers.filter(u => u.toLowerCase().includes(val));
     filtered.forEach(u => {
         let item = document.createElement('div');
-        item.className = "list-group-item list-group-item-action py-2";
-        item.innerHTML = `<i class="bi bi-person-circle"></i> <b>${u}</b>`;
-        item.onclick = function() { showUserModal(u); };
+        item.className = "item";
+        item.innerHTML = `<b>${u}</b>`;
+        item.onclick = () => showUserModal(u);
         acList.appendChild(item);
     });
-    acList.classList.toggle('d-none', filtered.length == 0);
+    acList.classList.toggle('active', filtered.length > 0);
 }
 document.addEventListener('click', function(e){
-    if (!acList.contains(e.target) && e.target!==searchBox) acList.classList.add('d-none');
+    if (!acList.contains(e.target) && e.target!==searchBox) acList.classList.remove('active');
 });
+// --- Modal logic ---
+function showModal(id){ document.getElementById(id).classList.add('active'); }
+function hideModal(id){ document.getElementById(id).classList.remove('active'); }
 function showUserModal(username) {
     let user = usersDetail[username];
     if (!user) return;
     let fields = document.getElementById('modal-user-fields');
     fields.innerHTML =
-    `<dt class="col-sm-5" style="color:#bbb;">Username</dt><dd class="col-sm-7" style="color:#fff;">${user.username}</dd>`+
-    `<dt class="col-sm-5" style="color:#bbb;">Email</dt><dd class="col-sm-7" style="color:#fff;">${user.email}</dd>`+
-    `<dt class="col-sm-5" style="color:#bbb;">Type</dt><dd class="col-sm-7 text-capitalize" style="color:#fff;">${user.account_type.replaceAll("_"," ")}</dd>`+
-    `<dt class="col-sm-5" style="color:#bbb;">Manager</dt><dd class="col-sm-7" style="color:#fff;">${user.manager_username || '-'}</dd>`;
+        `<dt>Username</dt><dd>${user.username}</dd>`+
+        `<dt>Email</dt><dd>${user.email}</dd>`+
+        `<dt>Type</dt><dd>${user.account_type.replaceAll("_"," ")}</dd>`+
+        `<dt>Manager</dt><dd>${user.manager_username || '-'}</dd>`;
     document.getElementById('change_type_user').value = user.username;
     document.getElementById('change_type_type').value = user.account_type;
     document.getElementById('delete_user_confirmed').value = user.username;
     if (user.username === adminUsername) {
-        document.getElementById('type-change-wrap').classList.add('d-none');
+        document.getElementById('type-change-wrap').style.display = 'none';
         document.getElementById('deleteBtn').style.display = 'none';
     } else {
-        document.getElementById('type-change-wrap').classList.remove('d-none');
+        document.getElementById('type-change-wrap').style.display = '';
         document.getElementById('deleteBtn').style.display = '';
     }
-    var modal = new bootstrap.Modal(document.getElementById('userModal'));
-    modal.show();
+    showModal('userModal');
 }
+// --- Delete double confirm logic ---
 document.getElementById('deleteBtn').onclick = function() {
-    var conf1 = new bootstrap.Modal(document.getElementById('delConfirmModal1'));
-    conf1.show();
+    showModal('delConfirmModal1');
     document.getElementById('delConfirmBtn1').onclick = function() {
-        conf1.hide();
-        var conf2 = new bootstrap.Modal(document.getElementById('delConfirmModal2'));
-        conf2.show();
+        hideModal('delConfirmModal1');
+        showModal('delConfirmModal2');
         document.getElementById('delConfirmBtn2').onclick = function() {
-            conf2.hide();
+            hideModal('delConfirmModal2');
             document.getElementById('deleteUserForm').submit();
         };
     };
 };
-document.addEventListener("DOMContentLoaded", function() {
-  var toast = document.getElementById('useradm-toast');
-  if (toast) setTimeout(function() { (new bootstrap.Toast(toast)).hide(); }, 3000);
-});
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

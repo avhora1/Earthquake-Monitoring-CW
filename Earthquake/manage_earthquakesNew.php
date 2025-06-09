@@ -44,7 +44,7 @@ sqlsrv_close($conn);
         position: relative;
     }
     .main-content {
-    margin-left: 320px;
+    margin-left: 330px;
     margin-top: 0;
     display: flex;
     align-items: flex-start;
