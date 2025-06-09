@@ -155,7 +155,9 @@
         font-weight: 700;
         color: #fff !important;
         cursor: not-allowed;
-        box-shadow: 0 0 18px #14ac5e43;
+        box-shadow: 0 0 25px #fa8c1645;
+        border-radius: 1rem;
+        border: none;
     }
 
     .glass-card-back .cart-plus-icon {
@@ -163,23 +165,46 @@
     }
 
     .glass-card-back .remove-from-basket-btn {
-        margin-top: 10px;
-        padding: 7px 22px;
-        border: none;
+        width: 100%;
+        min-width: 10vh;
+        min-height: 48px;
         border-radius: 1rem;
-        font-weight: 700;
         background: #e03744;
         color: #fff;
-        font-size: 1em;
-        box-shadow: 0 0 15px #f5424250;
+        box-shadow: 0 0 18px #df243050;
         cursor: pointer;
-        transition: background 0.18s, box-shadow 0.18s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        border: none;
+        transition: background 0.18s, box-shadow 0.18s, opacity 0.16s;
+        padding: 0;
+        margin: 0 auto 10px auto;
+        font-size: 1em;
+        font-weight: 700;
+        gap: 0;
+    }
+
+    .glass-card-back .remove-from-basket-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
     }
 
     .glass-card-back .remove-from-basket-btn:hover,
     .glass-card-back .remove-from-basket-btn:focus {
         background: #b70317;
-        box-shadow: 0 0 20px #f5424280;
+        box-shadow: 0 0 26px #f5424280;
+    }
+
+    .remove-icon {
+        height: 1.7rem;
+        width: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+        margin: 0;
+        filter: drop-shadow(0 2px 6px #a82e3480);
     }
 
     .glass-card-front .shop-buy-btn {
@@ -193,7 +218,7 @@
         justify-content: center;
         font-weight: 700;
         color: #fff;
-        font-size: 2.2em;
+        font-size: 1em;
         border: none;
         cursor: pointer;
         box-shadow: 0 0 25px #fa8c1645;
@@ -213,15 +238,10 @@
         transform: scale(1.045);
     }
 
-    .shop-buy-btn.added-to-basket {
-        /* Keep for instant button style when JS used! */
-        background: #06dc55;
-        color: #fff;
-        box-shadow: 0 0 18px #14ac5e43;
-        font-size: 1.3em;
-        font-weight: bold;
-        cursor: not-allowed;
-        pointer-events: none;
+    .shop-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .cart-plus-icon {
@@ -316,13 +336,10 @@ if ($result === false) {
                                 <span class="card-type"><?= $type ?></span>
                                 <span class="card-price"><?= $price ?></span>
                             </div>
-                            <div class="shop-card-actions" style="margin-top: auto; flex-direction: column; gap: 7px;">
-                                <button class="shop-buy-btn added-to-basket" type="button" disabled
-                                    style="display:flex;align-items:center;justify-content:center;margin-bottom:7px;">
-                                    Added to basket ✓
-                                </button>
-                                <button class="remove-from-basket-btn" type="button" data-id="<?= $id ?>">
-                                    Remove from basket
+                            <div class="shop-card-actions" style="margin-top: auto; gap: 7px;">
+                                <button class="remove-from-basket-btn" type="button" data-id="<?= $id ?>"
+                                    aria-label="Remove from basket">
+                                    <img src="../assets/icons/rubbish.svg" alt="Remove" class="remove-icon">
                                 </button>
                             </div>
                         </div>
@@ -357,7 +374,6 @@ sqlsrv_close($conn);
                     .then(resp => resp.text())
                     .then(text => {
                         if (text.trim() === "OK") {
-                            button.innerHTML = 'Added to basket ✓';
                             button.classList.add('added-to-basket');
                             // Flip the card!
                             const card = button.closest('.glass-card');
@@ -392,7 +408,6 @@ sqlsrv_close($conn);
                 const button = this;
                 const id = button.dataset.id;
                 button.disabled = true;
-                button.textContent = "Removing...";
                 fetch(`../Basket/remove_from_basket.php?id=${id}`, {
                         method: 'GET',
                         credentials: 'same-origin',
@@ -420,7 +435,6 @@ sqlsrv_close($conn);
                                     }
                                 });
 
-                            // Small optional: reset the add button to allow adding again
                             setTimeout(() => {
                                 if (card) {
                                     const addBtn = card.querySelector(
@@ -432,26 +446,23 @@ sqlsrv_close($conn);
                                         addBtn.disabled = false;
                                         addBtn.style.opacity = 1;
                                     }
-                                    // --- FIX: Reset remove button too! ---
                                     const removeBtn = card.querySelector(
                                         '.glass-card-back .remove-from-basket-btn'
-                                        );
+                                    );
                                     if (removeBtn) {
-                                        removeBtn.textContent =
-                                        "Remove from basket";
+                                        // Only reset disabled, DO NOT change innerHTML/textContent!
                                         removeBtn.disabled = false;
+                                        // (No need to reset text)
                                     }
                                 }
-                            }, 350); // wait for flip anim
+                            }, 350);
                         } else {
                             button.disabled = false;
-                            button.textContent = "Remove from basket";
                             alert('Could not remove from basket.');
                         }
                     })
                     .catch(() => {
                         button.disabled = false;
-                        button.textContent = "Remove from basket";
                         alert('Could not remove from basket.');
                     });
             });
