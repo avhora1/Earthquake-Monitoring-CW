@@ -4,7 +4,7 @@ include '../connection.php';
 include $_SERVER['DOCUMENT_ROOT'].'/sidebar.php';
 include '../headerNew.php';
 
-
+ 
 // --- Fetch observatories (if needed for forms) ---
 $obs_sql = "SELECT id, name FROM observatories";
 $obs_result = sqlsrv_query($conn, $obs_sql);

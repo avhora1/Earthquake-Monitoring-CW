@@ -1,73 +1,102 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-
-// Assumes a session variable for account type (edit if your naming differs)
 $account_type = $_SESSION['account_type'] ?? 'guest';
-
-// Detect current path for highlighting
 $current_path = $_SERVER['REQUEST_URI'];
-
-// Helper: returns 'active' if path matches
-function nav_active($paths) {
-    global $current_path;
-    foreach ((array)$paths as $path) {
-        if (stripos($current_path, $path) !== false) return 'active';
+if (!function_exists('nav_active')) {
+    function nav_active($paths) {
+        global $current_path;
+        foreach ((array)$paths as $path) {
+            if (stripos($current_path, $path) !== false) return 'active';
+        }
+        return '';
     }
-    return '';
 }
 ?>
-<!-- SIDEBAR -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+.sidebar {
+  position: fixed;
+  top: 64px; /* Match your header height */
+  left: 0; width: 232px;
+  height: calc(100vh - 64px);
+  background: rgba(24,25,40,0.93);
+  box-shadow: 2px 0 22px #0004;
+  z-index: 900;
+  display: flex; flex-direction: column;
+}
+.sidebar-nav {
+  margin: 0; padding: 0; list-style: none;
+  display: flex; flex-direction: column;
+  gap: 7px;
+  margin-top: 28px;
+}
+.sidebar-nav li {
+  border-radius: 10px;
+  margin: 0 10px;
+}
+.sidebar-nav li a {
+  display: flex; align-items: center; gap: 13px;
+  padding: 13px 22px 13px 20px; color: #fff; font-weight: 500;
+  font-size: 1.09rem; background: none; border-radius: 10px;
+  transition: background 0.13s, color 0.17s; text-decoration: none;
+}
+.sidebar-nav li a.active,
+.sidebar-nav li a:hover {
+  background: linear-gradient(90deg, #24263a 70%, #222835 100%);
+  color: #ff9100;
+}
+.sidebar-nav li a .bi { font-size: 1.19rem; }
+.sidebar-nav .user-admin-link { color: #fff; font-weight: 500; }
+.sidebar-nav .user-admin-link.active,
+.sidebar-nav .user-admin-link:hover { background: #222835; color: #ff9100; }
+.sidebar-logout {
+  margin-top: auto; margin-bottom: 15px; padding: 2px 0;
+}
+.sidebar-logout a {
+  display: flex; align-items: center; gap: 11px;
+  padding: 13px 24px 13px 24px; color: #fff; font-size:1.05rem;
+  background: none; border-radius: 10px; text-decoration: none; margin: 0 10px;
+  transition: background .13s, color .16s;
+}
+.sidebar-logout a:hover { background: #23273d; color: #ff9100; }
+</style>
 <div class="sidebar">
     <ul class="sidebar-nav">
         <?php if ($account_type === 'admin') : ?>
-        <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img
-                    src="/assets/icons/account.svg">Account</a></li>
-        <li class="<?= nav_active(['Earthquake']) ?>"><a href="/Earthquake/manage_earthquakesNew.php"><img
-                    src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li class="<?= nav_active(['Observatories']) ?>"><a href="/Observatories/manage_observatoriesNew.php"><img
-                    src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li class="<?= nav_active(['admin']) ?>"><a href="/Admin/collected_artefacts.php"><img
-                    src="/assets/icons/warehouse.svg">Warehouse</a></li>
-        <li class="<?= nav_active(['Pallet']) ?>"><a href="/Pallet/manage_palletsNew.php"><img
-                    src="/assets/icons/box.svg">Pallets</a></li>
-        <li class="<?= nav_active(['manage_artefacts']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img
-                    src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li class="<?= nav_active(['team']) ?>"><a href="/Account_Managment/team_structure.php"><img
-                    src="/assets/icons/team.svg">Team</a></li>
-        <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img
-                    src="/assets/icons/shelves.svg">View stock</a></li>
+        <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
+        <li><a class="<?= nav_active(['Earthquake']) ?>" href="/Earthquake/manage_earthquakesNew.php"><i class="bi bi-activity"></i> Earthquakes</a></li>
+        <li><a class="<?= nav_active(['Observatories']) ?>" href="/Observatories/manage_observatoriesNew.php"><i class="bi bi-building"></i> Observatories</a></li>
+        <li><a class="<?= nav_active(['admin']) ?>" href="/Admin/collected_artefacts.php"><i class="bi bi-archive"></i> Warehouse</a></li>
+        <li><a class="<?= nav_active(['Pallet']) ?>" href="/Pallet/manage_palletsNew.php"><i class="bi bi-box"></i> Pallets</a></li>
+        <li><a class="<?= nav_active(['manage_artefacts']) ?>" href="/Artefact/manage_artefactsNew.php"><i class="bi bi-droplet-half"></i> Artifacts</a></li>
+        <li><a class="<?= nav_active(['team']) ?>" href="/Account_Managment/team_structure.php"><i class="bi bi-people"></i> Team</a></li>
+        <li><a class="<?= nav_active(['shelves']) ?>" href="/Shelves/ViewShelves.php"><i class="bi bi-list"></i> View stock</a></li>
+        <li>
+            <a class="user-admin-link <?= nav_active(['user_administration']) ?>" href="/Account_Managment/user_administration.php" style="display:flex;align-items:center;gap:7px;">
+                <i class="bi bi-person"></i>
+                <i class="bi bi-gear" style="margin-left:-5px"></i>
+                User Administration
+            </a>
+        </li>
         <?php elseif($account_type === 'senior_scientist'): ?>
-        <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img
-                    src="/assets/icons/account.svg">Account</a></li>
-        <li class="<?= nav_active(['Earthquake']) ?>"><a href="/Earthquake/manage_earthquakesNew.php"><img
-                    src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li class="<?= nav_active(['Observatories']) ?>"><a href="/Observatories/manage_observatoriesNew.php"><img
-                    src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li class="<?= nav_active(['Pallet']) ?>"><a href="/Pallet/manage_palletsNew.php"><img
-                    src="/assets/icons/box.svg">Pallets</a></li>
-        <li class="<?= nav_active(['Artefact']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img
-                    src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li class="<?= nav_active(['team']) ?>"><a href="/Account_Managment/team_structure.php"><img
-                    src="/assets/icons/team.svg">Team</a></li>
-        <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img
-                    src="/assets/icons/shelves.svg">View stock</a></li>
+        <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
+        <li><a class="<?= nav_active(['Earthquake']) ?>" href="/Earthquake/manage_earthquakesNew.php"><i class="bi bi-activity"></i> Earthquakes</a></li>
+        <li><a class="<?= nav_active(['Observatories']) ?>" href="/Observatories/manage_observatoriesNew.php"><i class="bi bi-building"></i> Observatories</a></li>
+        <li><a class="<?= nav_active(['Pallet']) ?>" href="/Pallet/manage_palletsNew.php"><i class="bi bi-box"></i> Pallets</a></li>
+        <li><a class="<?= nav_active(['Artefact']) ?>" href="/Artefact/manage_artefactsNew.php"><i class="bi bi-droplet-half"></i> Artifacts</a></li>
+        <li><a class="<?= nav_active(['team']) ?>" href="/Account_Managment/team_structure.php"><i class="bi bi-people"></i> Team</a></li>
+        <li><a class="<?= nav_active(['shelves']) ?>" href="/Shelves/ViewShelves.php"><i class="bi bi-list"></i> View stock</a></li>
         <?php elseif($account_type === 'junior_scientist'): ?>
-        <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img
-                    src="/assets/icons/account.svg">Account</a></li>
-        <li class="<?= nav_active(['Earthquake']) ?>"><a href="/Earthquake/manage_earthquakesNew.php"><img
-                    src="/assets/icons/quake.svg">Earthquakes</a></li>
-        <li class="<?= nav_active(['Observatories']) ?>"><a href="/Observatories/manage_observatoriesNew.php"><img
-                    src="/assets/icons/observatory.svg">Observatories</a></li>
-        <li class="<?= nav_active(['Artefact']) ?>"><a href="/Artefact/manage_artefactsNew.php"><img
-                    src="/assets/icons/artifact.svg">Artifacts</a></li>
-        <li class="<?= nav_active(['shelves']) ?>"><a href="/Shelves/ViewShelves.php"><img
-                    src="/assets/icons/shelves.svg">View stock</a></li>
+        <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
+        <li><a class="<?= nav_active(['Earthquake']) ?>" href="/Earthquake/manage_earthquakesNew.php"><i class="bi bi-activity"></i> Earthquakes</a></li>
+        <li><a class="<?= nav_active(['Observatories']) ?>" href="/Observatories/manage_observatoriesNew.php"><i class="bi bi-building"></i> Observatories</a></li>
+        <li><a class="<?= nav_active(['Artefact']) ?>" href="/Artefact/manage_artefactsNew.php"><i class="bi bi-droplet-half"></i> Artifacts</a></li>
+        <li><a class="<?= nav_active(['shelves']) ?>" href="/Shelves/ViewShelves.php"><i class="bi bi-list"></i> View stock</a></li>
         <?php elseif ($account_type === 'guest') : ?>
-        <li class="<?= nav_active(['accountNew']) ?>"><a href="/Account_Managment/accountNew.php"><img
-                    src="/assets/icons/account.svg">Account</a></li>
+        <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
         <?php endif; ?>
     </ul>
     <div class="sidebar-logout">
-        <a href="/sign-in/logout.php"><img src="/assets/icons/logout.svg">Log out</a>
+        <a href="/sign-in/logout.php"><i class="bi bi-box-arrow-left"></i> Log out</a>
     </div>
 </div>
