@@ -611,7 +611,7 @@
 
     // --- Lighting (some lights can be part of globeGroup if you want them to "move" with the globe) ---
     scene.add(new THREE.AmbientLight(0xffffff, 0.08));
-    const hemiLight = new THREE.HemisphereLight(0xb8e6ff, 0x444444, 0.41);
+    const hemiLight = new THREE.HemisphereLight(0xb8e6ff, 0x444444, 0.5);
     hemiLight.position.set(3, 3, 0);
     scene.add(hemiLight);
 
@@ -620,11 +620,11 @@
     sun.position.set(-8, 4, 0);
     globeGroup.add(sun);
 
-    const rimLight = new THREE.DirectionalLight(0xffffff, 1);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
     rimLight.position.set(-10, 13, 8);
     globeGroup.add(rimLight);
 
-    const rimLight2 = new THREE.DirectionalLight(0xffffff, 1);
+    const rimLight2 = new THREE.DirectionalLight(0xffffff, 0.8);
     rimLight2.position.set(10, 13, -8);
     globeGroup.add(rimLight2);
 
