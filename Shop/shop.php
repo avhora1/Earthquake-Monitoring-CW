@@ -58,6 +58,7 @@
         gap: 3vw 2vw;
         justify-content: start;
         width: 65vw;
+        padding-bottom: 5vh;
     }
 
     .glass-card {
@@ -244,6 +245,35 @@
         justify-content: center;
     }
 
+    .shop-tooltip {
+        position: absolute;
+        top: 28px;
+        right: 110%;
+        min-width: 160px;
+        max-width: 250px;
+        background: #fff;
+        color: #222;
+        border-radius: 1em;
+        box-shadow: 0 4px 18px #0002;
+        font-size: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        padding: 18px 22px;
+        transform: translateY(-8px) scale(0.98);
+        transition: opacity 0.18s, transform 0.16s;
+        border: 1.5px solid #ececec;
+        display: block;
+        font-family: 'Roboto', Arial, sans-serif;
+        line-height: 1.45em;
+    }
+
+    .glass-card-front:hover .shop-tooltip,
+    .glass-card-back:hover .shop-tooltip {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1.02);
+    }
+
     .cart-plus-icon {
         height: 2rem;
         width: auto;
@@ -285,7 +315,20 @@
             <div class="glass-grid">
                 <?php
 include '../connection.php';
-$sql = "SELECT s.id, a.type, s.price
+
+function sentenceCase($string) {
+    // Normalize spacing between sentences.
+    $string = preg_replace('/\s+([.?!])/', '$1', $string);
+    // Ensure a single space after punctuation.
+    $string = preg_replace('/([.?!])(\s*)/', '$1 ', $string);
+
+    // Capitalize the first letter of every sentence.
+    return preg_replace_callback('/([.?!]\s*|^)([a-z])/', function ($matches) {
+        return $matches[1] . strtoupper($matches[2]);
+    }, strtolower($string));
+}
+
+$sql = "SELECT s.id, a.type, s.price, a.description, a.earthquake_id
         FROM stock_list s
         JOIN artefacts a ON s.artifact_id = a.id
         WHERE s.availability = 'Yes'
@@ -307,8 +350,12 @@ if ($result === false) {
             case 'ground soil':     $img = "../assets/images/Soil.png";  break;
             default:                $img = "../assets/images/default.png";
         }
+        $type = sentenceCase($type); // Capitalize every sentence.
         $price = isset($row['price']) ? "£" . number_format($row['price'], 2) : "£??";
         $isAdded = isset($basket[$id]);
+        $description = htmlspecialchars($row['description'] ?? '');
+        $description = sentenceCase($description); // Capitalize every sentence.
+        $eqid = htmlspecialchars($row['earthquake_id'] ?? '');
         ?>
                 <div class="glass-card<?= $isAdded ? ' flip-added' : '' ?>" id="shop-card-<?= $id ?>">
                     <div class="glass-card-inner">
@@ -321,6 +368,16 @@ if ($result === false) {
                                 <span class="card-price"><?= $price ?></span>
                             </div>
                             <div class="shop-card-actions" style="margin-top: auto;">
+                                <div class="shop-tooltip">
+                                    <?php if ($description): ?>
+                                    <span
+                                        style="font-size:1.08em; font-weight: 400; color: #2b2c2e;"><?= $description ?></span><br>
+                                    <?php endif; ?>
+                                    <?php if ($eqid): ?>
+                                    <span style="font-size:0.98em; color:#777; font-style:italic;">Earthquake ID:
+                                        <?= $eqid ?></span>
+                                    <?php endif; ?>
+                                </div>
                                 <button class="shop-buy-btn<?= $isAdded ? ' added-to-basket' : '' ?>"
                                     data-id="<?= $id ?>" <?= $isAdded ? 'disabled' : '' ?> type="button"
                                     style="display:flex;align-items:center;justify-content:center;">
@@ -337,6 +394,16 @@ if ($result === false) {
                                 <span class="card-price"><?= $price ?></span>
                             </div>
                             <div class="shop-card-actions" style="margin-top: auto; gap: 7px;">
+                                <div class="shop-tooltip">
+                                    <?php if ($description): ?>
+                                    <span
+                                        style="font-size:1.08em; font-weight: 400; color: #2b2c2e;"><?= $description ?></span><br>
+                                    <?php endif; ?>
+                                    <?php if ($eqid): ?>
+                                    <span style="font-size:0.98em; color:#777; font-style:italic;">Earthquake ID:
+                                        <?= $eqid ?></span>
+                                    <?php endif; ?>
+                                </div>
                                 <button class="remove-from-basket-btn" type="button" data-id="<?= $id ?>"
                                     aria-label="Remove from basket">
                                     <img src="../assets/icons/rubbish.svg" alt="Remove" class="remove-icon">
