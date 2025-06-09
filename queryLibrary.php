@@ -465,7 +465,10 @@
             $placeholders = implode(',', array_fill(0, count($types), '?'));
             $conditions[] = "type IN ($placeholders)";
             $params = array_merge($params, $types);
+        }else {
+            $conditions[] = "1 = 0"; // Always false, so returns zero rows
         }
+        
         // Observatories (IN clause)
         if (!empty($observatories)) {
             $placeholders = implode(',', array_fill(0, count($observatories), '?'));

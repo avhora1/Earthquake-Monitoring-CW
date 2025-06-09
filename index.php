@@ -17,12 +17,12 @@ $show_logout_toast = isset($_GET['logout']) && $_GET['logout'] == '1';
 <?php include 'headerNew.php'; ?>
 <style>
 body {
-    background: radial-gradient(#000525 0%, #000 100%);
+    background: radial-gradient(#000540 0%, #000 100%);
 }
 
 .earth img {
     position: absolute;
-    top: 20vh;
+    top: 10vh;
     right: 10vw;
     z-index: -1;
     width: 80vh;
@@ -46,6 +46,7 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.09);
     min-height: 33vh;
     top: 20vh;
+    pointer-events: none;
 
 }
 
@@ -93,15 +94,17 @@ body {
 
 <body>
 
-    <div class="earth">
-        <img src="/assets/images/earth.png" alt="">
+    <div class="earth" style="pointer-events: all;">
+        <a href="/Earthquakes/earthquakes.php" style="pointer-events: all;">
+            <img src="/assets/images/earth.png" alt="" style="pointer-events: all;">
+        </a>
     </div>
     <div class="crack">
         <img src="/assets/images/crack.png" alt="">
     </div>
 
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="pointer-events: none;">
         <div class="row justify-content-start align-items-center" style="min-height: 92vh;">
             <div class="col-1"></div>
             <div class="col-6">
@@ -111,9 +114,12 @@ body {
                         <span class="highlight">Earthquake</span><span> Monitoring</span>
                     </h1>
                     <p>
-                        This is a website to monitor earthquakes, buy artefacts and manage observatories around the world.
-                        You must be logged in to access these features. If you are a guest, then you are free to buy real artefacts 
-                        from the shop and you don't even have to be logged in to do this! However, please save your receipt as proof of payment to receive your artefact from collections. 
+                        This is a website to monitor earthquakes, buy artefacts and manage observatories around the
+                        world.
+                        You must be logged in to access these features. If you are a guest, then you are free to buy
+                        real artefacts
+                        from the shop and you don't even have to be logged in to do this! However, please save your
+                        receipt as proof of payment to receive your artefact from collections.
                         We hope you have a good time on Quake!
                     </p>
                 </div>

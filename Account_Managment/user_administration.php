@@ -50,6 +50,7 @@ $allUsernames = array_column($list, "username");
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
 <link rel="stylesheet" href="../assets/css/quake.css">
 <meta charset="utf-8">
@@ -172,6 +173,7 @@ hr.admin-sep {
 .btn.btn-danger:hover{background:#ff4444;color:white;}
 </style>
 </head>
+
 <body>
 <div class="main-content">
 <div class="glass-panel manage-panel">
@@ -320,4 +322,5 @@ document.getElementById('deleteBtn').onclick = function() {
 };
 </script>
 </body>
+
 </html>

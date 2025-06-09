@@ -1,11 +1,14 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 
-$id = intval($_GET['id']);
+$id = intval($_GET['id'] ?? 0);
+if ($id < 1) {
+    http_response_code(400);
+    echo "Invalid ID";
+    exit;
+}
 if (!isset($_SESSION['basket'])) $_SESSION['basket'] = [];
-// Only allow availability = 'Yes'
-// (Actually check from DB here; for now, allow adding):
 $_SESSION['basket'][$id] = 1;
-header("Location: ../Shop/shop.php");
+echo "OK";
 exit;
 ?>

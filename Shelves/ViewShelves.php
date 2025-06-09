@@ -22,6 +22,7 @@ for ($i = 0; $i < 12; $i++) {
     /* [Unchanged styles] */
     body {
         background: #191a2a;
+        overflow: hidden;
         margin: 0;
     }
 
@@ -344,7 +345,7 @@ for ($i = 0; $i < 12; $i++) {
         </div>
         <div class="carousel-wrap">
             <button class="carousel-arrow left" aria-label="Previous shelf">&#8592;</button>
-            <div class="shelves-viewport">
+            <a href="../Artefact/manage_artefactsNew.php"><div class="shelves-viewport">
                 <div class="shelves"></div>
                 <div class="shelf-slider">
                     <span class="label-a">A</span>
@@ -352,10 +353,26 @@ for ($i = 0; $i < 12; $i++) {
                     <span class="dot"></span>
                     <span class="label-z">L</span>
                 </div>
-            </div>
+            </div></a>
             <button class="carousel-arrow right" aria-label="Next shelf">&#8594;</button>
         </div>
     </div>
+    <div id="item-hover-popup" style="
+    display:none;
+    position:fixed;
+    z-index:99999;
+    pointer-events:none;
+    background:rgba(255,255,255,0.97);
+    color:#191a2a;
+    padding:18px 22px;
+    border-radius:12px;
+    box-shadow:0 4px 34px #1112 0 1px 6px #ffe09666;
+    max-width:350px;
+    min-width:180px;
+    font-size:1em;
+    font-family:'Roboto', Arial, sans-serif;
+    border:2px solid #ff9100;
+"></div>
     <script>
     // ===== Carousel JS =====
     const shelvesContainer = document.querySelector('.shelves');
@@ -368,14 +385,15 @@ for ($i = 0; $i < 12; $i++) {
     // let shelfElems = [];
 
     function renderShelfGrid(letter) {
-        const cap = shelfCaps[letter] === null ? 0 : shelfCaps[letter];
-        let slotsHtml = '';
-        for (let i = 0; i < MAX_CAPACITY; i++) {
-            slotsHtml += `<div class="slot${i >= cap ? ' full' : ''}"></div>`;
-        }
-        return `<div class="shelf-grid">${slotsHtml}</div>`;
+    const cap = shelfCaps[letter] === null ? 0 : shelfCaps[letter];
+    let slotsHtml = '';
+    for (let i = 0; i < MAX_CAPACITY; i++) {
+        // Set data attributes: shelf and slot number
+        slotsHtml += `<div class="slot${i >= cap ? ' full' : ''}" 
+                         data-shelf="${letter}" data-slot="${i}"></div>`;
     }
-
+    return `<div class="shelf-grid">${slotsHtml}</div>`;
+}
     // Carousel state moved to closure scope
     let shelfElems = [];
     let currentShelf = 0; // always starts at A
@@ -461,6 +479,7 @@ for ($i = 0; $i < 12; $i++) {
     }
 
     // Always create shelves and start at A, after layout
+
     document.addEventListener('DOMContentLoaded', function() {
         shelfElems = [];
         for (let i = 0; i < TOTAL_SHELVES; i++) {
@@ -477,7 +496,83 @@ for ($i = 0; $i < 12; $i++) {
             afterShelfChange();
             setTimeout(updateSliderDot, 10);
         }, 5);
+
+    // -- POPUP LOGIC FOR FULL SLOTS --
+    const popup = document.getElementById('item-hover-popup');
+    let popupTimeout = null;
+    let lastReq = 0;
+
+    shelvesContainer.addEventListener('mouseover', async function(e) {
+        const slot = e.target.closest('.slot.full');
+        if (!slot) return;
+        // Visual feedback
+        slot.style.outline = '2.5px solid #ff9100';
+        slot.style.zIndex = 5;
+        // Debounce: don't spam requests when mousing fast
+        lastReq++;
+        const thisReq = lastReq;
+        const shelf = slot.dataset.shelf;
+        const slotIdx = parseInt(slot.dataset.slot);
+        // Optional: spinning/loading state
+        popup.innerHTML = "<span style='font-size:1.2em;font-weight:600'>Loading...</span>";
+        popup.style.display = "block";
+        positionPopup(slot, popup);
+
+        fetch(`get_shelf_item.php?shelf=${encodeURIComponent(shelf)}&slot=${encodeURIComponent(slotIdx)}`)
+            .then(r => r.json())
+            .then(data => {
+                if (thisReq != lastReq) return;
+                if (!data || data.error) {
+                    popup.innerHTML = "<em>No item info available.</em>";
+                } else {
+                    popup.innerHTML = `
+                        <div style="font-weight:600;font-size:1.09em;">${data.type || "(No type)"}<span style="font-weight:400;float:right;color:#666;">(${data.earthquake_id||""})</span></div>
+                        <div style="margin:7px 0 3px 0;">${data.description||""}</div>
+                        <div><b>Required:</b> ${data.required||""}</div>
+                    `;
+                }
+                popup.style.display = "block";
+            });
     });
+    shelvesContainer.addEventListener('mousemove', function(e) {
+        const slot = e.target.closest('.slot.full');
+        if (slot) {
+            positionPopup(slot, popup, e);
+            popup.style.display = "block";
+        }
+    });
+    shelvesContainer.addEventListener('mouseleave', function(e) {
+        popup.style.display = "none";
+        // Remove highlight from all
+        shelvesContainer.querySelectorAll('.slot').forEach(d=>d.style.outline='');
+    });
+    shelvesContainer.addEventListener('mouseout', function(e) {
+        if (e.target.classList.contains('slot') && !e.relatedTarget?.classList.contains('slot')) {
+            popup.style.display = "none";
+            e.target.style.outline ='';
+        }
+    });
+
+    function positionPopup(slot, popup, mouseEv) {
+        // Get bounding rect of slot
+        let rect = slot.getBoundingClientRect();
+        let popupWidth = popup.offsetWidth;
+        let x = rect.right+12;
+        let y = rect.top + window.scrollY - 10;
+        // If mouse event, follow cursor more closely
+        if(mouseEv){
+            x = mouseEv.clientX+18;
+            y = mouseEv.clientY+window.scrollY-18;
+        }
+        // Stay inside viewport
+        if (x + popupWidth > window.innerWidth - 10) x = window.innerWidth - popupWidth - 10;
+        if (y + popup.offsetHeight > window.innerHeight - 10) y = window.innerHeight - popup.offsetHeight - 10;
+        if (y < 0) y = 0;
+        popup.style.left = x + "px";
+        popup.style.top = y + "px";
+    }
+
+});
 
     // Slider dragging
     let dragging = false;
