@@ -15,7 +15,7 @@
 
 <style>
 body {
-    background: radial-gradient(78.82% 50% at 50% 50%, #000525 0%, #000 100%);
+    background: radial-gradient(78.82% 50% at 50% 50%, #000540 0%, #000 100%);
 }
 </style>
 

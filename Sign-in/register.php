@@ -104,12 +104,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
-        background: radial-gradient(78.82% 50% at 50% 50%, #000525 0%, #000 100%);
+        background: radial-gradient(78.82% 50% at 50% 50%, #000540 0%, #000 100%);
     }
 
     .earth img {
         position: absolute;
-        top: 20vh;
+        top: 10vh;
         right: 10vw;
         z-index: -99;
         width: 80vh;

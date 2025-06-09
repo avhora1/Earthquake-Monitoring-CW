@@ -58,12 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 body {
-    background: radial-gradient(78.82% 50% at 50% 50%, #000525 0%, #000 100%);
+    background: radial-gradient(78.82% 50% at 50% 50%, #000540 0%, #000 100%);
 }
 
 .earth img {
     position: absolute;
-    top: 20vh;
+    top: 10vh;
     right: 10vw;
     z-index: -1;
     width: 80vh;

@@ -11,7 +11,7 @@
 <?php include '../headerNew.php'; ?>
 <style>
 body {
-    background: radial-gradient(#000525 0%, #000 100%);
+    background: radial-gradient(#000540 0%, #000 100%);
 }
 
 header {

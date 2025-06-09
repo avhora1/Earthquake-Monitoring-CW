@@ -11,7 +11,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/session.php';
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 body {
-    background: radial-gradient(#000525 0%, #000 100%);
+    background: radial-gradient(#000540 0%, #000 100%);
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     min-height: 100vh;
