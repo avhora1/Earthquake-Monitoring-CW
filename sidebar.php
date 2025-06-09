@@ -23,6 +23,7 @@ if (!function_exists('nav_active')) {
   box-shadow: 2px 0 22px #0004;
   z-index: 900;
   display: flex; flex-direction: column;
+  overflow-y:auto;
 }
 .sidebar-nav {
   margin: 0; padding: 0; list-style: none;
@@ -66,18 +67,12 @@ if (!function_exists('nav_active')) {
         <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
         <li><a class="<?= nav_active(['Earthquake']) ?>" href="/Earthquake/manage_earthquakesNew.php"><i class="bi bi-activity"></i> Earthquakes</a></li>
         <li><a class="<?= nav_active(['Observatories']) ?>" href="/Observatories/manage_observatoriesNew.php"><i class="bi bi-building"></i> Observatories</a></li>
-        <li><a class="<?= nav_active(['admin']) ?>" href="/Admin/collected_artefacts.php"><i class="bi bi-archive"></i> Warehouse</a></li>
+        <li><a class="<?= nav_active(['collected']) ?>" href="/Admin/collected_artefacts.php"><i class="bi bi-archive"></i> Warehouse</a></li>
         <li><a class="<?= nav_active(['Pallet']) ?>" href="/Pallet/manage_palletsNew.php"><i class="bi bi-box"></i> Pallets</a></li>
         <li><a class="<?= nav_active(['manage_artefacts']) ?>" href="/Artefact/manage_artefactsNew.php"><i class="bi bi-droplet-half"></i> Artifacts</a></li>
         <li><a class="<?= nav_active(['team']) ?>" href="/Account_Managment/team_structure.php"><i class="bi bi-people"></i> Team</a></li>
         <li><a class="<?= nav_active(['shelves']) ?>" href="/Shelves/ViewShelves.php"><i class="bi bi-list"></i> View stock</a></li>
-        <li>
-            <a class="user-admin-link <?= nav_active(['user_administration']) ?>" href="/Account_Managment/user_administration.php" style="display:flex;align-items:center;gap:7px;">
-                <i class="bi bi-person"></i>
-                <i class="bi bi-gear" style="margin-left:-5px"></i>
-                User Administration
-            </a>
-        </li>
+        <li><a class="<?= nav_active(['user']) ?>" href="/Account_Managment/user_administration.php"><i class="bi bi-gear"></i> User administration</a></li>
         <?php elseif($account_type === 'senior_scientist'): ?>
         <li><a class="<?= nav_active(['accountNew']) ?>" href="/Account_Managment/accountNew.php"><i class="bi bi-person"></i> Account</a></li>
         <li><a class="<?= nav_active(['Earthquake']) ?>" href="/Earthquake/manage_earthquakesNew.php"><i class="bi bi-activity"></i> Earthquakes</a></li>
