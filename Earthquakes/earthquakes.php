@@ -1317,23 +1317,23 @@ updateCountrySelectedText();
         countries: countries
     };
 }
-    async function fetchEarthquakesAjax(filters = {}) {
-        const params = new URLSearchParams();
-        if (filters.min_year !== undefined) params.append('min_year', filters.min_year);
-        if (filters.max_year !== undefined) params.append('max_year', filters.max_year);
-        if (filters.min_mag !== undefined) params.append('min_mag', filters.min_mag);
-        if (filters.max_mag !== undefined) params.append('max_mag', filters.max_mag);
-        if (filters.types?.length) params.append('types', filters.types.join(','));
-        if (filters.observatories?.length) params.append('observatories', filters.observatories.join(','));
-        const resp = await fetch('earthquakes_api.php?' + params.toString());
-        if (!resp.ok) return [];
-        let quakes = await resp.json();
-        // Add a random description to each quake
-        quakes.forEach(eq => {
-            eq.desc = randomQuakeSnippets[Math.floor(Math.random() * randomQuakeSnippets.length)];
-        });
-        return quakes;
-    }
+async function fetchEarthquakesAjax(filters = {}) {
+    const params = new URLSearchParams();
+    if (filters.min_year !== undefined) params.append('min_year', filters.min_year);
+    if (filters.max_year !== undefined) params.append('max_year', filters.max_year);
+    if (filters.min_mag !== undefined) params.append('min_mag', filters.min_mag);
+    if (filters.max_mag !== undefined) params.append('max_mag', filters.max_mag);
+    if (filters.types?.length) params.append('types', filters.types.join(','));
+    if (filters.observatories?.length) params.append('observatories', filters.observatories.join(','));
+    if (filters.countries?.length) params.append('countries', filters.countries.join(','));
+    const resp = await fetch('earthquakes_api.php?' + params.toString());
+    if (!resp.ok) return [];
+    let quakes = await resp.json();
+    quakes.forEach(eq => {
+        eq.desc = randomQuakeSnippets[Math.floor(Math.random() * randomQuakeSnippets.length)];
+    });
+    return quakes;
+}
 
     async function updateGlobe() {
         await updateObservatoryMarkers();
