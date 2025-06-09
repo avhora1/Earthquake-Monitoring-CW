@@ -214,112 +214,112 @@
     }
 
     .obs-dropdown-container {
-        position: relative;
-        margin-top: 18px;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
+    position: relative;
+    margin-top: 18px;
+    font-family: 'Roboto', Arial, sans-serif;
+    margin-bottom: 8px;
+}
 
-    .obs-dropdown-selected {
-        background: #fff;
-        border-radius: 12px;
-        border: 2px solid #e4e6f1;
-        box-shadow: 0 3px 16px #0001;
-        padding: 14px 20px 14px 20px;
-        font-size: 1.35rem;
-        color: #21222a;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        transition: border .16s;
-    }
+.obs-combobox {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    border: 2px solid #e4e6f1;
+    box-shadow: 0 3px 16px #0001;
+    padding: 0;
+    font-size: 1.35rem;
+    color: #21222a;
+    cursor: pointer;
+    transition: border .16s;
+    position: relative;
+}
 
-    .obs-dropdown-selected:focus,
-    .obs-dropdown-selected.active {
-        border: 2.5px solid #ff9100;
-    }
+.obs-combobox input.obs-search {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px 12px;
+    width: 100%;
+    font-size: 1.13rem;
+    color: #232441;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-    .obs-dropdown-arrow {
-        font-size: 1.52rem;
-        color: #222;
-        transition: transform .18s;
-    }
+.obs-combobox input.obs-search:focus {
+    cursor: text;
+}
 
-    .obs-dropdown-selected.active .obs-dropdown-arrow {
-        transform: rotate(180deg);
-    }
+.obs-combobox .obs-dropdown-arrow {
+    font-size: 1.52rem;
+    color: #222;
+    margin-right: 10px;
+    transition: transform .18s;
+    user-select: none;
+}
 
-    .obs-dropdown-list {
-        background: #fff;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 110%;
-        border-radius: 12px;
-        box-shadow: 0 6px 32px #0003;
-        border: 2px solid #e4e6f1;
-        padding: 13px 14px 14px 14px;
-        max-height: 235px;
-        overflow-y: auto;
-        z-index: 99999;
-        display: none;
-    }
+.obs-combobox.active {
+    border: 2.5px solid #ff9100;
+}
 
-    .obs-dropdown-list.active {
-        display: block;
-    }
+.obs-combobox.active .obs-dropdown-arrow {
+    transform: rotate(180deg);
+}
 
-    .obs-search {
-        width: 97%;
-        font-size: 1.12em;
-        padding: 8px 10px;
-        border-radius: 7px;
-        border: 1.5px solid #d6d1f9;
-        margin-bottom: 11px;
-        outline: none;
-    }
+/* Dropdown list below the input */
+.obs-dropdown-list {
+    background: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 110%;
+    border-radius: 12px;
+    box-shadow: 0 6px 32px #0003;
+    border: 2px solid #e4e6f1;
+    max-height: 235px;
+    overflow: hidden;
+    z-index: 99999;
+    display: none;
+}
 
-    .obs-options {
-        max-height: 180px;
-        overflow-y: auto;
-    }
+.obs-dropdown-list.active {
+    display: block;
+}
 
-    .obs-option-row {
-        display: flex;
-        align-items: center;
-        font-size: 1.12em;
-        min-height: 32px;
-        margin-bottom: 1px;
-        padding: 5px 2px 4px 0;
-    }
+.obs-options {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 6px 9px 8px 9px;
+}
+.obs-option-row {
+    display: flex;
+    align-items: center;
+    font-size: 1.08em;
+    min-height: 27px;
+    margin-bottom: 2px;
+    padding: 4px 0;
+}
+.obs-option-checkbox {
+    appearance: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    border: 1.9px solid #ccc;
+    background: #f7f7fc;
+    cursor: pointer;
+}
+.obs-option-checkbox:checked {
+    border-color: #ff9100;
+    background: linear-gradient(90deg, #ff9100 0%, #ffbe3d 100%);
+}
 
-    .obs-option-checkbox {
-        appearance: none;
-        border-radius: 5px;
-        margin-right: 11px;
-        width: 17px;
-        height: 17px;
-        border: 2.2px solid #ccc;
-        outline: none;
-        background: #f7f7fc;
-        transition: border .18s;
-        cursor: pointer;
-    }
-
-    .obs-option-checkbox:checked {
-        border-color: #ff9100;
-        background: linear-gradient(90deg, #ff9100 0%, #ffbe3d 100%);
-    }
-
-    .obs-option-label {
-        user-select: none;
-        color: #232441;
-    }
-
-    .obs-dropdown-container {
-        margin-bottom: 8px;
-    }
-
+.obs-option-label {
+    user-select: none;
+    color: #232441;
+    flex: 1;
+}
 
     #globe-canvas-container {
         width: 100%;
@@ -528,17 +528,19 @@
                         </label>
                     </div>
                     <div class="obs-dropdown-container" style="margin-top:7px;">
-                        <div class="obs-dropdown-selected" tabindex="0"
-                            style="background:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;">
-                            <span class="obs-placeholder">Observatories</span>
+                        <div class="obs-combobox">
+                            <input
+                            type="text"
+                            class="obs-search"
+                            placeholder="Filter by observatories"
+                            autocomplete="off"
+                            readonly
+                            tabindex="0"
+                            />
                             <span class="obs-dropdown-arrow">&#9662;</span>
                         </div>
-                        <div class="obs-dropdown-list" style="min-width:220px;padding:12px;">
-                            <input type="text" class="obs-search" placeholder="Search observatories..."
-                                style="width:95%;margin-bottom:8px;" />
-                            <div class="obs-options">
-                                <!-- JS will insert checkboxes here -->
-                            </div>
+                        <div class="obs-dropdown-list">
+                            <div class="obs-options"></div>
                         </div>
                     </div>
                 </div>
@@ -933,75 +935,123 @@
         0.1);
 
     // Observatory dropdown logic
-    const obsDropdown = document.querySelector('.obs-dropdown-container');
-    const obsSelected = obsDropdown.querySelector('.obs-dropdown-selected');
-    const obsList = obsDropdown.querySelector('.obs-dropdown-list');
-    const obsOptionsCont = obsDropdown.querySelector('.obs-options');
-    const obsSearch = obsDropdown.querySelector('.obs-search');
-    const obsPlaceholder = obsDropdown.querySelector('.obs-placeholder');
-    let observatoriesData = [];
+    const obsDropdownContainer = document.querySelector('.obs-dropdown-container');
+const obsCombobox = obsDropdownContainer.querySelector('.obs-combobox');
+const obsSearchInput = obsCombobox.querySelector('.obs-search');
+const obsArrow = obsCombobox.querySelector('.obs-dropdown-arrow');
+const obsDropdownList = obsDropdownContainer.querySelector('.obs-dropdown-list');
+const obsOptionsCont = obsDropdownContainer.querySelector('.obs-options');
+let observatoriesData = [];
 
-    function fetchAndRenderObservatories(thenCallUpdateGlobe = false) {
-        fetch('observatories_api.php')
-            .then(resp => resp.json())
-            .then(obsArr => {
-                observatoriesData = obsArr;
-                renderObservatoryCheckboxes();
-                if (thenCallUpdateGlobe) updateGlobe();
-            });
+function renderObservatoryCheckboxes(filter = '') {
+    obsOptionsCont.innerHTML = '';
+    observatoriesData.forEach(obs => {
+        if (!filter || obs.name.toLowerCase().includes(filter.toLowerCase())) {
+            const row = document.createElement('div');
+            row.className = 'obs-option-row';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'obs-option-checkbox';
+            checkbox.value = obs.id;
+            checkbox.checked = false;
+            const label = document.createElement('span');
+            label.className = 'obs-option-label';
+            label.textContent = obs.name;
+            checkbox.addEventListener('change', updateObsSelectedText);
+            row.appendChild(checkbox);
+            row.appendChild(label);
+            obsOptionsCont.appendChild(row);
+        }
+    });
+}
+
+function updateObsSelectedText() {
+    const checkedBoxes = [...obsOptionsCont.querySelectorAll('input[type=checkbox]:checked')];
+    if (!checkedBoxes.length) {
+        obsSearchInput.value = "";
+        obsSearchInput.placeholder = "Filter by observatories";
+    } else if (checkedBoxes.length === 1) {
+        const id = checkedBoxes[0].value;
+        const name = observatoriesData.find(o => o.id == id)?.name || '';
+        obsSearchInput.value = name;
+    } else {
+        obsSearchInput.value = `${checkedBoxes.length} Observatories`;
     }
+}
 
-    function renderObservatoryCheckboxes(filter = '') {
-        obsOptionsCont.innerHTML = '';
-        observatoriesData.forEach(obs => {
-            if (!filter || obs.name.toLowerCase().includes(filter.toLowerCase())) {
-                const row = document.createElement('div');
-                row.className = 'obs-option-row';
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.className = 'obs-option-checkbox';
-                checkbox.value = obs.id;
-                checkbox.checked = false;
-                const label = document.createElement('span');
-                label.className = 'obs-option-label';
-                label.textContent = obs.name;
-                checkbox.addEventListener('change', updateObsSelectedText);
-                row.appendChild(checkbox);
-                row.appendChild(label);
-                obsOptionsCont.appendChild(row);
-            }
+function openObsDropdown() {
+    obsDropdownList.classList.add('active');
+    obsCombobox.classList.add('active');
+    obsSearchInput.readOnly = false;
+    setTimeout(() => {
+        obsSearchInput.focus();
+        obsSearchInput.select();
+    }, 10);
+    renderObservatoryCheckboxes();
+}
+
+function closeObsDropdown() {
+    obsDropdownList.classList.remove('active');
+    obsCombobox.classList.remove('active');
+    obsSearchInput.readOnly = true;
+    updateObsSelectedText();
+}
+
+// Toggle dropdown on input or arrow click
+obsCombobox.addEventListener('click', () => {
+    if (obsDropdownList.classList.contains('active')) {
+        closeObsDropdown();
+    } else {
+        openObsDropdown();
+    }
+});
+
+// Allow pressing arrow down or Enter to open
+obsSearchInput.addEventListener('keydown', e => {
+    if (
+        e.key === "ArrowDown" ||
+        e.key === "Enter" ||
+        e.key === " " && obsSearchInput.readOnly
+    ) {
+        if (obsDropdownList.classList.contains('active')) return;
+        openObsDropdown();
+        e.preventDefault();
+    }
+    if (e.key === "Escape") {
+        if (obsDropdownList.classList.contains('active')) {
+            closeObsDropdown();
+            e.preventDefault();
+        }
+    }
+});
+
+// Typing in search field
+obsSearchInput.addEventListener('input', function() {
+    if (obsSearchInput.readOnly) return;
+    renderObservatoryCheckboxes(this.value.trim());
+});
+
+// Clicking outside closes combobox
+document.addEventListener('mousedown', e => {
+    if (!obsDropdownContainer.contains(e.target)) {
+        closeObsDropdown();
+    }
+});
+
+// Fetch and render obs on pageload (same as yours)
+function fetchAndRenderObservatories(thenCallUpdateGlobe = false) {
+    fetch('observatories_api.php')
+        .then(resp => resp.json())
+        .then(obsArr => {
+            observatoriesData = obsArr;
+            renderObservatoryCheckboxes();
+            if (thenCallUpdateGlobe) updateGlobe();
         });
-    }
+}
 
-    function updateObsSelectedText() {
-        const checked = [...obsOptionsCont.querySelectorAll('input[type=checkbox]:checked')];
-        if (!checked.length) {
-            obsPlaceholder.textContent = "Observatories";
-        } else if (checked.length === 1) {
-            const id = checked[0].value;
-            const name = observatoriesData.find(o => o.id == id)?.name || '';
-            obsPlaceholder.textContent = name;
-        } else {
-            obsPlaceholder.textContent = `${checked.length} Observatories`;
-        }
-    }
-    obsSelected.addEventListener('click', function() {
-        obsSelected.classList.toggle('active');
-        obsList.classList.toggle('active');
-        obsSearch.value = '';
-        renderObservatoryCheckboxes();
-        setTimeout(() => obsSearch.focus(), 50);
-    });
-    document.addEventListener('mousedown', e => {
-        if (!obsDropdown.contains(e.target)) {
-            obsSelected.classList.remove('active');
-            obsList.classList.remove('active');
-        }
-    });
-    obsSearch.addEventListener('input', function() {
-        renderObservatoryCheckboxes(this.value.trim());
-    });
-
+// For initial value
+updateObsSelectedText();
+fetchAndRenderObservatories(true);
     /* ===============================
      * 8. DATA FETCH/FILTERING LOGIC
      * =============================== */
