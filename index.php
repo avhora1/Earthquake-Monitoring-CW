@@ -110,8 +110,9 @@ body {
             <div class="col-6">
                 <div class="glass-box">
                     <h1>
-                        Seismic Activity<br>
-                        <span class="highlight">Earthquake</span><span> Monitoring</span>
+                    <span class="highlight">Earthquake</span><span> Monitoring</span> <br>
+                    Reimagined<br>
+                    
                     </h1>
                     <p>
                         This is a website to monitor earthquakes, buy artefacts and manage observatories around the
