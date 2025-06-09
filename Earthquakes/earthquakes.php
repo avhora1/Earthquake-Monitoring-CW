@@ -321,6 +321,106 @@
     flex: 1;
 }
 
+
+.country-dropdown-container {
+    position: relative;
+    margin-top: 18px;
+    font-family: 'Roboto', Arial, sans-serif;
+    margin-bottom: 8px;
+}
+.country-combobox {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    border: 2px solid #e4e6f1;
+    box-shadow: 0 3px 16px #0001;
+    padding: 0;
+    font-size: 1.35rem;
+    color: #21222a;
+    cursor: pointer;
+    transition: border .16s;
+    position: relative;
+}
+
+.country-combobox input.country-search {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px 12px;
+    width: 100%;
+    font-size: 1.13rem;
+    color: #232441;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.country-combobox input.country-search:focus {
+    cursor: text;
+}
+
+.country-combobox .country-dropdown-arrow {
+    font-size: 1.52rem;
+    color: #222;
+    margin-right: 10px;
+    transition: transform .18s;
+    user-select: none;
+}
+.country-combobox.active {
+    border: 2.5px solid #ff9100;
+}
+.country-combobox.active .country-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.country-dropdown-list {
+    background: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 110%;
+    border-radius: 12px;
+    box-shadow: 0 6px 32px #0003;
+    border: 2px solid #e4e6f1;
+    max-height: 235px;
+    overflow: hidden;
+    z-index: 99999;
+    display: none;
+}
+.country-dropdown-list.active {
+    display: block;
+}
+.country-options {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 6px 9px 8px 9px;
+}
+.country-option-row {
+    display: flex;
+    align-items: center;
+    font-size: 1.08em;
+    min-height: 27px;
+    margin-bottom: 2px;
+    padding: 4px 0;
+}
+.country-option-checkbox {
+    appearance: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    border: 1.9px solid #ccc;
+    background: #f7f7fc;
+    cursor: pointer;
+}
+.country-option-checkbox:checked {
+    border-color: #ff9100;
+    background: linear-gradient(90deg, #ff9100 0%, #ffbe3d 100%);
+}
+.country-option-label {
+    user-select: none;
+    color: #232441;
+    flex: 1;
+}
     #globe-canvas-container {
         width: 100%;
         height: 75vh;
@@ -543,6 +643,27 @@
                             <div class="obs-options"></div>
                         </div>
                     </div>
+                     <!-- COUNTRIES TOGGLE AND DROPDOWN -->
+                    <div class="switch-row" style="margin-top:15px;">
+                     <span style="font-size:1.11em; color: #fff;">Countries</span>
+                    </div>
+                    <div class="country-dropdown-container" style="margin-top:7px;">
+                        <div class="country-combobox">
+                            <input
+                            type="text"
+                            class="country-search"
+                            placeholder="Filter by countries"
+                            autocomplete="off"
+                            readonly
+                            tabindex="0"
+                            />
+                            <span class="country-dropdown-arrow">&#9662;</span>
+                        </div>
+                            <div class="country-dropdown-list">
+                                <div class="country-options"></div>
+                            </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -1052,6 +1173,115 @@ function fetchAndRenderObservatories(thenCallUpdateGlobe = false) {
 // For initial value
 updateObsSelectedText();
 fetchAndRenderObservatories(true);
+
+// ==== COUNTRY COMBOBOX LOGIC ====
+
+const countryDropdownContainer = document.querySelector('.country-dropdown-container');
+const countryCombobox = countryDropdownContainer.querySelector('.country-combobox');
+const countrySearchInput = countryCombobox.querySelector('.country-search');
+const countryArrow = countryCombobox.querySelector('.country-dropdown-arrow');
+const countryDropdownList = countryDropdownContainer.querySelector('.country-dropdown-list');
+const countryOptionsCont = countryDropdownContainer.querySelector('.country-options');
+let countryData = [];
+
+function renderCountryCheckboxes(filter = '') {
+    countryOptionsCont.innerHTML = '';
+    countryData.forEach(c => {
+        if (!filter || c.name.toLowerCase().includes(filter.toLowerCase())) {
+            const row = document.createElement('div');
+            row.className = 'country-option-row';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'country-option-checkbox';
+            checkbox.value = c.name;
+            checkbox.checked = false;
+            const label = document.createElement('span');
+            label.className = 'country-option-label';
+            label.textContent = c.name;
+            checkbox.addEventListener('change', updateCountrySelectedText);
+            row.appendChild(checkbox);
+            row.appendChild(label);
+            countryOptionsCont.appendChild(row);
+        }
+    });
+}
+function updateCountrySelectedText() {
+    const checkedBoxes = [...countryOptionsCont.querySelectorAll('input[type=checkbox]:checked')];
+    if (!checkedBoxes.length) {
+        countrySearchInput.value = "";
+        countrySearchInput.placeholder = "Filter by countries";
+    } else if (checkedBoxes.length === 1) {
+        countrySearchInput.value = checkedBoxes[0].value;
+    } else {
+        countrySearchInput.value = `${checkedBoxes.length} Countries`;
+    }
+    // Optionally, clear the search when selection changes.
+}
+function openCountryDropdown() {
+    countryDropdownList.classList.add('active');
+    countryCombobox.classList.add('active');
+    countrySearchInput.readOnly = false;
+    setTimeout(() => {
+        countrySearchInput.focus();
+        countrySearchInput.select();
+    }, 10);
+    renderCountryCheckboxes();
+}
+function closeCountryDropdown() {
+    countryDropdownList.classList.remove('active');
+    countryCombobox.classList.remove('active');
+    countrySearchInput.readOnly = true;
+    updateCountrySelectedText();
+}
+// Toggle dropdown on input or arrow click
+countryCombobox.addEventListener('click', () => {
+    if (countryDropdownList.classList.contains('active')) {
+        closeCountryDropdown();
+    } else {
+        openCountryDropdown();
+    }
+});
+// Allow pressing arrow down or Enter to open
+countrySearchInput.addEventListener('keydown', e => {
+    if (
+        e.key === "ArrowDown" ||
+        e.key === "Enter" ||
+        e.key === " " && countrySearchInput.readOnly
+    ) {
+        if (countryDropdownList.classList.contains('active')) return;
+        openCountryDropdown();
+        e.preventDefault();
+    }
+    if (e.key === "Escape") {
+        if (countryDropdownList.classList.contains('active')) {
+            closeCountryDropdown();
+            e.preventDefault();
+        }
+    }
+});
+// Typing in search field
+countrySearchInput.addEventListener('input', function() {
+    if (countrySearchInput.readOnly) return;
+    renderCountryCheckboxes(this.value.trim());
+});
+// Clicking outside closes combobox
+document.addEventListener('mousedown', e => {
+    if (!countryDropdownContainer.contains(e.target)) {
+        closeCountryDropdown();
+    }
+});
+// Fetch countries on page load
+function fetchAndRenderCountries(thenCallUpdateGlobe = false) {
+    fetch('countries_api.php')
+        .then(resp => resp.json())
+        .then(arr => {
+            countryData = arr;
+            renderCountryCheckboxes();
+            if (thenCallUpdateGlobe) updateGlobe();
+        });
+}
+fetchAndRenderCountries(true);
+updateCountrySelectedText();
     /* ===============================
      * 8. DATA FETCH/FILTERING LOGIC
      * =============================== */
@@ -1070,21 +1300,23 @@ fetchAndRenderObservatories(true);
     ];
 
     function collectFilters() {
-        const minYear = parseInt(document.getElementById('slider-year-min').value);
-        const maxYear = parseInt(document.getElementById('slider-year-max').value);
-        const minMag = parseFloat(document.getElementById('slider-mag-min').value);
-        const maxMag = parseFloat(document.getElementById('slider-mag-max').value);
-        const types = Array.from(document.querySelectorAll('.eq-type:checked')).map(cb => cb.value);
-        const obs = Array.from(document.querySelectorAll('.obs-option-checkbox:checked')).map(cb => parseInt(cb.value));
-        return {
-            min_year: minYear,
-            max_year: maxYear,
-            min_mag: minMag,
-            max_mag: maxMag,
-            types: types,
-            observatories: obs
-        };
-    }
+    const minYear = parseInt(document.getElementById('slider-year-min').value);
+    const maxYear = parseInt(document.getElementById('slider-year-max').value);
+    const minMag = parseFloat(document.getElementById('slider-mag-min').value);
+    const maxMag = parseFloat(document.getElementById('slider-mag-max').value);
+    const types = Array.from(document.querySelectorAll('.eq-type:checked')).map(cb => cb.value);
+    const obs = Array.from(document.querySelectorAll('.obs-option-checkbox:checked')).map(cb => parseInt(cb.value));
+    const countries = Array.from(document.querySelectorAll('.country-option-checkbox:checked')).map(cb => cb.value);
+    return {
+        min_year: minYear,
+        max_year: maxYear,
+        min_mag: minMag,
+        max_mag: maxMag,
+        types: types,
+        observatories: obs,
+        countries: countries
+    };
+}
     async function fetchEarthquakesAjax(filters = {}) {
         const params = new URLSearchParams();
         if (filters.min_year !== undefined) params.append('min_year', filters.min_year);
@@ -1123,6 +1355,13 @@ fetchAndRenderObservatories(true);
             updateGlobe();
         }
     });
+    document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('obs-option-checkbox') ||
+        e.target.classList.contains('country-option-checkbox')
+    ) {
+        updateGlobe();
+    }
+});
     const observatoriesToggle = document.getElementById('toggle-observatories');
     observatoriesToggle.addEventListener('change', updateGlobe);
 
