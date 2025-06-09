@@ -22,6 +22,7 @@ for ($i = 0; $i < 12; $i++) {
     /* [Unchanged styles] */
     body {
         background: #191a2a;
+        overflow: hidden;
         margin: 0;
     }
 
